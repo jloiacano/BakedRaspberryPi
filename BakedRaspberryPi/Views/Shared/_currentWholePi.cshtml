@@ -1,0 +1,83 @@
+﻿@model BakedRaspberryPi.Models.WholePi
+
+@{
+    ViewBag.Title = "Current Whole Pi";
+}
+
+<!--TODO Stylize this stuff and do the displays listed below -->
+
+<div class="wholePiWhileOrdering col-xs-6 col-xs-offset-3">
+    <span>Current Whole Pi: | Pi: </span>
+
+    @{
+        if (Model == null)
+        {
+            @Html.ActionLink("Start Preping Your Pi", "Index", "Pi", null, new { @class = "btn btn-default" })
+        }
+        else
+        {
+            <span>
+                    if (Model.CurrentPis[0].Pi.Name == "")
+                    {
+                        Html.ActionLink("Add a Pi", "Index", "Pi", null, new { @class = "btn btn-default" })
+                    }
+                    else
+                    {
+                        Model.CurrentPis[0].Pi.Name
+                    }
+                
+            </span>
+
+            <span> | Filling(OS): </span>
+            <span>
+                    if (Model.CurrentPis[0].Filling.Name == "")
+                    {
+                        Html.ActionLink("Add an OS", "Index", "OS", null, new { @class = "btn btn-default" })
+                    }
+                    else
+                    {
+                        Model.CurrentPis[0].Filling.Name
+                    }
+            </span>
+            <span> | Crust (Case): </span>
+            <span>
+                    if (Model.CurrentPis[0].Crust.Name == "")
+                    {
+                        Html.ActionLink("Add a Case", "Index", "PiCase", null, new { @class = "btn btn-default" })
+                    }
+                    else
+                    {
+                        Model.CurrentPis[0].Crust.Name
+                    }
+                
+            </span>
+            <span> | A La Modes (Accessories): </span>
+
+            if (Model.CurrentPis[0].ALaModes.Length == 0)
+            {
+                @Html.ActionLink("Add Some Accessories", "Index", "Accessories", null, new { @class = "btn btn-default" })
+                }
+            else
+            {
+                for (var i = 0; i < Model.CurrentPis[0].ALaModes.Length; i += 1)
+                {
+                        <span> Model.CurrentPis[0].ALaModes[i].Name </span>
+                }
+            }
+
+                <span> | Cost: </span>
+
+            if (Model.CurrentPis[0].Price == 0)
+            {
+                        <span>$0</span>
+
+            }
+            else
+            {
+                        <span>Model.CurrentPis[0].Price</span>
+                }
+            }
+        }
+   
+
+</div>

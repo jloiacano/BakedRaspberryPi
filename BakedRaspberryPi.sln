@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakedRaspberryPi", "BakedRaspberryPi\BakedRaspberryPi.csproj", "{D0C04CE1-56A6-44D2-814D-33DD8F6D70AE}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BakedRaspberryPiDatabase", "BakedRaspberryPiDatabase\BakedRaspberryPiDatabase.sqlproj", "{1DE6DB7C-B6FD-4981-A121-1DA65F6E132F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0C04CE1-56A6-44D2-814D-33DD8F6D70AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0C04CE1-56A6-44D2-814D-33DD8F6D70AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0C04CE1-56A6-44D2-814D-33DD8F6D70AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0C04CE1-56A6-44D2-814D-33DD8F6D70AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DE6DB7C-B6FD-4981-A121-1DA65F6E132F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DE6DB7C-B6FD-4981-A121-1DA65F6E132F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DE6DB7C-B6FD-4981-A121-1DA65F6E132F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{1DE6DB7C-B6FD-4981-A121-1DA65F6E132F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DE6DB7C-B6FD-4981-A121-1DA65F6E132F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DE6DB7C-B6FD-4981-A121-1DA65F6E132F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

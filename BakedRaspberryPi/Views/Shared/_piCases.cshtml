@@ -1,0 +1,26 @@
+﻿@model IEnumerable<BakedRaspberryPi.Models.PiCase>
+
+<div class="row">
+    @foreach (var piCase in Model)
+    {
+        <div class="col-xs-12">
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-1">
+                            <input type="radio" name="case" />
+
+                    </div>
+                    <div class="col-xs-4">
+                        <img src="@piCase.Image" class="img-responsive" />
+                    </div>
+                    <div class="col-xs-7">
+                    <h2>@piCase.Name</h2>
+                        <p>@piCase.Color</p>
+                        <p>@piCase.Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    }
+</div>

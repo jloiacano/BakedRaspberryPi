@@ -1,0 +1,23 @@
+﻿@model IEnumerable<BakedRaspberryPi.Models.Pi>
+
+
+@{
+    ViewBag.Title = "Pick a Pi";
+}
+
+<div class="row">
+    @foreach (var pi in Model)
+    {
+        <div class="product">
+            <div class="productImage">
+                <img class="img-responsive" src="@pi.Image" />
+            </div>
+            <div class="productText">
+                <h2>@pi.Model</h2>
+                <p>@pi.Description</p>
+                <p>@pi.Price</p>
+                @Html.ActionLink("Add this to your baked Pi", "AddToBakedPi", "Pi")
+            </div>
+       </div>
+    }
+</div>

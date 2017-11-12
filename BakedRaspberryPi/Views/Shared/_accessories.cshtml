@@ -1,0 +1,28 @@
+﻿@model IEnumerable<BakedRaspberryPi.Models.Accessories>
+
+<div class="row">
+    @foreach (var accessory in Model)
+    {
+        <div class="col-xs-12">
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-1">
+                        <input type="checkbox" name="@accessory.Type" />
+
+                    </div>
+                    <div class="col-xs-4">
+                        <img src="@accessory.Image" class="img-responsive" />
+                    </div>
+                    <div class="col-xs-7">
+                        <h2>@accessory.Name</h2>
+                        <p>@accessory.Size</p>
+                        <p>@accessory.Description</p>
+                        <p>@accessory.Price</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
