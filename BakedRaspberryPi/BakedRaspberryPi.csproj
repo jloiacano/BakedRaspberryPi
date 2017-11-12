@@ -240,6 +240,7 @@
     <Content Include="Views\Shared\_accessories.cshtml" />
     <Content Include="Views\Shared\_currentWholePi.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="test.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
