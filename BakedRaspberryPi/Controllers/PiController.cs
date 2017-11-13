@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BakedRaspberryPi.Models;
+using MySql.Data.MySqlClient;
 
 namespace BakedRaspberryPi.Controllers
 {
@@ -11,6 +12,9 @@ namespace BakedRaspberryPi.Controllers
     {
         public ActionResult Index()
         {
+
+            InfoFromDB db = new InfoFromDB();
+            var results = db.GetBakedDatabaseInfo<string>("SELECT FirstName FROM TestTable");
             List<Pi> pis = new List<Pi>();
             pis.Add(new Pi
             {

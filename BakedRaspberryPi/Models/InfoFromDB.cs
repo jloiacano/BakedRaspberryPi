@@ -7,6 +7,7 @@ using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Configuration;
 using BakedRaspberryPi.Models;
+using MySql.Data.MySqlClient;
 
 namespace BakedRaspberryPi.Models
 {
@@ -14,23 +15,24 @@ namespace BakedRaspberryPi.Models
     {
         string connectionString = ConfigurationManager.ConnectionStrings["BakedPiDB"].ConnectionString;
 
-        public List<string> GetBakedDatabaseInfo(string sqlRequest, object model)
+        public List<T> GetBakedDatabaseInfo<T>(string sqlRequest)
         {
-            List<string> response = new List<string>();
-
-            using (SqlConnection thisRequest = new SqlConnection(sqlRequest))
+            List<T> response = new List<T>();
+            
+            using (MySqlConnection thisRequest = new MySqlConnection(connectionString))
             {
                 thisRequest.Open();
 
-                SqlCommand command = thisRequest.CreateCommand();
+                MySqlCommand command = thisRequest.CreateCommand();
                 command.CommandText = sqlRequest;
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (MySqlDataReader reader = command.ExecuteReader())
                 {
 
                     while (reader.Read())
                     {
-                        response.Add(reader.GetString(0));
+                        string t = reader.GetString(0);
+                       
                     }
                 }
 
