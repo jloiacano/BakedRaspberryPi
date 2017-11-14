@@ -9,33 +9,51 @@ namespace BakedRaspberryPi.Controllers
 {
     public class OSController : Controller
     {
+        protected BakedPiModels db = new BakedPiModels();
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         // GET: OSs
         public ActionResult Index()
         {
-            List<OS> oss = new List<OS>();
-            oss.Add(new OS
+
+            if (!db.OSs.Any())
             {
-                Name = "OSMC",
-                Description = "Tiny and Powerful",
-                Image = "/Images/OSs/osmc.png"
-            });
 
-            oss.Add(new OS
-            {
-                Name = "OSMC",
-                Description = "Tiny and Powerful",
-                Image = "/Images/OSs/debian.jpg"
-            });
+                List<OS> oss = new List<OS>();
+                oss.Add(new OS
+                {
+                    Name = "OSMC",
+                    Description = "Tiny and Powerful",
+                    Image = "/Images/OSs/osmc.png"
+                });
 
-            oss.Add(new OS
-            {
-                Name = "OpenElec",
-                Description = "Fast. Light. Linux!",
-                Image = "/Images/OSs/openElec.png"
-            });
+                oss.Add(new OS
+                {
+                    Name = "OSMC",
+                    Description = "Tiny and Powerful",
+                    Image = "/Images/OSs/debian.jpg"
+                });
 
+                oss.Add(new OS
+                {
+                    Name = "OpenElec",
+                    Description = "Fast. Light. Linux!",
+                    Image = "/Images/OSs/openElec.png"
+                });
 
-            return View(oss);
+                db.OSs.AddRange(oss);
+                db.SaveChanges();
+            }
+
+            return View(db.OSs.ToList());
         }
     }
 }

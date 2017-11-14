@@ -7,7 +7,7 @@ namespace BakedRaspberryPi.Models
 {
     public class AccessoriesCases
     {
-        public Accessories[] Accessories { get; set; }
+        public Accessory[] Accessories { get; set; }
         public PiCase[] Cases { get; set; }
     }
 }
