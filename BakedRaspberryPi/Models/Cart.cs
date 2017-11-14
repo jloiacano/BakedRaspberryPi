@@ -7,8 +7,10 @@ namespace BakedRaspberryPi.Models
 {
     public class Cart
     {
+        public Cart() { }
+
         public WholePi[] CurrentPis { get; set; }
         public int CurrentIndex { get; set; }
-        
+
     }
 }

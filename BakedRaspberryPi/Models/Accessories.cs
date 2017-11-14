@@ -7,6 +7,8 @@ namespace BakedRaspberryPi.Models
 {
     public class Accessories
     {
+        public Accessories() { }
+
         public string UPC { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }

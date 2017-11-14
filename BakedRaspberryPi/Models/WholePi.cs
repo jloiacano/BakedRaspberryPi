@@ -7,7 +7,8 @@ namespace BakedRaspberryPi.Models
 {
     public class WholePi
     {
-        public bool isInstantiated = false;
+        public WholePi() { }
+
         public int ID { get; set; }
         public Pi Pi { get; set; }
         public OS Filling { get; set; }

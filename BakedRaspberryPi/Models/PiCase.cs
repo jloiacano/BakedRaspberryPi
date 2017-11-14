@@ -7,6 +7,8 @@ namespace BakedRaspberryPi.Models
 {
     public class PiCase
     {
+        public PiCase() { }
+
         public string UPC { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }

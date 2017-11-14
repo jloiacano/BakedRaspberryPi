@@ -7,6 +7,8 @@ namespace BakedRaspberryPi.Models
 {
     public class Pi
     {
+        public Pi() { }
+
         public string UPC { get; set; }
         public string Name { get; set; }
         public string Model { get; set; }
