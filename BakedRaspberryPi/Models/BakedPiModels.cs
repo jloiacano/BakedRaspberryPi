@@ -18,7 +18,7 @@ namespace BakedRaspberryPi.Models
         public BakedPiModels()
             : base("name=BakedPiModels")
         {
-            Database.SetInitializer<BakedPiModels>(new DropCreateDatabaseIfModelChanges<BakedPiModels>());
+            Database.SetInitializer<BakedPiModels>(new DropCreateDatabaseAlways<BakedPiModels>());
         }
 
         // Add a DbSet for each entity type that you want to include in your model. For more information 
@@ -59,6 +59,7 @@ namespace BakedRaspberryPi.Models
         public int Size { get; set; }
         public decimal Price { get; set; }
         public string Image { get; set; }
+        public virtual ICollection<WholePi> WholePis { get; set; }
     }
 
 
@@ -96,6 +97,7 @@ namespace BakedRaspberryPi.Models
         public int Id { get; set; }
 
         public ICollection<WholePi> CurrentPis { get; set; }
+       
         public int CurrentIndex { get; set; }
 
     }

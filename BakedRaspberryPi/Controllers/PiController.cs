@@ -28,9 +28,8 @@ namespace BakedRaspberryPi.Controllers
             //var results = db.Pis.ToArray();
             if (!db.Pis.Any())
             {
-
-
                 List<Pi> pis = new List<Pi>();
+
                 pis.Add(new Pi
                 {
                     UPC = "742741039962",
@@ -68,15 +67,50 @@ namespace BakedRaspberryPi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Pi chosenPi)
+        public ActionResult Index(int id)
         {
-            //TODO check to see if a cookie already exists and has a chosenPi in it, and if not:
-            HttpContext.Session.Add("WholePiPi", chosenPi);
+            int cartId;
+            Cart c = null;
+
+            // if there's a cookie of the cartId, use the cart in the db with that cartId
+            if (Request.Cookies.AllKeys.Contains("cartId")){
+                cartId = int.Parse(Request.Cookies["cartId"].Value);
+                c = db.Carts.Find(cartId);
+            }
             
-            Response.AppendCookie(new HttpCookie("WholePiPi", chosenPi.Name));
+            // There must not be a cookie of the cart, make a new cart 
+            if(c == null)
+            {
+                c = new Cart();
+                db.Carts.Add(c);
+                db.SaveChanges();
+                cartId = c.Id; 
+                Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
+            }
+            
+            if(c.CurrentPis == null)
+            {
+                c.CurrentPis = new List<WholePi>();
+            }
+            WholePi currentPi = c.CurrentPis.FirstOrDefault();
+            if (currentPi == null)
+            {
+                currentPi = new WholePi();
+                c.CurrentPis.Add(currentPi);
+            }
+            currentPi.Pi = db.Pis.Find(id);
+            db.SaveChanges();
 
+            if(currentPi.Filling == null)
+            {
+                return RedirectToAction("Index", "OS");
+            }
+            
+            if(currentPi.Crust == null)
+            {
+                return RedirectToAction("Index", "Accessories");
+            }
 
-            //TODO: build up the cart controller!
             return RedirectToAction("Index", "Cart");
 
         }

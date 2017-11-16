@@ -5,19 +5,37 @@
     ViewBag.Title = "Pick a Pi";
 }
 
+@using (Html.BeginForm())
+{
+    <div class="stickyUnderNavBar">
+        <input type="submit" class="btn btn-primary" value="Add this to your baked Pi" />
+        <!--TODO make the button below add a null Pi to the current whole Pi-->
+        <input type="submit" class="btn btn-default" value="No thank you. I don't want any Pi.'" />
+    </div>
+
+
 <div class="row">
     @foreach (var pi in Model)
     {
-        <div class="product">
-            <div class="productImage">
-                <img class="img-responsive" src="@pi.Image" />
+        <div class="col-xs-12">
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-1">
+                        @Html.RadioButton("id", pi.Id)
+                    </div>
+                    <div class="col-xs-4">
+                        <img src="@pi.Image" class="img-responsive" />
+                    </div>
+                    <div class="col-xs-7">
+                        <h2>@pi.Model</h2>
+                        <p>@pi.Description</p>
+                        <p>@pi.Price</p>
+                        <hr />
+                       
+                    </div>
+                </div>
             </div>
-            <div class="productText">
-                <h2>@pi.Model</h2>
-                <p>@pi.Description</p>
-                <p>@pi.Price</p>
-                @Html.ActionLink("Add this to your baked Pi", "AddToBakedPi", "Pi")
-            </div>
-       </div>
+        </div>
     }
 </div>
+}
