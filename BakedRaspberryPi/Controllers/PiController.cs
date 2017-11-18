@@ -1,16 +1,13 @@
-﻿using System;
+﻿using BakedRaspberryPi.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BakedRaspberryPi.Models;
-using MySql.Data.MySqlClient;
 
 namespace BakedRaspberryPi.Controllers
 {
     public class PiController : Controller
     {
-
         protected BakedPiModels db = new BakedPiModels();
 
         protected override void Dispose(bool disposing)
@@ -24,7 +21,6 @@ namespace BakedRaspberryPi.Controllers
 
         public ActionResult Index()
         {
-
             //var results = db.Pis.ToArray();
             if (!db.Pis.Any())
             {
@@ -73,22 +69,23 @@ namespace BakedRaspberryPi.Controllers
             Cart c = null;
 
             // if there's a cookie of the cartId, use the cart in the db with that cartId
-            if (Request.Cookies.AllKeys.Contains("cartId")){
+            if (Request.Cookies.AllKeys.Contains("cartId"))
+            {
                 cartId = int.Parse(Request.Cookies["cartId"].Value);
                 c = db.Carts.Find(cartId);
             }
-            
-            // There must not be a cookie of the cart, make a new cart 
-            if(c == null)
+
+            // There must not be a cookie of the cart, make a new cart
+            if (c == null)
             {
                 c = new Cart();
                 db.Carts.Add(c);
                 db.SaveChanges();
-                cartId = c.Id; 
+                cartId = c.Id;
                 Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
             }
-            
-            if(c.CurrentPis == null)
+
+            if (c.CurrentPis == null)
             {
                 c.CurrentPis = new List<WholePi>();
             }
@@ -101,18 +98,17 @@ namespace BakedRaspberryPi.Controllers
             currentPi.Pi = db.Pis.Find(id);
             db.SaveChanges();
 
-            if(currentPi.Filling == null)
+            if (currentPi.Filling == null)
             {
                 return RedirectToAction("Index", "OS");
             }
-            
-            if(currentPi.Crust == null)
+
+            if (currentPi.Crust == null)
             {
                 return RedirectToAction("Index", "Accessories");
             }
 
             return RedirectToAction("Index", "Cart");
-
         }
     }
 }

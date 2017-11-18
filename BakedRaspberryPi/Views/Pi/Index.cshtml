@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<BakedRaspberryPi.Models.Pi>
 
-
 @{
     ViewBag.Title = "Pick a Pi";
 }
@@ -13,29 +12,27 @@
         <input type="submit" class="btn btn-default" value="No thank you. I don't want any Pi.'" />
     </div>
 
-
-<div class="row">
-    @foreach (var pi in Model)
-    {
-        <div class="col-xs-12">
-            <div class="well">
-                <div class="row">
-                    <div class="col-xs-1">
-                        @Html.RadioButton("id", pi.Id)
-                    </div>
-                    <div class="col-xs-4">
-                        <img src="@pi.Image" class="img-responsive" />
-                    </div>
-                    <div class="col-xs-7">
-                        <h2>@pi.Model</h2>
-                        <p>@pi.Description</p>
-                        <p>@pi.Price</p>
-                        <hr />
-                       
+    <div class="row">
+        @foreach (var pi in Model)
+        {
+            <div class="col-xs-12">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-xs-1">
+                            @Html.RadioButton("id", pi.Id)
+                        </div>
+                        <div class="col-xs-4">
+                            <img src="@pi.Image" class="img-responsive" />
+                        </div>
+                        <div class="col-xs-7">
+                            <h2>@pi.Model</h2>
+                            <p>@pi.Description</p>
+                            <p>@pi.Price</p>
+                            <hr />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 }

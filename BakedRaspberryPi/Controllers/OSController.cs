@@ -1,9 +1,8 @@
-﻿using System;
+﻿using BakedRaspberryPi.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BakedRaspberryPi.Models;
 
 namespace BakedRaspberryPi.Controllers
 {
@@ -23,10 +22,8 @@ namespace BakedRaspberryPi.Controllers
         // GET: OSs
         public ActionResult Index()
         {
-
             if (!db.OSs.Any())
             {
-
                 List<OS> oss = new List<OS>();
 
                 oss.Add(new OS
@@ -84,7 +81,7 @@ namespace BakedRaspberryPi.Controllers
                 c = db.Carts.Find(cartId);
             }
 
-            // There must not be a cookie of the cart, make a new cart 
+            // There must not be a cookie of the cart, make a new cart
             if (c == null)
             {
                 c = new Cart();
@@ -118,7 +115,6 @@ namespace BakedRaspberryPi.Controllers
             }
 
             return RedirectToAction("Index", "Cart");
-
         }
     }
 }

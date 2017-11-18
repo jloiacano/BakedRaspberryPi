@@ -1,19 +1,17 @@
 namespace BakedRaspberryPi.Models
 {
     using MySql.Data.Entity;
-    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
-    using System.Linq;
 
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class BakedPiModels : DbContext
     {
-        // Your context has been configured to use a 'BakedPiModels' connection string from your application's 
-        // configuration file (App.config or Web.config). By default, this connection string targets the 
-        // 'BakedRaspberryPi.Models.BakedPiModels' database on your LocalDb instance. 
-        // 
-        // If you wish to target a different database and/or database provider, modify the 'BakedPiModels' 
+        // Your context has been configured to use a 'BakedPiModels' connection string from your application's
+        // configuration file (App.config or Web.config). By default, this connection string targets the
+        // 'BakedRaspberryPi.Models.BakedPiModels' database on your LocalDb instance.
+        //
+        // If you wish to target a different database and/or database provider, modify the 'BakedPiModels'
         // connection string in the application configuration file.
         public BakedPiModels()
             : base("name=BakedPiModels")
@@ -21,11 +19,12 @@ namespace BakedRaspberryPi.Models
             Database.SetInitializer<BakedPiModels>(new DropCreateDatabaseAlways<BakedPiModels>());
         }
 
-        // Add a DbSet for each entity type that you want to include in your model. For more information 
+        // Add a DbSet for each entity type that you want to include in your model. For more information
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
 
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
         public virtual DbSet<Pi> Pis { get; set; }
+
         public virtual DbSet<Accessory> Accessories { get; set; }
         public virtual DbSet<OS> OSs { get; set; }
         public virtual DbSet<PiCase> PiCases { get; set; }
@@ -62,7 +61,6 @@ namespace BakedRaspberryPi.Models
         public virtual ICollection<WholePi> WholePis { get; set; }
     }
 
-
     public class OS
     {
         public int Id { get; set; }
@@ -97,8 +95,7 @@ namespace BakedRaspberryPi.Models
         public int Id { get; set; }
 
         public ICollection<WholePi> CurrentPis { get; set; }
-       
-        public int CurrentIndex { get; set; }
 
+        public int CurrentIndex { get; set; }
     }
 }
