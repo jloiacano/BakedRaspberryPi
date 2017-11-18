@@ -9,26 +9,37 @@
     <p class="lead">Welcome to Baked Raspberry Pi's; your one stop shop to get a Pi that is plug and play. No need to assemble or download anything. Just Enjoy your Pi!</p>
 </div>
 
+
 <div class="row">
     <div class="col-md-4">
         <h2>Pick your Pi</h2>
-        <p>You have 3 to choose from:
-        <ul>
-            <li>Pi 3: The latest and fastest.</li>
-            <li>Pi Zero: Could it get any smaller?</li>
-            <li>Pi Model B-2: The tight budget option.</li>
-        </ul>
+        <p>
+            You have 3 to choose from:
+            <ul>
+                <li>Pi 3: The latest and fastest.</li>
+                <li>Pi Zero: Could it get any smaller?</li>
+                <li>Pi Model B-2: The tight budget option.</li>
+            </ul>
         </p>
-        <button class="btn btn-default">@Html.ActionLink("Check out Pi's", "Index", "Pi")</button>
+        <form method="get" action="@Url.Action("Index", "Pi")">
+            <button class="btn btn-default" type="submit">Start Baking...</button>
+        </form>
     </div>
     <div class="col-md-4">
         <h2>Pick your OS</h2>
         <p>Many to Choose From! The popular choice for a HTPC (Home Theater Personal Computer) is OSMC. Want a standalone minicomputer with LINUX? Choose Debian, OpenElec or more...</p>
-        <button class="btn btn-default">@Html.ActionLink("See the OS options", "Index", "OS")</button>
+
+        <form method="get" action="@Url.Action("Index", "OS")">
+            <button class="btn btn-default" type="submit">See the OS options</button>
+        </form>
     </div>
     <div class="col-md-4">
         <h2>Pick your case and accessories</h2>
         <p>Customize your Pi any way you like! The recommended accessories for your Pi and OS choice will show up here.</p>
-        <button class="btn btn-default">@Html.ActionLink("Customize it!", "Index", "Accessories") </button>
+
+        <form method="get" action="@Url.Action("Index", "Accessories")">
+            <button class="btn btn-default" type="submit">Customize it!</button>
+        </form>
+
     </div>
 </div>
