@@ -19,17 +19,25 @@
                 <div class="well">
                     <div class="row">
                         <div class="col-xs-1">
-                            @Html.RadioButton("id", pi.Id)
+                            @{ 
+                                string radioId = "r" + pi.Id;
+                            }
+                            <input type="radio" name="group1" id="@radioId" value="@pi.Id" />
                         </div>
-                        <div class="col-xs-4">
-                            <img src="@pi.Image" class="img-responsive" />
-                        </div>
-                        <div class="col-xs-7">
-                            <h2>@pi.Model</h2>
-                            <p>@pi.Description</p>
-                            <p>@pi.Price</p>
-                            <hr />
-                        </div>
+                            <div class="col-xs-4">
+                                <label for="@radioId">
+                                    <img src="@pi.Image" class="img-responsive" />
+                                </label>
+                                </div>
+                            <div class="col-xs-7">
+                                <label for="@radioId">
+                                <h2>@pi.Model</h2>
+                                </label>
+                                <hr />
+                                <p>@pi.Description</p>
+                                <hr />
+                                <p>@pi.Price</p>
+                            </div>
                     </div>
                 </div>
             </div>

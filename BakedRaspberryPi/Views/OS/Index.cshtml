@@ -1,7 +1,5 @@
 ﻿@model IEnumerable<BakedRaspberryPi.Models.OS>
 
-
-
 @{
     ViewBag.Title = "Fill Your Pi";
 }
@@ -14,7 +12,6 @@
         <input type="submit" class="btn btn-default" value="No filling in my Pi, thank you.'" />
     </div>
 
-
     <div class="row">
         @foreach (var os in Model)
         {
@@ -22,21 +19,25 @@
                 <div class="well">
                     <div class="row">
                         <div class="col-xs-1">
-                            @Html.RadioButton("id", os.Id)
+                            @{
+                                string radioId = "r" + os.Id;
+                            }
+                            <input type="radio" name="group1" id="@radioId" value="@os.Id" />
                         </div>
                         <div class="col-xs-4">
-                            <img src="@os.Image" class="img-responsive" />
+                            <label for="@radioId">
+                                <img src="@os.Image" class="img-responsive" />
+                            </label>
                         </div>
                         <div class="col-xs-7">
-                            <h2>@os.Name</h2>
-                            <p>@os.Description</p>
-                            <hr />
-                        </div>
+                            <label for="@radioId">
+                                <h2>@os.Name</h2>
+                                </label>
+                                <p>@os.Description</p>
+                            </div>
                     </div>
                 </div>
             </div>
-        }
+         }
     </div>
 }
-
-
