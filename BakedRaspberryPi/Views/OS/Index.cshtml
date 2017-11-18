@@ -19,10 +19,10 @@
                 <div class="well">
                     <div class="row">
                         <div class="col-xs-1">
-                            @{
-                                string radioId = "r" + os.Id;
+                            @{ 
+                                string radioId = "r" + os.Id.ToString();
                             }
-                            <input type="radio" name="group1" id="@radioId" value="@os.Id" />
+                            @Html.RadioButton("value", os.Id, new { id = radioId })
                         </div>
                         <div class="col-xs-4">
                             <label for="@radioId">
@@ -34,10 +34,11 @@
                                 <h2>@os.Name</h2>
                                 </label>
                                 <p>@os.Description</p>
-                            </div>
+                                <hr />
+</div>
                     </div>
                 </div>
             </div>
-         }
+                                }
     </div>
-}
+                                }

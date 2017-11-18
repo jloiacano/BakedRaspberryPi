@@ -1,4 +1,5 @@
 ﻿using BakedRaspberryPi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -69,7 +70,7 @@ namespace BakedRaspberryPi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(int id)
+        public ActionResult Index(int value)
         {
             int cartId;
             Cart c = null;
@@ -101,7 +102,7 @@ namespace BakedRaspberryPi.Controllers
                 currentPi = new WholePi();
                 c.CurrentPis.Add(currentPi);
             }
-            currentPi.Filling = db.OSs.Find(id);
+            currentPi.Filling = db.OSs.Find(value);
             db.SaveChanges();
 
             if (currentPi.Pi == null)
