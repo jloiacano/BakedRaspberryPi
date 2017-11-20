@@ -88,7 +88,7 @@ namespace BakedRaspberryPi.Controllers
                 c = new Cart();
                 db.Carts.Add(c);
                 db.SaveChanges();
-                cartId = c.Id; //shouldnt this get the cartId from the database id of the cart instead of the newed up cart in the app?
+                cartId = c.CartId; //shouldnt this get the cartId from the database id of the cart instead of the newed up cart in the app?
                 Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
             }
 

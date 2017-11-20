@@ -81,7 +81,7 @@ namespace BakedRaspberryPi.Controllers
                 c = new Cart();
                 db.Carts.Add(c);
                 db.SaveChanges();
-                cartId = c.Id;
+                cartId = c.CartId;
                 Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
             }
 
