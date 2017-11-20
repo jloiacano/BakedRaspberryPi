@@ -39,7 +39,7 @@ namespace BakedRaspberryPi.Models
     //}
     public class Pi
     {
-        public int Id { get; set; }
+        public int PiId { get; set; }
         public string UPC { get; set; }
         public string Name { get; set; }
         public string Model { get; set; }
@@ -50,7 +50,7 @@ namespace BakedRaspberryPi.Models
 
     public class Accessory
     {
-        public int Id { get; set; }
+        public int AccessoryId { get; set; }
         public string UPC { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
@@ -63,7 +63,7 @@ namespace BakedRaspberryPi.Models
 
     public class OS
     {
-        public int Id { get; set; }
+        public int OSId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
@@ -71,7 +71,7 @@ namespace BakedRaspberryPi.Models
 
     public class PiCase
     {
-        public int Id { get; set; }
+        public int PiCaseId { get; set; }
         public string UPC { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }
@@ -82,7 +82,7 @@ namespace BakedRaspberryPi.Models
 
     public class WholePi
     {
-        public int Id { get; set; }
+        public int WholePiId { get; set; }
         public virtual Pi Pi { get; set; }
         public virtual OS Filling { get; set; }
         public virtual PiCase Crust { get; set; }
@@ -90,9 +90,19 @@ namespace BakedRaspberryPi.Models
         public decimal Price { get; set; }
     }
 
+    public class WholePiToCart
+    {
+        public int WholePiToCartId { get; set; }
+        public int WholePiId { get; set; }
+        public int CartId { get; set; }
+
+        public virtual WholePi WholePi { get; set; }
+        public virtual Cart Cart { get; set; }
+    }
+
     public class Cart
     {
-        public int Id { get; set; }
+        public int CartId { get; set; }
 
         public ICollection<WholePi> CurrentPis { get; set; }
 
