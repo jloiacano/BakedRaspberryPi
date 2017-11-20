@@ -26,9 +26,9 @@ namespace BakedRaspberryPi
 
             app.CreatePerOwinContext(() =>
             {
-                UserStore<BakedPiUser> store = new UserStore<BakedPiUser>();
-                UserManager<BakedPiUser> manager = new UserManager<BakedPiUser>(store);
-                manager.UserTokenProvider = new EmailTokenProvider<BakedPiUser>();
+                UserStore<IdentityUser> store = new UserStore<IdentityUser>();
+                UserManager<IdentityUser> manager = new UserManager<IdentityUser>(store);
+                manager.UserTokenProvider = new EmailTokenProvider<IdentityUser>();
 
                 manager.PasswordValidator = new PasswordValidator
                 {
@@ -38,6 +38,8 @@ namespace BakedRaspberryPi
                     RequireLowercase = false,
                     RequireNonLetterOrDigit = false
                 };
+
+                manager.EmailService = new BakedPiEmailService();
 
                 return manager;
             });

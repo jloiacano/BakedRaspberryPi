@@ -1,11 +1,14 @@
 namespace BakedRaspberryPi.Models
 {
+    using Microsoft.AspNet.Identity.EntityFramework;
     using MySql.Data.Entity;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
 
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
-    public class BakedPiModels : DbContext
+    public class BakedPiModels : IdentityDbContext
     {
         // Your context has been configured to use a 'BakedPiModels' connection string from your application's
         // configuration file (App.config or Web.config). By default, this connection string targets the
@@ -82,26 +85,33 @@ namespace BakedRaspberryPi.Models
 
     public class WholePi
     {
+       // [Key]
         public int WholePiId { get; set; }
         public virtual Pi Pi { get; set; }
         public virtual OS Filling { get; set; }
         public virtual PiCase Crust { get; set; }
         public virtual ICollection<Accessory> ALaModes { get; set; }
         public decimal Price { get; set; }
+
+        public virtual Cart cart { get; set; }
+        //[ForeignKey("Cart")]
+        //public int WholePiCartId { get; set; }
+        //public Cart Cart { get; set; }
     }
 
-    public class WholePiToCart
-    {
-        public int WholePiToCartId { get; set; }
-        public int WholePiId { get; set; }
-        public int CartId { get; set; }
+    //public class WholePiToCart
+    //{
+    //    public int WholePiToCartId { get; set; }
+    //    public int WholePiId { get; set; }
+    //    public int CartId { get; set; }
 
-        public virtual WholePi WholePi { get; set; }
-        public virtual Cart Cart { get; set; }
-    }
+    //    public virtual WholePi WholePi { get; set; }
+    //    public virtual Cart Cart { get; set; }
+    //}
 
     public class Cart
     {
+       // [Key]
         public int CartId { get; set; }
 
         public ICollection<WholePi> CurrentPis { get; set; }
