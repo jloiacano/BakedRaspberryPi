@@ -6,8 +6,7 @@ namespace BakedRaspberryPi.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
-
-    [DbConfigurationType(typeof(MySqlEFConfiguration))]
+    
     public class BakedPiModels : IdentityDbContext
     {
         // Your context has been configured to use a 'BakedPiModels' connection string from your application's
@@ -40,6 +39,7 @@ namespace BakedRaspberryPi.Models
     //    public int Id { get; set; }
     //    public string Name { get; set; }
     //}
+
     public class Pi
     {
         public int PiId { get; set; }
@@ -83,39 +83,66 @@ namespace BakedRaspberryPi.Models
         public string Image { get; set; }
     }
 
+    public class Order
+    {
+        public int OrderId { get; set; }
+        public string TrackingNumber { get; set; }
+        public string CustomerName { get; set; }
+        public string ShippingStreet { get; set; }
+        public string ShippingAptNum { get; set; }
+        public string ShippingCity { get; set; }
+        public string ShippingState { get; set; }
+        public string ShippingZip { get; set; }
+        public decimal Subtotal { get; set; }
+        public decimal SalesTax { get; set; }
+        public decimal ShippingAndHandling { get; set; }
+        public string DateCreated { get; set; }
+        public string DateLastModified { get; set; }
+        public string DateOfShipping { get; set; }
+    }
+
+    public class OrderToWholePi
+    {
+        public int OrderId { get; set; }
+        public int WholePiId { get; set; }
+
+        public string DateCreated { get; set; }
+        public string DateOfShipping { get; set; }
+        public decimal WholePiPrice { get; set; }
+        public int Quantity { get; set; }
+    }
+
     public class WholePi
     {
-       // [Key]
+        [Key]
         public int WholePiId { get; set; }
+
         public virtual Pi Pi { get; set; }
         public virtual OS Filling { get; set; }
         public virtual PiCase Crust { get; set; }
         public virtual ICollection<Accessory> ALaModes { get; set; }
         public decimal Price { get; set; }
-
+        
         public virtual Cart cart { get; set; }
-        //[ForeignKey("Cart")]
-        //public int WholePiCartId { get; set; }
-        //public Cart Cart { get; set; }
     }
 
-    //public class WholePiToCart
-    //{
-    //    public int WholePiToCartId { get; set; }
-    //    public int WholePiId { get; set; }
-    //    public int CartId { get; set; }
+    public class WholePiToCart
+    {
+        public int WholePiId { get; set; }
+        public int CartId { get; set; }
 
-    //    public virtual WholePi WholePi { get; set; }
-    //    public virtual Cart Cart { get; set; }
-    //}
+        public int Quantitiy { get; set; }
+        public string DateCreated { get; set; }
+        public string DateLastModified { get; set; }
+
+    }
 
     public class Cart
     {
-       // [Key]
+        [Key]
         public int CartId { get; set; }
 
-        public ICollection<WholePi> CurrentPis { get; set; }
-
-        public int CurrentIndex { get; set; }
+        public virtual ICollection<WholePi> WholePis { get; set; }
+        
     }
 }

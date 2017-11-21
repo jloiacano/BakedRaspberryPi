@@ -85,15 +85,15 @@ namespace BakedRaspberryPi.Controllers
                 Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
             }
 
-            if (c.CurrentPis == null)
+            if (c.WholePis == null)
             {
-                c.CurrentPis = new List<WholePi>();
+                c.WholePis = new List<WholePi>();
             }
-            WholePi currentPi = c.CurrentPis.FirstOrDefault();
+            WholePi currentPi = c.WholePis.FirstOrDefault();
             if (currentPi == null)
             {
                 currentPi = new WholePi();
-                c.CurrentPis.Add(currentPi);
+                c.WholePis.Add(currentPi);
             }
             currentPi.Pi = db.Pis.Find(value);
             db.SaveChanges();
