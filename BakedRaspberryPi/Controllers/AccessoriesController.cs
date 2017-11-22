@@ -140,5 +140,72 @@ namespace BakedRaspberryPi.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        public ActionResult Index(FormCollection collection, int value, string CurrentPiId)
+        {
+            Guid cartId;
+            Cart c = null;
+            string[] accessoriesArray = collection["Accessories"].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            //System.Diagnostics.Debug.WriteLine("the array: \n");
+            //for (int i = 0; i < accessoriesArray.Length; i += 1)
+            //{
+            //    System.Diagnostics.Debug.WriteLine("\nIndex " + i + ": " );
+            //    System.Diagnostics.Debug.WriteLine(accessoriesArray[i].ToString());
+            //}
+            //System.Diagnostics.Debug.WriteLine(value);
+
+            // if there's a cookie of the cartId, use the cart in the db with that cartId
+            if (Request.Cookies.AllKeys.Contains("cartId"))
+            {
+                cartId = Guid.Parse(Request.Cookies["cartId"].Value);
+                c = db.Carts.Find(cartId);
+            }
+
+            // There must not be a cookie of the cart, make a new cart
+            if (c == null)
+            {
+                c = new Cart();
+                db.Carts.Add(c);
+                db.SaveChanges();
+                cartId = c.CartId;
+                Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
+            }
+
+            if (c.WholePis == null)
+            {
+                c.WholePis = new List<WholePi>();
+            }
+            WholePi currentPi = c.WholePis.FirstOrDefault();
+            if (currentPi == null)
+            {
+                currentPi = new WholePi();
+                c.WholePis.Add(currentPi);
+            }
+
+            for (int i = 0; i < accessoriesArray.Length; i += 1)
+            {
+                currentPi.ALaModes.Add(db.Accessories.Find(accessoriesArray[i]));
+            }
+            currentPi.Crust = db.PiCases.Find(value);
+            db.SaveChanges();
+
+            accessoriesArray = null;
+
+
+            if (currentPi.Filling == null)
+            {
+                return RedirectToAction("Index", "OS");
+            }
+
+            if (currentPi.Pi == null)
+            {
+                return RedirectToAction("Index", "Pi");
+            }
+
+            return RedirectToAction("Index", "Cart");
+
+        }
     }
 }

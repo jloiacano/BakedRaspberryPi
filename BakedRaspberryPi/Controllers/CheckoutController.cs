@@ -23,7 +23,7 @@ namespace BakedRaspberryPi.Controllers
         // GET: Checkout
         public ActionResult Index()
         {
-            Models.CheckoutDetails details = new Models.CheckoutDetails();
+            CheckoutDetails details = new CheckoutDetails();
             Guid cartID = Guid.Parse(Request.Cookies["cartID"].Value);
 
             details.CurrentCart = db.Carts.Find(cartID);
@@ -33,7 +33,7 @@ namespace BakedRaspberryPi.Controllers
 
         // POST: Checkout
         [HttpPost]
-        public ActionResult Index(Models.CheckoutDetails model)
+        public ActionResult Index(CheckoutDetails model)
         {
 
 
@@ -42,39 +42,59 @@ namespace BakedRaspberryPi.Controllers
 
             model.CurrentCart = db.Carts.Find(cartID);
 
-            if (ModelState.IsValid)
-            {
-                string trackingNumber = Guid.NewGuid().ToString().Substring(0, 8);
-                db.Orders.Add(new Order
-                {
-                    DateCreated = DateTime.UtcNow,
-                    DateLastModified = DateTime.UtcNow,
-                    TrackingNumber = trackingNumber,
-                    ShippingAndHandling = model.CurrentCart.CartProducts.Sum(x => x.Quantity),
-                    Tax = (model.CurrentCart.CartProducts.Sum(x => x.Product.Price * x.Quantity) ?? 0) * .1025m,
-                    SubTotal = model.CurrentCart.CartProducts.Sum(x => x.Product.Price * x.Quantity) ?? 0,
-                    Email = model.ContactEmail,
-                    PurchaserName = model.ContactName,
-                    ShippingAddress1 = model.ShippingAddress,
-                    ShippingCity = model.ShippingCity,
-                    ShippingPostalCode = model.ShippingPostalCode,
-                    ShippingState = model.ShippingState
-                });
+            //if (ModelState.IsValid)
+            //{
+            //    string trackingNumber = Guid.NewGuid().ToString().Substring(0, 8);
+            //    db.Orders.Add(new Order
+            //    {
+            //        DateCreated = DateTime.UtcNow,
+            //        DateLastModified = DateTime.UtcNow,
+            //        TrackingNumber = trackingNumber,
+            //        ShippingAndHandling = model.CurrentCart.CartProducts.Sum(x => x.Quantity),
+            //        Tax = (model.CurrentCart.CartProducts.Sum(x => x.Product.Price * x.Quantity) ?? 0) * .1025m,
+            //        SubTotal = model.CurrentCart.CartProducts.Sum(x => x.Product.Price * x.Quantity) ?? 0,
+            //        Email = model.ContactEmail,
+            //        PurchaserName = model.ContactName,s
+            //        ShippingAddress1 = model.ShippingAddress,
+            //        ShippingCity = model.ShippingCity,
+            //        ShippingPostalCode = model.ShippingPostalCode,
+            //        ShippingState = model.ShippingState
+            //    });
 
-                db.SaveChanges();
-                //TODO: send some confirmation emails to the person placing the order and the system admin
+            //    db.SaveChanges();
 
-                BakedPiEmailService emailService = new BakedPiEmailService();
-                emailService.SendAsync(new Microsoft.AspNet.Identity.IdentityMessage
-                {
-                    Subject = "Your Receipt for order " + trackingNumber,
-                    Destination = model.ContactEmail,
-                    Body = "Thank you for shopping."
-                });
+            //    string merchantId = System.Configuration.ConfigurationManager.AppSettings["Braintree.MerchantId"];
+            //    string environment = System.Configuration.ConfigurationManager.AppSettings["Braintree.Environment"];
+            //    string publicKey = System.Configuration.ConfigurationManager.AppSettings["Braintree.PublicKey"];
+            //    string privateKey = System.Configuration.ConfigurationManager.AppSettings["Braintree.PrivateKey"];
 
-                //TODO: Reset the cart
-                return RedirectToAction("Index", "Receipt", new { id = trackingNumber });
-            }
+            //    Braintree.TransactionRequest transaction = new Braintree.TransactionRequest();
+            //    transaction.Amount = 1m;
+            //    //transaction.Amount = o.SubTotal + o.ShippingAndHandling + o.Tax;
+            //    //transaction.TaxAmount = o.Tax;
+            //    //https://developers.braintreepayments.com/reference/general/testing/ruby
+            //    transaction.CreditCard = new Braintree.TransactionCreditCardRequest
+            //    {
+            //        CardholderName = "Test User",
+            //        CVV = "123",
+            //        Number = "4111111111111111",
+            //        ExpirationYear = DateTime.Now.AddMonths(1).Year.ToString(),
+            //        ExpirationMonth = DateTime.Now.AddMonths(1).ToString("MM")
+            //    };
+
+            //    var result = gateway.Transaction.Sale(transaction);
+
+            //    BakedPiEmailService emailService = new BakedPiEmailService();
+            //    emailService.SendAsync(new Microsoft.AspNet.Identity.IdentityMessage
+            //    {
+            //        Subject = "Your Receipt for order " + trackingNumber,
+            //        Destination = model.ContactEmail,
+            //        Body = "Thank you for shopping."
+            //    });
+
+            //    //TODO: Reset the cart
+            //    return RedirectToAction("Index", "Receipt", new { id = trackingNumber });
+            //}
             return View(model);
         }
     }

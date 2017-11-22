@@ -12,12 +12,9 @@ namespace BakedRaspberryPi.Controllers
     public class AccountController : Controller
     {
         // GET: Account
+        [Authorize]
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated == false)
-            {
-                return RedirectToAction("Index", "Home");
-            }
             string merchantId = System.Configuration.ConfigurationManager.AppSettings["Braintree.MerchantId"];
             string environment = System.Configuration.ConfigurationManager.AppSettings["Braintree.Environment"];
             string publicKey = System.Configuration.ConfigurationManager.AppSettings["Braintree.PublicKey"];

@@ -22,7 +22,7 @@
                             @{
                                 string radioId = "r" + pi.PiId.ToString();
                             }
-                            @Html.RadioButton("value", pi.PiId, new { id = radioId })
+                            @Html.RadioButton("value", pi.PiId, new { id = radioId }) <!-- change to get the actual currentPiId -->
                         </div>
                             <div class="col-xs-4">
                                 <label for="@radioId">

@@ -24,8 +24,10 @@ namespace BakedRaspberryPi.Controllers
         // GET: Cart
         public ActionResult Index()
         {
-            int cartID = Int32.Parse(Request.Cookies["cartID"].Value);
+            // gets the cartId from cookies
+            Guid cartID = Guid.Parse(Request.Cookies["cartID"].Value);
 
+            // gets the cart with the cartId found in cookies from the database, and sends it to the 'cart view'
             return View(db.Carts.Find(cartID));
         }
 
@@ -38,6 +40,7 @@ namespace BakedRaspberryPi.Controllers
             for (int i = 0; i < model.WholePis.Count; i++)
             {
                 //Change this to fit my model
+                decimal Total = cart.WholePis.Sum(x => x.Price);
                 //cart.CartProducts.ElementAt(i).Quantity = model.CartProducts.ElementAt(i).Quantity;
             }
             db.SaveChanges();

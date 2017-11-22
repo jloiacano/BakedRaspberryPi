@@ -7,19 +7,25 @@
             <div class="well">
                 <div class="row">
                     <div class="col-xs-1">
-                            <input type="radio" name="case" />
-
+                        @{
+                            string radioId = "r" + piCase.PiCaseId.ToString();
+                        }
+                        @Html.RadioButton("value", piCase.PiCaseId, new { id = radioId })
                     </div>
                     <div class="col-xs-4">
-                        <img src="@piCase.Image" class="img-responsive" />
+                        <label for="@radioId">
+                            <img src="@piCase.Image" class="img-responsive" />
+                        </label>
                     </div>
                     <div class="col-xs-7">
-                    <h2>@piCase.Name</h2>
+                        <label for="@radioId">
+                            <h2>@piCase.Name</h2>
+                        </label>
                         <p>@piCase.Color</p>
                         <p>@piCase.Description</p>
                     </div>
                 </div>
             </div>
         </div>
-    }
+                            }
 </div>

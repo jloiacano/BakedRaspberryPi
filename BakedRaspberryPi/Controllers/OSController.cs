@@ -72,13 +72,13 @@ namespace BakedRaspberryPi.Controllers
         [HttpPost]
         public ActionResult Index(int value)
         {
-            int cartId;
+            Guid cartId;
             Cart c = null;
 
             // if there's a cookie of the cartId, use the cart in the db with that cartId
             if (Request.Cookies.AllKeys.Contains("cartId"))
             {
-                cartId = int.Parse(Request.Cookies["cartId"].Value);
+                cartId = Guid.Parse(Request.Cookies["cartId"].Value);
                 c = db.Carts.Find(cartId);
             }
 

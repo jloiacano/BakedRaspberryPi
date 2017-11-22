@@ -34,6 +34,7 @@ namespace BakedRaspberryPi.Models
         [Required]
         [Display(Name = "Zip Code")]
         public string ShippingPostalCode { get; set; }
+        
 
     }
 }

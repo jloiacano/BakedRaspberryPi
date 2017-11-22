@@ -83,35 +83,6 @@ namespace BakedRaspberryPi.Models
         public string Image { get; set; }
     }
 
-    public class Order
-    {
-        public int OrderId { get; set; }
-        public string TrackingNumber { get; set; }
-        public string CustomerName { get; set; }
-        public string ShippingStreet { get; set; }
-        public string ShippingAptNum { get; set; }
-        public string ShippingCity { get; set; }
-        public string ShippingState { get; set; }
-        public string ShippingZip { get; set; }
-        public decimal Subtotal { get; set; }
-        public decimal SalesTax { get; set; }
-        public decimal ShippingAndHandling { get; set; }
-        public string DateCreated { get; set; }
-        public string DateLastModified { get; set; }
-        public string DateOfShipping { get; set; }
-    }
-
-    public class OrderToWholePi
-    {
-        public int OrderId { get; set; }
-        public int WholePiId { get; set; }
-
-        public string DateCreated { get; set; }
-        public string DateOfShipping { get; set; }
-        public decimal WholePiPrice { get; set; }
-        public int Quantity { get; set; }
-    }
-
     public class WholePi
     {
         [Key]
@@ -125,24 +96,15 @@ namespace BakedRaspberryPi.Models
         
         public virtual Cart cart { get; set; }
     }
-
-    public class WholePiToCart
-    {
-        public int WholePiId { get; set; }
-        public int CartId { get; set; }
-
-        public int Quantitiy { get; set; }
-        public string DateCreated { get; set; }
-        public string DateLastModified { get; set; }
-
-    }
-
+    
     public class Cart
     {
         [Key]
-        public int CartId { get; set; }
+        public System.Guid CartId { get; set; }
 
         public virtual ICollection<WholePi> WholePis { get; set; }
-        
+
+        public int CurrentPiId { get; set; }
+
     }
 }

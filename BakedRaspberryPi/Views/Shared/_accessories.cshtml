@@ -7,7 +7,9 @@
             <div class="well">
                 <div class="row">
                     <div class="col-xs-1">
-                        <input type="checkbox" name="@accessory.Type" />
+                        <!--add ""Html.CheckBox() with the proper overload to create checkboxes to send on commit.-->
+
+                        @Html.CheckBox("Accessories", false, new { id = accessory.AccessoryId, value = accessory.AccessoryId })    
 
                     </div>
                     <div class="col-xs-4">
@@ -25,4 +27,3 @@
 
     }
 </div>
-
