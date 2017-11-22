@@ -142,11 +142,19 @@ namespace BakedRaspberryPi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(FormCollection collection, int value, string CurrentPiId)
+        public ActionResult Index(FormCollection collection, int? value, string CurrentPiId)
         {
             Guid cartId;
             Cart c = null;
             string[] accessoriesArray = collection["Accessories"].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            bool accessoriesHaveBeenAdded = false;
+            for (var i = 0; i < accessoriesArray.Length; i += 1)
+            {
+                if (accessoriesArray[i] != "false")
+                {
+                    accessoriesHaveBeenAdded = true;
+                }
+            }
 
             //System.Diagnostics.Debug.WriteLine("the array: \n");
             //for (int i = 0; i < accessoriesArray.Length; i += 1)
@@ -184,14 +192,25 @@ namespace BakedRaspberryPi.Controllers
                 c.WholePis.Add(currentPi);
             }
 
-            for (int i = 0; i < accessoriesArray.Length; i += 1)
+            if (accessoriesHaveBeenAdded)
             {
-                Accessory currentAccessory = new Accessory();
-                int accessoryIDFromArray = Int32.Parse(accessoriesArray[i]);
-                currentAccessory = db.Accessories.First(x => x.AccessoryId == accessoryIDFromArray);
-                currentPi.ALaModes.Add(currentAccessory);
+                for (int i = 0; i < accessoriesArray.Length; i += 1)
+                {
+                    if (accessoriesArray[i] != "false")
+                    {
+                    Accessory currentAccessory = new Accessory();
+                    int accessoryIDFromArray = Int32.Parse(accessoriesArray[i]);
+                    currentAccessory = db.Accessories.First(x => x.AccessoryId == accessoryIDFromArray);
+                    currentPi.ALaModes.Add(currentAccessory);
+                    }
+                }
             }
-            currentPi.Crust = db.PiCases.Find(value);
+
+            if (value != 0)
+            {
+                currentPi.Crust = db.PiCases.Find(value);
+            }
+
             db.SaveChanges();
 
             accessoriesArray = null;

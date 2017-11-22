@@ -26,7 +26,6 @@ namespace BakedRaspberryPi.Models
 
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
         public virtual DbSet<Pi> Pis { get; set; }
-
         public virtual DbSet<Accessory> Accessories { get; set; }
         public virtual DbSet<OS> OSs { get; set; }
         public virtual DbSet<PiCase> PiCases { get; set; }
@@ -51,20 +50,6 @@ namespace BakedRaspberryPi.Models
         public string Image { get; set; }
     }
 
-    public class Accessory
-    {
-        [Key]
-        public int AccessoryId { get; set; }
-        public string UPC { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public string Description { get; set; }
-        public int Size { get; set; }
-        public decimal Price { get; set; }
-        public string Image { get; set; }
-        public virtual WholePi WholePi { get; set; }
-    }
-
     public class OS
     {
         public int OSId { get; set; }
@@ -84,6 +69,20 @@ namespace BakedRaspberryPi.Models
         public string Image { get; set; }
     }
 
+    public class Accessory
+    {
+        public int AccessoryId { get; set; }
+        public string UPC { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
+        public int Size { get; set; }
+        public decimal Price { get; set; }
+        public string Image { get; set; }
+        
+        public virtual ICollection<WholePi> WholePi { get; set; }
+    }
+    
     public class WholePi
     {
         [Key]
