@@ -53,6 +53,7 @@ namespace BakedRaspberryPi.Models
 
     public class Accessory
     {
+        [Key]
         public int AccessoryId { get; set; }
         public string UPC { get; set; }
         public string Name { get; set; }
@@ -61,7 +62,7 @@ namespace BakedRaspberryPi.Models
         public int Size { get; set; }
         public decimal Price { get; set; }
         public string Image { get; set; }
-        public virtual ICollection<WholePi> WholePis { get; set; }
+        public virtual WholePi WholePi { get; set; }
     }
 
     public class OS
@@ -94,7 +95,7 @@ namespace BakedRaspberryPi.Models
         public virtual ICollection<Accessory> ALaModes { get; set; }
         public decimal Price { get; set; }
         
-        public virtual Cart cart { get; set; }
+        public virtual Cart Cart{ get; set; }
     }
     
     public class Cart

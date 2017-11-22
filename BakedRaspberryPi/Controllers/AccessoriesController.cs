@@ -186,7 +186,10 @@ namespace BakedRaspberryPi.Controllers
 
             for (int i = 0; i < accessoriesArray.Length; i += 1)
             {
-                currentPi.ALaModes.Add(db.Accessories.Find(accessoriesArray[i]));
+                Accessory currentAccessory = new Accessory();
+                int accessoryIDFromArray = Int32.Parse(accessoriesArray[i]);
+                currentAccessory = db.Accessories.First(x => x.AccessoryId == accessoryIDFromArray);
+                currentPi.ALaModes.Add(currentAccessory);
             }
             currentPi.Crust = db.PiCases.Find(value);
             db.SaveChanges();
