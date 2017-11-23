@@ -6,27 +6,73 @@
 
 @{ 
     var theCart = Model.WholePis;
-}
-<h1>This is where the current Pis will be displayed.</h1>
 
-@{
+    if (theCart.Count == 1)
+    {
+        <h1>The Pi You built!</h1>
+    }
+    else
+    {
+        <h1>The Pis you built.</h1>
+    }
+
+
     foreach (var wholePi in theCart)
     {
-        <div>
-            @wholePi.Pi.Name
-        </div>
-        <div>
-            @wholePi.Filling.Name
-        </div>
-        <div>
-            @wholePi.Crust.Name
-        </div>
-        foreach (var accessory in wholePi.ALaModes)
+        if (wholePi.Pi != null && wholePi.Pi.Name != "" && wholePi.Pi.Name != "NONE")
         {
             <div>
-                @accessory.Name
+                @wholePi.Pi.Name
+            </div>
+        } else
+        {
+            <div>
+                @Html.ActionLink("Add a Pi", "Index", "Pi", null, new { @class = "btn btn-primary" })
             </div>
         }
+
+        if (wholePi.Filling != null && wholePi.Filling.Name != "" && wholePi.Filling.Name != "NONE")
+        {
+            <div>
+                @wholePi.Filling.Name
+            </div>
+        }
+        else
+        {
+            <div>
+                @Html.ActionLink("Add a Filling", "Index", "OS", null, new { @class = "btn btn-primary" })
+            </div>
+        }
+
+        if (wholePi.Crust != null && wholePi.Crust.Name != "" && wholePi.Crust.Name != "NONE")
+        {
+            <div>
+                @wholePi.Crust.Name
+            </div>
+        }
+        else
+        {
+            <div>
+                @Html.ActionLink("Add A Crust", "Index", "Accessory", protocol: null, hostName: null, fragment: "picases", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+            </div>
+        }
+
+        if (wholePi.ALaModes.Count != 0)
+        {
+            foreach (var accessory in wholePi.ALaModes)
+            {
+                <div>
+                    @accessory.Name
+                </div>
+            }
+        }
+        else
+        {
+            <div>
+                @Html.ActionLink("Add A La Modes", "Index", "Accessory", null, new { @class = "btn btn-primary" })
+            </div>
+        }
+        <hr />
     }
 }
 

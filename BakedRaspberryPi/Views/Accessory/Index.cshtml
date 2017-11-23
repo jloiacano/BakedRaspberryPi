@@ -14,9 +14,14 @@
 </div>
 
 <h2>Recommended Accessories</h2>
-@Html.Partial("_accessories", Model.Accessories);
+@Html.Partial("_accessories", Model.Accessories)
 
-<h2>Crust for your Pi</h2>
-@Html.Partial("_piCases", Model.Cases);
+
+    <a name="picases"></a>
+
+    <h2>Crust for your Pi</h2>
+
+
+@Html.Partial("_piCases", Model.Cases)
 
 }

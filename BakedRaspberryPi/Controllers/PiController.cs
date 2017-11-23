@@ -64,7 +64,7 @@ namespace BakedRaspberryPi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(int value)
+        public ActionResult Index(int? value)
         {
             Guid cartId;
             Cart c = null;
