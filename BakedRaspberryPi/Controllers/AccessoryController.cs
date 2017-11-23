@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace BakedRaspberryPi.Controllers
 {
-    public class AccessoriesController : Controller
+    public class AccessoryController : Controller
     {
 
         protected BakedPiModels db = new BakedPiModels();
@@ -175,9 +175,10 @@ namespace BakedRaspberryPi.Controllers
             if (c == null)
             {
                 c = new Cart();
+                cartId = Guid.NewGuid();
+                c.CartId = cartId;
                 db.Carts.Add(c);
                 db.SaveChanges();
-                cartId = c.CartId;
                 Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
             }
 

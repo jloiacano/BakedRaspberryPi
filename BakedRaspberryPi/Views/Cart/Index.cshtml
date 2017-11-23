@@ -4,7 +4,29 @@
     ViewBag.Title = "Cart Full of Pi's";
 }
 
+@{ 
+    var theCart = Model.WholePis;
+}
 <h1>This is where the current Pis will be displayed.</h1>
 
-
+@{
+    foreach (var wholePi in theCart)
+    {
+        <div>
+            @wholePi.Pi.Name
+        </div>
+        <div>
+            @wholePi.Filling.Name
+        </div>
+        <div>
+            @wholePi.Crust.Name
+        </div>
+        foreach (var accessory in wholePi.ALaModes)
+        {
+            <div>
+                @accessory.Name
+            </div>
+        }
+    }
+}
 

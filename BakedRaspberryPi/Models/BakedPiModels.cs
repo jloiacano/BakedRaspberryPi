@@ -79,10 +79,10 @@ namespace BakedRaspberryPi.Models
         public int Size { get; set; }
         public decimal Price { get; set; }
         public string Image { get; set; }
-        
+
         public virtual ICollection<WholePi> WholePi { get; set; }
     }
-    
+
     public class WholePi
     {
         [Key]
@@ -93,10 +93,10 @@ namespace BakedRaspberryPi.Models
         public virtual PiCase Crust { get; set; }
         public virtual ICollection<Accessory> ALaModes { get; set; }
         public decimal Price { get; set; }
-        
-        public virtual Cart Cart{ get; set; }
+
+        public virtual Cart Cart { get; set; }
     }
-    
+
     public class Cart
     {
         [Key]

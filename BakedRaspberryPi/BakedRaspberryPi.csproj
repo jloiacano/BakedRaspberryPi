@@ -193,7 +193,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BakedPiEmailService.cs" />
-    <Compile Include="Controllers\AccessoriesController.cs" />
+    <Compile Include="Controllers\AccessoryController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
@@ -283,7 +283,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Accessories\Index.cshtml" />
+    <Content Include="Views\Accessory\Index.cshtml" />
     <Content Include="Views\OS\Index.cshtml" />
     <Content Include="Views\Pi\Index.cshtml" />
     <Content Include="Views\PiCases\Index.cshtml" />
