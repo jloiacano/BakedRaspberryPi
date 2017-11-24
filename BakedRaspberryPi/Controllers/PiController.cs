@@ -29,6 +29,16 @@ namespace BakedRaspberryPi.Controllers
 
                 pis.Add(new Pi
                 {
+                    UPC = "XXXX",
+                    Name = "NONE",
+                    Model = "NONE",
+                    Description = "NO PI CHOSEN",
+                    Price = 0m,
+                    Image = ""
+                });
+
+                pis.Add(new Pi
+                {
                     UPC = "742741039962",
                     Name = "Pi Zero",
                     Model = "Raspberry Pi Zero - Version 1.3",
@@ -97,20 +107,24 @@ namespace BakedRaspberryPi.Controllers
                 currentPi = new WholePi();
                 c.WholePis.Add(currentPi);
             }
-            currentPi.Pi = db.Pis.Find(value);
+
+            if (value == null)
+            {
+                currentPi.Pi = db.Pis.Find(1);
+            }
+            else
+            {
+                currentPi.Pi = db.Pis.Find(value);
+            }
+            currentPi.Price += currentPi.Pi.Price;
             db.SaveChanges();
 
-            if (currentPi.Filling == null)
-            {
-                return RedirectToAction("Index", "OS");
-            }
-
-            if (currentPi.Crust == null)
+            if (value == null)
             {
                 return RedirectToAction("Index", "Accessory");
             }
 
-            return RedirectToAction("Index", "Cart");
+            return RedirectToAction("Index", "OS");
         }
     }
 }

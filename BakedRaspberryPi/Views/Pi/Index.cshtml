@@ -15,32 +15,36 @@
     <div class="row">
         @foreach (var pi in Model)
         {
-            <div class="col-xs-12">
-                <div class="well">
-                    <div class="row">
-                        <div class="col-xs-1">
-                            @{
-                                string radioId = "r" + pi.PiId.ToString();
-                            }
-                            @Html.RadioButton("value", pi.PiId, new { id = radioId }) 
-                        </div>
+            if (pi.UPC != "XXXX")
+            {
+                <div class="col-xs-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-xs-1">
+                                @{
+                                    string radioId = "r" + pi.PiId.ToString();
+                                }
+                                @Html.RadioButton("value", pi.PiId, new { id = radioId })
+                            </div>
                             <div class="col-xs-4">
                                 <label for="@radioId">
                                     <img src="@pi.Image" class="img-responsive" />
                                 </label>
-                                </div>
+                            </div>
                             <div class="col-xs-7">
                                 <label for="@radioId">
-                                <span class="labelProductName">@pi.Model</span>
+                                    <span class="labelProductName">@pi.Model</span>
                                 </label>
                                 <hr />
                                 <p>@pi.Description</p>
                                 <hr />
                                 <p>@pi.Price</p>
                             </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+                                        }
+
+                                    }
     </div>
 }

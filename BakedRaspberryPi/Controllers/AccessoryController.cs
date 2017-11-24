@@ -27,18 +27,29 @@ namespace BakedRaspberryPi.Controllers
             if (!db.Accessories.Any())
             {
             List<Accessory> accessories = new List<Accessory>();
-            accessories.Add(new Accessory
-            {
-                UPC = "030878735803",
-                Name = "Jasco 73580 HDMI 3-Feet Cable",
-                Type = "HDMI3",
-                Description = "A 3 foot long HDMI Cable. Perfect for mounting your Pi near, or behind, your TV if you are using your Pi as an HTPC",
-                Size = 3,
-                Price = 4.79m,
-                Image = "/Images/Accessories/hdmi.jpg"
-            });
+                accessories.Add(new Accessory
+                {
+                    UPC = "XXXX",
+                    Name = "NONE",
+                    Type = "",
+                    Description = "",
+                    Size = 0,
+                    Price = 0m,
+                    Image = ""
+                });
 
-            accessories.Add(new Accessory
+                accessories.Add(new Accessory
+                {
+                    UPC = "030878735803",
+                    Name = "Jasco 73580 HDMI 3-Feet Cable",
+                    Type = "HDMI3",
+                    Description = "A 3 foot long HDMI Cable. Perfect for mounting your Pi near, or behind, your TV if you are using your Pi as an HTPC",
+                    Size = 3,
+                    Price = 4.79m,
+                    Image = "/Images/Accessories/hdmi.jpg"
+                });
+
+                accessories.Add(new Accessory
             {
                 UPC = "575214360009",
                 Name = "Sandisk 8GB Class 10 SD Card (Black)",
@@ -57,6 +68,16 @@ namespace BakedRaspberryPi.Controllers
             if (!db.PiCases.Any())
             {
                 List<PiCase> cases = new List<PiCase>();
+                cases.Add(new PiCase
+                {
+                    UPC = "XXXX",
+                    Name = "NONE",
+                    Color = "",
+                    Description = "",
+                    Price = 0m,
+                    Image = ""
+                });
+
                 cases.Add(new PiCase
                 {
                     UPC = "720189973338",
@@ -199,33 +220,34 @@ namespace BakedRaspberryPi.Controllers
                 {
                     if (accessoriesArray[i] != "false")
                     {
-                    Accessory currentAccessory = new Accessory();
-                    int accessoryIDFromArray = Int32.Parse(accessoriesArray[i]);
-                    currentAccessory = db.Accessories.First(x => x.AccessoryId == accessoryIDFromArray);
-                    currentPi.ALaModes.Add(currentAccessory);
+                        Accessory currentAccessory = new Accessory();
+                        int accessoryIDFromArray = Int32.Parse(accessoriesArray[i]);
+                        currentAccessory = db.Accessories.First(x => x.AccessoryId == accessoryIDFromArray);
+                        currentPi.ALaModes.Add(currentAccessory);
+                        currentPi.Price += currentAccessory.Price;
                     }
                 }
             }
+            else
+            {
+                Accessory currentAccessory = new Accessory();
+                currentAccessory = db.Accessories.Find(1);
+                currentPi.ALaModes.Add(currentAccessory);
+            }
 
-            if (value != 0)
+            if (value == null)
+            {
+                currentPi.Crust = db.PiCases.Find(1);
+            }
+            else
             {
                 currentPi.Crust = db.PiCases.Find(value);
+                currentPi.Price += currentPi.Crust.Price;
             }
 
             db.SaveChanges();
 
             accessoriesArray = null;
-
-
-            if (currentPi.Filling == null)
-            {
-                return RedirectToAction("Index", "OS");
-            }
-
-            if (currentPi.Pi == null)
-            {
-                return RedirectToAction("Index", "Pi");
-            }
 
             return RedirectToAction("Index", "Cart");
 

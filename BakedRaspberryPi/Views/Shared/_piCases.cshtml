@@ -3,27 +3,32 @@
 <div class="row">
     @foreach (var piCase in Model)
     {
-        <div class="col-xs-12">
-            <div class="well">
-                <div class="row">
-                    <div class="col-xs-1">
-                        @{ string radioId = "r" + piCase.PiCaseId.ToString(); }
-                        @Html.RadioButton("value", piCase.PiCaseId, new { id = radioId })
-                    </div>
-                    <div class="col-xs-4">
-                        <label for="@radioId">
-                            <img src="@piCase.Image" class="img-responsive" />
-                        </label>
-                    </div>
-                    <div class="col-xs-7">
-                        <label for="@radioId">
-                            <span class="labelProductName">@piCase.Name</span>
-                        </label>
-                        <p>@piCase.Color</p>
-                        <p>@piCase.Description</p>
+        if (piCase.UPC != "XXXX")
+        {
+            <div class="col-xs-12">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-xs-1">
+                            @{ string radioId = "r" + piCase.PiCaseId.ToString(); }
+                            @Html.RadioButton("value", piCase.PiCaseId, new { id = radioId })
+                        </div>
+                        <div class="col-xs-4">
+                            <label for="@radioId">
+                                <img src="@piCase.Image" class="img-responsive" />
+                            </label>
+                        </div>
+                        <div class="col-xs-7">
+                            <label for="@radioId">
+                                <span class="labelProductName">@piCase.Name</span>
+                            </label>
+                            <p>@piCase.Color</p>
+                            <p>@piCase.Description</p>
+                            <p>@piCase.Price</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
+
      }
-</div>
+</div>s

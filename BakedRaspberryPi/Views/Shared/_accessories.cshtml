@@ -2,27 +2,30 @@
 <div class="row">
     @foreach (var accessory in Model)
     {
-        <div class="col-xs-12">
-            <div class="well">
-                <div class="row">
-                    <div class="col-xs-1">
-                        @Html.CheckBox("Accessories", false, new { id = accessory.AccessoryId, value = accessory.AccessoryId })
-                    </div>
-                    <div class="col-xs-4">
-                        <label for="@accessory.AccessoryId">
-                            <img src="@accessory.Image" class="img-responsive" />
-                        </label>
-                    </div>
-                    <div class="col-xs-7">
-                        <label for="@accessory.AccessoryId">
-                            <span class="labelProductName">@accessory.Name</span>
-                        </label>
-                        <p>Size: @accessory.Size</p>
-                        <p>@accessory.Description</p>
-                        <p>$@accessory.Price</p>
+        if (accessory.UPC != "XXXX")
+        {
+            <div class="col-xs-12">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-xs-1">
+                            @Html.CheckBox("Accessories", false, new { id = accessory.AccessoryId, value = accessory.AccessoryId })
+                        </div>
+                        <div class="col-xs-4">
+                            <label for="@accessory.AccessoryId">
+                                <img src="@accessory.Image" class="img-responsive" />
+                            </label>
+                        </div>
+                        <div class="col-xs-7">
+                            <label for="@accessory.AccessoryId">
+                                <span class="labelProductName">@accessory.Name</span>
+                            </label>
+                            <p>Size: @accessory.Size</p>
+                            <p>@accessory.Description</p>
+                            <p>$@accessory.Price</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     }
 </div>

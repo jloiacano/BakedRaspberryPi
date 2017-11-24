@@ -29,6 +29,14 @@ namespace BakedRaspberryPi.Controllers
 
                 oss.Add(new OS
                 {
+                    Name = "NONE",
+                    Description = "",
+                    Image = "",
+                    Price = 0m
+                });
+
+                oss.Add(new OS
+                {
                     Name = "OSMC",
                     Description = "The best Home Theater PC Option",
                     Image = "/Images/OSs/osmc.png",
@@ -108,20 +116,29 @@ namespace BakedRaspberryPi.Controllers
                 currentPi = new WholePi();
                 c.WholePis.Add(currentPi);
             }
+
+            if (value == null)
+            {
+                currentPi.Filling = db.OSs.Find(1);
+            }
+            else
+            {
             currentPi.Filling = db.OSs.Find(value);
+            }
+
+            currentPi.Price += currentPi.Filling.Price;
             db.SaveChanges();
 
-            if (currentPi.Pi == null)
+            if (value == null)
             {
-                return RedirectToAction("Index", "Pi");
+                currentPi.Filling = db.OSs.Find(1);
+            }
+            else
+            {
+                currentPi.Filling = db.OSs.Find(1);
             }
 
-            if (currentPi.Crust == null)
-            {
-                return RedirectToAction("Index", "Accessory");
-            }
-
-            return RedirectToAction("Index", "Cart");
+            return RedirectToAction("Index", "Accessory");
         }
     }
 }

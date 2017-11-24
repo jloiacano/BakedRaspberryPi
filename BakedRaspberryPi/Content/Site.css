@@ -59,3 +59,7 @@ footer {
 .productText {
     display: inline-block;
 }
+
+.btn-startBaking {
+    width: 100%;
+}

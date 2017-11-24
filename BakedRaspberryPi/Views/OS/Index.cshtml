@@ -15,30 +15,38 @@
     <div class="row">
         @foreach (var os in Model)
         {
-            <div class="col-xs-12">
-                <div class="well">
-                    <div class="row">
-                        <div class="col-xs-1">
-                            @{ 
-                                string radioId = "r" + os.OSId.ToString();
-                            }
-                            @Html.RadioButton("value", os.OSId, new { id = radioId }) 
-                        </div>
-                        <div class="col-xs-4">
-                            <label for="@radioId">
-                                <img src="@os.Image" class="img-responsive" />
-                            </label>
-                        </div>
-                        <div class="col-xs-7">
-                            <label for="@radioId">
-                                <span class="labelProductName">@os.Name</span>
+
+            if (os.Name != "NONE")
+            {
+                <div class="col-xs-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-xs-1">
+                                @{
+                                    string radioId = "r" + os.OSId.ToString();
+                                }
+                                @Html.RadioButton("value", os.OSId, new { id = radioId })
+                            </div>
+                            <div class="col-xs-4">
+                                <label for="@radioId">
+                                    <img src="@os.Image" class="img-responsive" />
+                                </label>
+                            </div>
+                            <div class="col-xs-7">
+                                <label for="@radioId">
+                                    <span class="labelProductName">@os.Name</span>
                                 </label>
                                 <p>@os.Description</p>
-                            <p>$@os.Price install fee</p>
+                                <p>$@os.Price install fee</p>
                             </div>
                         </div>
                     </div>
                 </div>
-        }
+            }
+
+         }
     </div>
 }
+
+
+
