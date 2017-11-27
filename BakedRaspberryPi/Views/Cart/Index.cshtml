@@ -2,7 +2,9 @@
 
 @{
     ViewBag.Title = "Cart Full of Pi's";
+
     var theCart = Model.WholePis;
+    List<int> theAccessories = new List<int>();
 }
 
 @{ 
@@ -69,6 +71,11 @@
                 {
                 <div>
                     @accessory.Name
+                    @{
+                        int currentAccessory = accessory.AccessoryId;
+                        theAccessories.Add(currentAccessory);
+                    }
+                    
                 </div>
                 }
             }
@@ -81,8 +88,25 @@
 
             //<input type="number" min="0" max="10" class="form-control" value="@wholePi.Quantity" name="@("CartProducts[" + i + "].Quantity")" />
             
-            @Html.ActionLink("EditPiTrial", "Edit", "Pi", new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiBoard = wholePi.Pi.PiId }, new { @class = "btn btn-default" })
-            @Html.ActionLink("EditOSTrial", "Edit", "OS", new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousOs = wholePi.Filling.OSId }, new { @class = "btn btn-default" })
+            @Html.ActionLink("EditPiTrial", "Edit", "Pi",
+           routeValues: new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiBoard = wholePi.Pi.PiId },
+           htmlAttributes: new { @class = "btn btn-default" })
+
+            @Html.ActionLink("EditOSTrial", "Edit", "OS",
+           routeValues: new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousOs = wholePi.Filling.OSId },
+           htmlAttributes: new { @class = "btn btn-default" })
+
+            @Html.ActionLink("EditAccessoriesTrial", "EditAccessories", "Accessory",
+           routeValues: new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousAccessoriesIds = string.Join(",", theAccessories) },
+           htmlAttributes: new { @class = "btn btn-default" })
+
+            @Html.ActionLink("EditCaseTrial", "EditCases", "Accessory",
+           protocol: null,
+           hostName: null,
+           fragment: "picases",
+           routeValues: new { @wholePiCrust = wholePi.Crust, @piToBeEdited = wholePi.WholePiId, @previousCrust = wholePi.Crust.PiCaseId },
+           htmlAttributes: new { @class = "btn btn-primary" })
+
             @Html.ActionLink("Remove", "Index", "Cart", null, new { @class = "btn btn-default" })
 
         <div>

@@ -24,6 +24,11 @@ namespace BakedRaspberryPi.Controllers
         // GET: Accessories
         public ActionResult Index()
         {
+            if (!db.Carts.Any())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!db.Accessories.Any())
             {
             List<Accessory> accessories = new List<Accessory>();
@@ -251,6 +256,29 @@ namespace BakedRaspberryPi.Controllers
 
             return RedirectToAction("Index", "Cart");
 
+        }
+
+        public ActionResult EditAccessories(Accessory WholePiAccessory, int wholePiToBeEditedId, string previousAccessoriesIds)
+        {
+            var prevIds = previousAccessoriesIds.Split(',').Select(x => int.Parse(x));
+
+            WholePi toEdit = db.WholePis.FirstOrDefault(x => x.WholePiId == wholePiToBeEditedId);
+            toEdit.IsEdit = true;
+            foreach (var accessory in toEdit.ALaModes)
+            {
+                accessory.IsEdit = true;
+            }
+            //toEdit.ALaModes.EditPreviousId = previousOs;    doesn't work, but might not be necessary. might have to turn 'EditPreviousId' into an array in the model.
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Accessories");
+        }
+
+
+        public ActionResult EditCases(PiCase WholePiPiCase, int wholePiToBeEditedId, int previousPiCaseId)
+        {
+            System.Diagnostics.Debug.WriteLine("PiCaseId: " + previousPiCaseId);
+            return RedirectToAction("Index", "Pi");
         }
     }
 }

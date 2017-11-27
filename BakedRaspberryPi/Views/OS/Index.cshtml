@@ -24,8 +24,17 @@
                             <div class="col-xs-1">
                                 @{
                                     string radioId = "r" + os.OSId.ToString();
+
+                                    if (os.IsEdit == true)
+                                    {
+                                        @Html.RadioButton("value", os.OSId, new { id = radioId, @checked = "checked" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButton("value", os.OSId, new { id = radioId })
+                                    }
                                 }
-                                @Html.RadioButton("value", os.OSId, new { id = radioId })
+                                
                             </div>
                             <div class="col-xs-4">
                                 <label for="@radioId">

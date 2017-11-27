@@ -126,7 +126,7 @@ namespace BakedRaspberryPi.Controllers
                 currentPi = c.WholePis.FirstOrDefault();
             }
 
-            if (!(Object.ReferenceEquals(null, currentPi)) && currentPi.Pi.Price != 0m)
+            if (!(Object.ReferenceEquals(null, currentPi)) && currentPi.Pi != null && currentPi.Pi.Price != 0m)
             {
                 priceToBeDeducted = currentPi.Pi.Price;
             }

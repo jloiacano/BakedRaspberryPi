@@ -24,6 +24,10 @@ namespace BakedRaspberryPi.Controllers
         // GET: Cart
         public ActionResult Index()
         {
+            if (!db.Carts.Any())
+            {
+                return RedirectToAction("Index", "Home");
+            }
             // gets the cartId from cookies
             Guid cartID = Guid.Parse(Request.Cookies["cartID"].Value);
 
