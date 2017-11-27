@@ -114,10 +114,19 @@ namespace BakedRaspberryPi.Controllers
                     }
                 }
             }
-            
-            WholePi currentPi = c.WholePis.FirstOrDefault( x => x.WholePiId == WholePiToBeEdited);
 
-            if (c.WholePis.Any())
+            WholePi currentPi;
+
+            if (WholePiToBeEdited != 0)
+            {
+                currentPi = c.WholePis.FirstOrDefault(x => x.WholePiId == WholePiToBeEdited);
+            }
+            else
+            {
+                currentPi = c.WholePis.FirstOrDefault();
+            }
+
+            if (!(Object.ReferenceEquals(null, currentPi)) && currentPi.Pi.Price != 0m)
             {
                 priceToBeDeducted = currentPi.Pi.Price;
             }
@@ -128,10 +137,6 @@ namespace BakedRaspberryPi.Controllers
                 c.WholePis.Add(currentPi);
             }
 
-            //WholePiAccessService widget = new WholePiAccessService();
-            //currentPi = new WholePiAccessService().findWholePi();
-
-
             if (thePiBoardId == null)
             {
                 currentPi.Pi = db.Pis.Find(1);
@@ -140,6 +145,7 @@ namespace BakedRaspberryPi.Controllers
             {
                 currentPi.Pi = db.Pis.Find(thePiBoardId);
             }
+
             currentPi.Price -= priceToBeDeducted;
             currentPi.Price += currentPi.Pi.Price;
             db.SaveChanges();

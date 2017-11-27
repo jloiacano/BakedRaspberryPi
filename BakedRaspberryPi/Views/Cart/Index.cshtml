@@ -81,7 +81,8 @@
 
             //<input type="number" min="0" max="10" class="form-control" value="@wholePi.Quantity" name="@("CartProducts[" + i + "].Quantity")" />
             
-            @Html.ActionLink("Edit", "Edit", "Pi", new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiBoard = wholePi.Pi.PiId }, new { @class = "btn btn-default" })
+            @Html.ActionLink("EditPiTrial", "Edit", "Pi", new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiBoard = wholePi.Pi.PiId }, new { @class = "btn btn-default" })
+            @Html.ActionLink("EditOSTrial", "Edit", "OS", new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousOs = wholePi.Filling.OSId }, new { @class = "btn btn-default" })
             @Html.ActionLink("Remove", "Index", "Cart", null, new { @class = "btn btn-default" })
 
         <div>

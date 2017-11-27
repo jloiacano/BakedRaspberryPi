@@ -87,6 +87,8 @@ namespace BakedRaspberryPi.Controllers
         {
             Guid cartId;
             Cart c = null;
+            int WholePiToBeEdited = 0;
+            decimal priceToBeDeducted = 0m;
 
             // if there's a cookie of the cartId, use the cart in the db with that cartId
             if (Request.Cookies.AllKeys.Contains("cartId"))
@@ -110,7 +112,33 @@ namespace BakedRaspberryPi.Controllers
             {
                 c.WholePis = new List<WholePi>();
             }
-            WholePi currentPi = c.WholePis.FirstOrDefault();
+            else
+            {
+                foreach (var wholePi in c.WholePis)
+                {
+                    if (wholePi.EditPreviousId != 0)
+                    {
+                        WholePiToBeEdited = wholePi.WholePiId;
+                    }
+                }
+            }
+
+            WholePi currentPi;
+
+            if (WholePiToBeEdited != 0)
+            {
+                currentPi = c.WholePis.FirstOrDefault(x => x.WholePiId == WholePiToBeEdited);
+            }
+            else
+            {
+                currentPi = c.WholePis.FirstOrDefault();
+            }
+
+            if (!(Object.ReferenceEquals(null, currentPi)) && currentPi.Filling != null && currentPi.Filling.Price != 0m)
+            {
+                priceToBeDeducted = currentPi.Filling.Price;
+            }
+
             if (currentPi == null)
             {
                 currentPi = new WholePi();
@@ -126,25 +154,18 @@ namespace BakedRaspberryPi.Controllers
             currentPi.Filling = db.OSs.Find(value);
             }
 
+            currentPi.Price -= priceToBeDeducted;
             currentPi.Price += currentPi.Filling.Price;
             db.SaveChanges();
 
             if (currentPi.IsEdit == true)
             {
                 currentPi.IsEdit = false;
+                currentPi.EditPreviousId = 0;
                 currentPi.Filling.IsEdit = false;
                 currentPi.Filling.EditPreviousId = 0;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Cart");
-            }
-
-            if (value == null)
-            {
-                currentPi.Filling = db.OSs.Find(1);
-            }
-            else
-            {
-                currentPi.Filling = db.OSs.Find(1);
             }
 
             return RedirectToAction("Index", "Accessory");
