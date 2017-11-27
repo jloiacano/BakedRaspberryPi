@@ -58,7 +58,8 @@
             else
             {
             <div>
-                @Html.ActionLink("Add A Crust", "Index", "Accessory", protocol: null, hostName: null, fragment: "picases", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                @Html.ActionLink("Add A Crust", "Index", "Accessory", protocol: null, hostName: null, fragment: "picases", routeValues:
+               new { @wholePiCrust = wholePi.Crust, @piToBeEdited = wholePi.WholePiId, @previousCrust = wholePi.Crust.PiCaseId }, htmlAttributes: new { @class = "btn btn-primary" })
             </div>
             }
 
@@ -80,7 +81,7 @@
 
             //<input type="number" min="0" max="10" class="form-control" value="@wholePi.Quantity" name="@("CartProducts[" + i + "].Quantity")" />
             
-            @Html.ActionLink("Edit", "Edit", "Pi", new { @wholePiPi = wholePi.Pi, @piToBeEdited = wholePi.WholePiId }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Edit", "Edit", "Pi", new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiBoard = wholePi.Pi.PiId }, new { @class = "btn btn-default" })
             @Html.ActionLink("Remove", "Index", "Cart", null, new { @class = "btn btn-default" })
 
         <div>

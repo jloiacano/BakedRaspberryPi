@@ -129,6 +129,15 @@ namespace BakedRaspberryPi.Controllers
             currentPi.Price += currentPi.Filling.Price;
             db.SaveChanges();
 
+            if (currentPi.IsEdit == true)
+            {
+                currentPi.IsEdit = false;
+                currentPi.Filling.IsEdit = false;
+                currentPi.Filling.EditPreviousId = 0;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Cart");
+            }
+
             if (value == null)
             {
                 currentPi.Filling = db.OSs.Find(1);
@@ -139,6 +148,16 @@ namespace BakedRaspberryPi.Controllers
             }
 
             return RedirectToAction("Index", "Accessory");
+        }
+
+        public ActionResult Edit(OS WholePiOs, int wholePiToBeEditedId, int previousOs)
+        {
+            WholePi toEdit = db.WholePis.FirstOrDefault(x => x.WholePiId == wholePiToBeEditedId);
+            toEdit.IsEdit = true;
+            toEdit.Filling.IsEdit = true;
+            toEdit.Filling.EditPreviousId = previousOs;
+            db.SaveChanges();
+            return RedirectToAction("Index", "OS");
         }
     }
 }

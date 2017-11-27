@@ -48,6 +48,8 @@ namespace BakedRaspberryPi.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string Image { get; set; }
+        public bool IsEdit { get; set; }
+        public int EditPreviousId { get; set; }
     }
 
     public class OS
@@ -57,6 +59,8 @@ namespace BakedRaspberryPi.Models
         public string Description { get; set; }
         public string Image { get; set; }
         public decimal Price { get; set; }
+        public bool IsEdit { get; set; }
+        public int EditPreviousId { get; set; }
     }
 
     public class PiCase
@@ -68,6 +72,8 @@ namespace BakedRaspberryPi.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string Image { get; set; }
+        public bool IsEdit { get; set; }
+        public int EditPreviousId { get; set; }
     }
 
     public class Accessory
@@ -80,6 +86,8 @@ namespace BakedRaspberryPi.Models
         public int Size { get; set; }
         public decimal Price { get; set; }
         public string Image { get; set; }
+        public bool IsEdit { get; set; }
+        public int EditPreviousId { get; set; }
 
         public virtual ICollection<WholePi> WholePi { get; set; }
     }
@@ -96,6 +104,7 @@ namespace BakedRaspberryPi.Models
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public bool IsEdit { get; set; }
+        public int EditPreviousId { get; set; }
 
         public virtual Cart Cart { get; set; }
     }

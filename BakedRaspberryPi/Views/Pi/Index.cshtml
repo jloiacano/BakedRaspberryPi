@@ -25,7 +25,14 @@
                                 @{
                                     string radioId = "r" + pi.PiId.ToString();
                                 }
-                                @Html.RadioButton("thePiBoardId", pi.PiId, new { id = radioId })
+                                @if (pi.IsEdit == true && pi.PiId == pi.EditPreviousId)
+                                {
+                                    @Html.RadioButton("thePiBoardId", pi.PiId, new { id = radioId , @checked = "checked" })
+                                }
+                                else
+                                {
+                                    @Html.RadioButton("thePiBoardId", pi.PiId, new { id = radioId })
+                                }
                             </div>
                             <div class="col-xs-4">
                                 <label for="@radioId">

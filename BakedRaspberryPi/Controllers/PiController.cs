@@ -77,6 +77,8 @@ namespace BakedRaspberryPi.Controllers
         {
             Guid cartId;
             Cart c = null;
+            int WholePiToBeEdited = 0;
+            decimal priceToBeDeducted = 0m;
 
             
 
@@ -102,15 +104,28 @@ namespace BakedRaspberryPi.Controllers
             {
                 c.WholePis = new List<WholePi>();
             }
-            WholePi currentPi = c.WholePis.FirstOrDefault();
+            else
+            {
+                foreach (var wholePi in c.WholePis)
+                {
+                    if (wholePi.EditPreviousId != 0)
+                    {
+                        WholePiToBeEdited = wholePi.WholePiId;
+                    }
+                }
+            }
+            
+            WholePi currentPi = c.WholePis.FirstOrDefault( x => x.WholePiId == WholePiToBeEdited);
+
+            if (c.WholePis.Any())
+            {
+                priceToBeDeducted = currentPi.Pi.Price;
+            }
+
             if (currentPi == null)
             {
                 currentPi = new WholePi();
                 c.WholePis.Add(currentPi);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Cart"); 
             }
 
             //WholePiAccessService widget = new WholePiAccessService();
@@ -125,12 +140,16 @@ namespace BakedRaspberryPi.Controllers
             {
                 currentPi.Pi = db.Pis.Find(thePiBoardId);
             }
+            currentPi.Price -= priceToBeDeducted;
             currentPi.Price += currentPi.Pi.Price;
             db.SaveChanges();
             
             if (currentPi.IsEdit == true)
-            {
+            {               
                 currentPi.IsEdit = false;
+                currentPi.EditPreviousId = 0;
+                currentPi.Pi.IsEdit = false;
+                currentPi.Pi.EditPreviousId = 0;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Cart");
             }
@@ -143,10 +162,13 @@ namespace BakedRaspberryPi.Controllers
             return RedirectToAction("Index", "OS");
         }
 
-        public ActionResult Edit(Pi WholePiPi, int piToBeEdited)
+        public ActionResult Edit(Pi WholePiPi, int wholePiToBeEditedId, int previousPiBoard)
         {
-            WholePi toEdit = db.WholePis.FirstOrDefault(x => x.WholePiId == piToBeEdited);
+            WholePi toEdit = db.WholePis.FirstOrDefault(x => x.WholePiId == wholePiToBeEditedId);
             toEdit.IsEdit = true;
+            toEdit.EditPreviousId = wholePiToBeEditedId;
+            toEdit.Pi.IsEdit = true;
+            toEdit.Pi.EditPreviousId = previousPiBoard;
             db.SaveChanges();
             return RedirectToAction("Index", "Pi");
         }
