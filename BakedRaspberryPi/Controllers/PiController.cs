@@ -69,15 +69,16 @@ namespace BakedRaspberryPi.Controllers
                 db.Pis.AddRange(pis);
                 db.SaveChanges();
             }
-
             return View(db.Pis.ToList());
         }
 
         [HttpPost]
-        public ActionResult Index(int? value)
+        public ActionResult Index(int? thePiBoardId)
         {
             Guid cartId;
             Cart c = null;
+
+            
 
             // if there's a cookie of the cartId, use the cart in the db with that cartId
             if (Request.Cookies.AllKeys.Contains("cartId"))
@@ -107,24 +108,47 @@ namespace BakedRaspberryPi.Controllers
                 currentPi = new WholePi();
                 c.WholePis.Add(currentPi);
             }
+            else
+            {
+                return RedirectToAction("Index", "Cart"); 
+            }
 
-            if (value == null)
+            //WholePiAccessService widget = new WholePiAccessService();
+            //currentPi = new WholePiAccessService().findWholePi();
+
+
+            if (thePiBoardId == null)
             {
                 currentPi.Pi = db.Pis.Find(1);
             }
             else
             {
-                currentPi.Pi = db.Pis.Find(value);
+                currentPi.Pi = db.Pis.Find(thePiBoardId);
             }
             currentPi.Price += currentPi.Pi.Price;
             db.SaveChanges();
+            
+            if (currentPi.IsEdit == true)
+            {
+                currentPi.IsEdit = false;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Cart");
+            }
 
-            if (value == null)
+            if (thePiBoardId == null)
             {
                 return RedirectToAction("Index", "Accessory");
             }
 
             return RedirectToAction("Index", "OS");
+        }
+
+        public ActionResult Edit(Pi WholePiPi, int piToBeEdited)
+        {
+            WholePi toEdit = db.WholePis.FirstOrDefault(x => x.WholePiId == piToBeEdited);
+            toEdit.IsEdit = true;
+            db.SaveChanges();
+            return RedirectToAction("Index", "Pi");
         }
     }
 }

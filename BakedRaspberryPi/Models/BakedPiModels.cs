@@ -94,6 +94,8 @@ namespace BakedRaspberryPi.Models
         public virtual PiCase Crust { get; set; }
         public virtual ICollection<Accessory> ALaModes { get; set; }
         public decimal Price { get; set; }
+        public int Quantity { get; set; }
+        public bool IsEdit { get; set; }
 
         public virtual Cart Cart { get; set; }
     }

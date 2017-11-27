@@ -2,12 +2,15 @@
 
 @{
     ViewBag.Title = "Cart Full of Pi's";
+    var theCart = Model.WholePis;
 }
 
 @{ 
-    var theCart = Model.WholePis;
-
-    if (theCart.Count == 1)
+    if (theCart.Count == 0)
+    {
+        <h1>You have no Pis to bake!</h1>
+    }
+    else if (theCart.Count == 1)
     {
         <h1>The Pi You built!</h1>
     }
@@ -16,67 +19,75 @@
         <h1>The Pis you built.</h1>
     }
 
-
-    foreach (var wholePi in theCart)
+    using (Html.BeginForm())
     {
-        if (wholePi.Pi != null && wholePi.Pi.Name != "" && wholePi.Pi.Name != "NONE")
+        foreach (var wholePi in theCart)
         {
+            if (wholePi.Pi != null && wholePi.Pi.Name != "" && wholePi.Pi.Name != "NONE")
+            {
             <div>
                 @wholePi.Pi.Name
             </div>
-        } else
-        {
+            }
+            else
+            {
             <div>
                 @Html.ActionLink("Add a Pi", "Index", "Pi", null, new { @class = "btn btn-primary" })
             </div>
-        }
+            }
 
-        if (wholePi.Filling != null && wholePi.Filling.Name != "" && wholePi.Filling.Name != "NONE")
-        {
+            if (wholePi.Filling != null && wholePi.Filling.Name != "" && wholePi.Filling.Name != "NONE")
+            {
             <div>
                 @wholePi.Filling.Name
             </div>
-        }
-        else
-        {
+            }
+            else
+            {
             <div>
                 @Html.ActionLink("Add a Filling", "Index", "OS", null, new { @class = "btn btn-primary" })
             </div>
-        }
+            }
 
-        if (wholePi.Crust != null && wholePi.Crust.Name != "" && wholePi.Crust.Name != "NONE")
-        {
+            if (wholePi.Crust != null && wholePi.Crust.Name != "" && wholePi.Crust.Name != "NONE")
+            {
             <div>
                 @wholePi.Crust.Name
             </div>
-        }
-        else
-        {
+            }
+            else
+            {
             <div>
                 @Html.ActionLink("Add A Crust", "Index", "Accessory", protocol: null, hostName: null, fragment: "picases", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
             </div>
-        }
+            }
 
-        if (wholePi.ALaModes.Count != 0)
-        {
-            foreach (var accessory in wholePi.ALaModes)
+            if (wholePi.ALaModes.Count != 0)
             {
+                foreach (var accessory in wholePi.ALaModes)
+                {
                 <div>
                     @accessory.Name
                 </div>
+                }
             }
-        }
-        else
-        {
+            else
+            {
             <div>
                 @Html.ActionLink("Add A La Modes", "Index", "Accessory", null, new { @class = "btn btn-primary" })
             </div>
-        }
+            }
+
+            //<input type="number" min="0" max="10" class="form-control" value="@wholePi.Quantity" name="@("CartProducts[" + i + "].Quantity")" />
+            
+            @Html.ActionLink("Edit", "Edit", "Pi", new { @wholePiPi = wholePi.Pi, @piToBeEdited = wholePi.WholePiId }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Remove", "Index", "Cart", null, new { @class = "btn btn-default" })
 
         <div>
             @wholePi.Price
         </div>
         <hr />
+        }
     }
 }
 
