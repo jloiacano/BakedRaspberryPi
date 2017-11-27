@@ -176,7 +176,7 @@ namespace BakedRaspberryPi.Controllers
             return RedirectToAction("Index", "Accessory");
         }
 
-        public ActionResult Edit(OS WholePiOs, int wholePiToBeEditedId, int previousOs)
+        public ActionResult Edit(WholePi WholePiPi, int wholePiToBeEditedId, int previousOs)
         {
             WholePi toEdit = db.WholePis.FirstOrDefault(x => x.WholePiId == wholePiToBeEditedId);
             toEdit.IsEdit = true;

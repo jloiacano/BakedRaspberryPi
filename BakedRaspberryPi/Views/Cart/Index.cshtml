@@ -89,22 +89,22 @@
             //<input type="number" min="0" max="10" class="form-control" value="@wholePi.Quantity" name="@("CartProducts[" + i + "].Quantity")" />
             
             @Html.ActionLink("EditPiTrial", "Edit", "Pi",
-           routeValues: new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiBoard = wholePi.Pi.PiId },
+           routeValues: new { @wholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiBoard = wholePi.Pi.PiId },
            htmlAttributes: new { @class = "btn btn-default" })
 
             @Html.ActionLink("EditOSTrial", "Edit", "OS",
-           routeValues: new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousOs = wholePi.Filling.OSId },
+           routeValues: new { @wholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousOs = wholePi.Filling.OSId },
            htmlAttributes: new { @class = "btn btn-default" })
 
             @Html.ActionLink("EditAccessoriesTrial", "EditAccessories", "Accessory",
-           routeValues: new { @wholePiPi = wholePi.Pi, @wholePiToBeEditedId = wholePi.WholePiId, @previousAccessoriesIds = string.Join(",", theAccessories) },
+           routeValues: new { @wholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousAccessoriesIds = string.Join(",", theAccessories) },
            htmlAttributes: new { @class = "btn btn-default" })
 
             @Html.ActionLink("EditCaseTrial", "EditCases", "Accessory",
            protocol: null,
            hostName: null,
            fragment: "picases",
-           routeValues: new { @wholePiCrust = wholePi.Crust, @piToBeEdited = wholePi.WholePiId, @previousCrust = wholePi.Crust.PiCaseId },
+           routeValues: new { @WholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiCaseId = wholePi.Crust.PiCaseId },
            htmlAttributes: new { @class = "btn btn-primary" })
 
             @Html.ActionLink("Remove", "Index", "Cart", null, new { @class = "btn btn-default" })

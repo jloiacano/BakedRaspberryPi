@@ -2,6 +2,24 @@
 
 @{
     ViewBag.Title = "A La Mode your Pi";
+    bool isAccessoryEdit = false;
+    bool isCaseEdit = false;
+    foreach (var accessory in Model.Accessories)
+    {
+        if (accessory.IsEdit == true)
+        {
+            isAccessoryEdit = true;
+        }
+    }
+
+    foreach (var piCase in Model.Cases)
+    {
+        if (piCase.IsEdit == true)
+        {
+            isCaseEdit = true;
+        }
+    }
+
 }
 
 @using (Html.BeginForm())
@@ -13,15 +31,15 @@
     <input type="submit" class="btn btn-default" value="No thank you. I don't want any Pi." />
 </div>
 
-<h2>Recommended Accessories</h2>
-@Html.Partial("_accessories", Model.Accessories)
+    if (!isCaseEdit)
+    {
+        @Html.Partial("_accessories", Model.Accessories)
+    }
 
 
     <a name="picases"></a>
-
-    <h2>Crust for your Pi</h2>
-
-
-@Html.Partial("_piCases", Model.Cases)
-
+    if (!isAccessoryEdit)
+    {
+        @Html.Partial("_piCases", Model.Cases)
+    }
 }

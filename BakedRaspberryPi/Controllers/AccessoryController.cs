@@ -174,6 +174,9 @@ namespace BakedRaspberryPi.Controllers
             Cart c = null;
             string[] accessoriesArray = collection["Accessories"].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             bool accessoriesHaveBeenAdded = false;
+            bool accessoriesAreBeingEdited = false;
+            bool casesAreBeingEdited = false;
+
             for (var i = 0; i < accessoriesArray.Length; i += 1)
             {
                 if (accessoriesArray[i] != "false")
@@ -181,23 +184,12 @@ namespace BakedRaspberryPi.Controllers
                     accessoriesHaveBeenAdded = true;
                 }
             }
-
-            //System.Diagnostics.Debug.WriteLine("the array: \n");
-            //for (int i = 0; i < accessoriesArray.Length; i += 1)
-            //{
-            //    System.Diagnostics.Debug.WriteLine("\nIndex " + i + ": " );
-            //    System.Diagnostics.Debug.WriteLine(accessoriesArray[i].ToString());
-            //}
-            //System.Diagnostics.Debug.WriteLine(value);
-
-            // if there's a cookie of the cartId, use the cart in the db with that cartId
+            
             if (Request.Cookies.AllKeys.Contains("cartId"))
             {
                 cartId = Guid.Parse(Request.Cookies["cartId"].Value);
                 c = db.Carts.Find(cartId);
             }
-
-            // There must not be a cookie of the cart, make a new cart
             if (c == null)
             {
                 c = new Cart();
@@ -207,10 +199,17 @@ namespace BakedRaspberryPi.Controllers
                 db.SaveChanges();
                 Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
             }
-
             if (c.WholePis == null)
             {
                 c.WholePis = new List<WholePi>();
+            }
+
+            foreach (var checkAccessory in c.WholePis)
+            {
+                if (checkAccessory.IsEdit == true)
+                {
+                    accessoriesAreBeingEdited = true;
+                }
             }
             WholePi currentPi = c.WholePis.FirstOrDefault();
             if (currentPi == null)
@@ -258,7 +257,7 @@ namespace BakedRaspberryPi.Controllers
 
         }
 
-        public ActionResult EditAccessories(Accessory WholePiAccessory, int wholePiToBeEditedId, string previousAccessoriesIds)
+        public ActionResult EditAccessories(WholePi WholePiPi, int wholePiToBeEditedId, string previousAccessoriesIds)
         {
             var prevIds = previousAccessoriesIds.Split(',').Select(x => int.Parse(x));
 
@@ -271,14 +270,18 @@ namespace BakedRaspberryPi.Controllers
             //toEdit.ALaModes.EditPreviousId = previousOs;    doesn't work, but might not be necessary. might have to turn 'EditPreviousId' into an array in the model.
             db.SaveChanges();
 
-            return RedirectToAction("Index", "Accessories");
+            return RedirectToAction("Index", "Accessory");
         }
 
 
-        public ActionResult EditCases(PiCase WholePiPiCase, int wholePiToBeEditedId, int previousPiCaseId)
+        public ActionResult EditCases(WholePi WholePiPi, int wholePiToBeEditedId, int previousPiCaseId)
         {
-            System.Diagnostics.Debug.WriteLine("PiCaseId: " + previousPiCaseId);
-            return RedirectToAction("Index", "Pi");
+            WholePi toEdit = db.WholePis.FirstOrDefault(x => x.WholePiId == wholePiToBeEditedId);
+            toEdit.IsEdit = true;
+            toEdit.Crust.IsEdit = true;
+            toEdit.Crust.EditPreviousId = previousPiCaseId;
+            db.SaveChanges();
+            return RedirectToAction("Index", "Accessory");
         }
     }
 }
