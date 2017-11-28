@@ -10,8 +10,17 @@
                 <div class="well">
                     <div class="row">
                         <div class="col-xs-1">
-                            @{ string radioId = "r" + piCase.PiCaseId.ToString(); }
-                            @Html.RadioButton("value", piCase.PiCaseId, new { id = radioId })
+                            @{
+                                string radioId = "r" + piCase.PiCaseId.ToString();
+                                if (piCase.IsEdit)
+                                {
+                                    @Html.RadioButton("value", piCase.PiCaseId, new { id = radioId, @checked = "checked" })
+                                }
+                                else
+                                {
+                                    @Html.RadioButton("value", piCase.PiCaseId, new { id = radioId })
+                                }
+                            }
                         </div>
                         <div class="col-xs-4">
                             <label for="@radioId">

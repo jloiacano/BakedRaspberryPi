@@ -175,6 +175,7 @@ namespace BakedRaspberryPi.Controllers
             string[] accessoriesArray = collection["Accessories"].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             bool accessoriesHaveBeenAdded = false;
             bool accessoriesAreBeingEdited = false;
+            List<int> previousAccessories = new List<int>();
             bool casesAreBeingEdited = false;
 
             for (var i = 0; i < accessoriesArray.Length; i += 1)
@@ -211,6 +212,15 @@ namespace BakedRaspberryPi.Controllers
                     accessoriesAreBeingEdited = true;
                 }
             }
+
+            foreach (var currentAccessory in db.Accessories)
+            {
+                if (currentAccessory.IsEdit == true)
+                {
+                    previousAccessories.Add(currentAccessory.AccessoryId);
+                }
+            }
+
             WholePi currentPi = c.WholePis.FirstOrDefault();
             if (currentPi == null)
             {
@@ -267,7 +277,17 @@ namespace BakedRaspberryPi.Controllers
             {
                 accessory.IsEdit = true;
             }
-            //toEdit.ALaModes.EditPreviousId = previousOs;    doesn't work, but might not be necessary. might have to turn 'EditPreviousId' into an array in the model.
+            foreach (var currentAccessory in db.Accessories)
+            {
+                foreach (var id in prevIds)
+                {
+                    if (id == currentAccessory.AccessoryId)
+                    {
+                        currentAccessory.IsEdit = true;
+                    }
+
+                }
+            }
             db.SaveChanges();
 
             return RedirectToAction("Index", "Accessory");

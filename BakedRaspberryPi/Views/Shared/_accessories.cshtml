@@ -9,7 +9,16 @@
                 <div class="well">
                     <div class="row">
                         <div class="col-xs-1">
-                            @Html.CheckBox("Accessories", false, new { id = accessory.AccessoryId, value = accessory.AccessoryId })
+                            @{
+                                if (accessory.IsEdit)
+                                {
+                                    @Html.CheckBox("Accessories", true, new { id = accessory.AccessoryId, value = accessory.AccessoryId})
+                                }
+                                else
+                                {
+                                    @Html.CheckBox("Accessories", false, new { id = accessory.AccessoryId, value = accessory.AccessoryId })
+                                }
+                            }
                         </div>
                         <div class="col-xs-4">
                             <label for="@accessory.AccessoryId">
