@@ -12,11 +12,13 @@
                             @{
                                 if (accessory.IsEdit)
                                 {
-                                    @Html.CheckBox("Accessories", true, new { id = accessory.AccessoryId, value = accessory.AccessoryId})
+                                    <input id=@accessory.AccessoryId type="checkbox" name="Accessories" value=@accessory.AccessoryId checked="checked" />
+                                    //Html.CheckBox("Accessories", true, new { id = accessory.AccessoryId, value = accessory.AccessoryId})
                                 }
                                 else
                                 {
-                                    @Html.CheckBox("Accessories", false, new { id = accessory.AccessoryId, value = accessory.AccessoryId })
+                                    <input id=@accessory.AccessoryId type="checkbox" name="Accessories" value=@accessory.AccessoryId />
+                                    //Html.CheckBox("Accessories", false, new { id = accessory.AccessoryId, value = accessory.AccessoryId })
                                 }
                             }
                         </div>

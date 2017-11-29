@@ -89,7 +89,7 @@ namespace BakedRaspberryPi.Models
         public bool IsEdit { get; set; }
         public int EditPreviousId { get; set; }
 
-        public virtual ICollection<WholePi> WholePi { get; set; }
+        public virtual ISet<WholePi> WholePi { get; set; }
     }
 
     public class WholePi
@@ -100,7 +100,7 @@ namespace BakedRaspberryPi.Models
         public virtual Pi Pi { get; set; }
         public virtual OS Filling { get; set; }
         public virtual PiCase Crust { get; set; }
-        public virtual ICollection<Accessory> ALaModes { get; set; }
+        public virtual ISet<Accessory> ALaModes { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public bool IsEdit { get; set; }

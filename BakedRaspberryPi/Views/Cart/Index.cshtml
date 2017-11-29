@@ -5,6 +5,11 @@
 
     var theCart = Model.WholePis;
     List<int> theAccessories = new List<int>();
+
+    var subTotal = theCart.Sum(x => x.Price * x.Quantity);
+    var shippingAndHandling = theCart.Sum(x => x.Quantity * 1.5);
+    var tax = theCart.Sum(x => x.Price * x.Quantity) * 0.1025m;
+
 }
 
 @{ 
@@ -28,7 +33,7 @@
             if (wholePi.Pi != null && wholePi.Pi.Name != "" && wholePi.Pi.Name != "NONE")
             {
             <div>
-                @wholePi.Pi.Name
+                <span>PI: </span>@wholePi.Pi.Name
             </div>
             }
             else
@@ -41,7 +46,7 @@
             if (wholePi.Filling != null && wholePi.Filling.Name != "" && wholePi.Filling.Name != "NONE")
             {
             <div>
-                @wholePi.Filling.Name
+                <span>FILLING: </span>@wholePi.Filling.Name
             </div>
             }
             else
@@ -54,7 +59,7 @@
             if (wholePi.Crust != null && wholePi.Crust.Name != "" && wholePi.Crust.Name != "NONE")
             {
             <div>
-                @wholePi.Crust.Name
+                <span>CRUST: </span>@wholePi.Crust.Name
             </div>
             }
             else
@@ -70,12 +75,11 @@
                 foreach (var accessory in wholePi.ALaModes)
                 {
                 <div>
-                    @accessory.Name
+                    <span>A LA MODE: </span>@accessory.Name
                     @{
                         int currentAccessory = accessory.AccessoryId;
                         theAccessories.Add(currentAccessory);
                     }
-                    
                 </div>
                 }
             }
@@ -86,7 +90,7 @@
             </div>
             }
 
-            //<input type="number" min="0" max="10" class="form-control" value="@wholePi.Quantity" name="@("CartProducts[" + i + "].Quantity")" />
+            <input type="number" min="1" max="10" class="form-control" value="@wholePi.Quantity" name="@("wholePi[" + wholePi.WholePiId + "].Quantity")" />
             
             @Html.ActionLink("EditPiTrial", "Edit", "Pi",
            routeValues: new { @wholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiBoard = wholePi.Pi.PiId },
@@ -101,19 +105,28 @@
            htmlAttributes: new { @class = "btn btn-default" })
 
             @Html.ActionLink("EditCaseTrial", "EditCases", "Accessory",
-           protocol: null,
-           hostName: null,
-           fragment: "picases",
            routeValues: new { @WholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiCaseId = wholePi.Crust.PiCaseId },
-           htmlAttributes: new { @class = "btn btn-primary" })
+           htmlAttributes: new { @class = "btn btn-default" })
 
-            @Html.ActionLink("Remove", "Index", "Cart", null, new { @class = "btn btn-default" })
+            @Html.ActionLink("Remove", "Index", "Cart", null, new { @class = "btn btn-primary" })
 
         <div>
             @wholePi.Price
         </div>
         <hr />
-        }
-    }
+                            }
+                        }
+                        <div>
+                            <span>SUBTOTAL: </span>@subTotal
+                        </div>
+                        <div>
+                            <span>S&H: </span>@shippingAndHandling
+                        </div>
+                        <div>
+                            <span>TAX: </span>@tax
+                        </div>
+                        <div>
+                            <span>TOTAL: </span>@(tax + subTotal + (decimal)shippingAndHandling)
+                        </div>
 }
 

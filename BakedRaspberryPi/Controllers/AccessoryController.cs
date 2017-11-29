@@ -170,77 +170,86 @@ namespace BakedRaspberryPi.Controllers
         [HttpPost]
         public ActionResult Index(FormCollection collection, int? value, string CurrentPiId)
         {
-            Guid cartId;
-            Cart c = null;
-            string[] accessoriesArray = collection["Accessories"].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            Guid cartId = Guid.Parse(Request.Cookies["cartId"].Value);
+            Cart c = db.Carts.Find(cartId);
+            int WholePiToBeEdited = 0;
+            decimal priceToBeDeducted = 0m;
             bool accessoriesHaveBeenAdded = false;
             bool accessoriesAreBeingEdited = false;
             List<int> previousAccessories = new List<int>();
             bool casesAreBeingEdited = false;
+            int[] accessoriesArray;
 
-            for (var i = 0; i < accessoriesArray.Length; i += 1)
+            if (collection["Accessories"] != null)
             {
-                if (accessoriesArray[i] != "false")
-                {
-                    accessoriesHaveBeenAdded = true;
-                }
+
+                accessoriesArray = collection["Accessories"].Split(',').Select(Int32.Parse).ToArray();
+            }
+            else
+            {
+                List<int> temporaryList = new List<int>();
+                accessoriesArray = temporaryList.ToArray();
+            }
+
+
+            // check if any accessories are currently being added on this submit
+            if (accessoriesArray.Any())
+            {
+                accessoriesHaveBeenAdded = true;
             }
             
-            if (Request.Cookies.AllKeys.Contains("cartId"))
+            if (accessoriesArray.Any())
+            // set a variable of which wholePi is to be edited
+            foreach (var currentWholePi in c.WholePis)
             {
-                cartId = Guid.Parse(Request.Cookies["cartId"].Value);
-                c = db.Carts.Find(cartId);
-            }
-            if (c == null)
-            {
-                c = new Cart();
-                cartId = Guid.NewGuid();
-                c.CartId = cartId;
-                db.Carts.Add(c);
-                db.SaveChanges();
-                Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
-            }
-            if (c.WholePis == null)
-            {
-                c.WholePis = new List<WholePi>();
-            }
-
-            foreach (var checkAccessory in c.WholePis)
-            {
-                if (checkAccessory.IsEdit == true)
+                if (currentWholePi.IsEdit == true)
                 {
-                    accessoriesAreBeingEdited = true;
+                    WholePiToBeEdited = currentWholePi.WholePiId;
+                    currentWholePi.IsEdit = false;
                 }
             }
-
+            //WholePiToBeEdited = c.WholePis.First(x => x.EditPreviousId != 0).WholePiId;
+            
+            
+            // check if it is the accessories being edited (as opposed to the piCases)
+            // and add to the previousAccessoires List which accessories were already in this wholePi
+            // and total up the price of those previous accessories.
             foreach (var currentAccessory in db.Accessories)
             {
                 if (currentAccessory.IsEdit == true)
                 {
+                    accessoriesAreBeingEdited = true;
                     previousAccessories.Add(currentAccessory.AccessoryId);
+                    priceToBeDeducted += currentAccessory.Price;
+                    currentAccessory.IsEdit = false;
                 }
             }
 
-            WholePi currentPi = c.WholePis.FirstOrDefault();
-            if (currentPi == null)
+            // Pull up the correct currentPi
+            WholePi currentPi;
+            if (WholePiToBeEdited != 0)
             {
-                currentPi = new WholePi();
-                c.WholePis.Add(currentPi);
+                currentPi = c.WholePis.FirstOrDefault(x => x.WholePiId == WholePiToBeEdited);
             }
+            else
+            {
+                currentPi = c.WholePis.FirstOrDefault();
+            }
+            
+            if (accessoriesAreBeingEdited)
+            {
+                currentPi.ALaModes.Clear();
+            }
+
 
             if (accessoriesHaveBeenAdded)
             {
                 for (int i = 0; i < accessoriesArray.Length; i += 1)
                 {
-                    if (accessoriesArray[i] != "false")
-                    {
-                        Accessory currentAccessory = new Accessory();
-                        int accessoryIDFromArray = Int32.Parse(accessoriesArray[i]);
-                        currentAccessory = db.Accessories.First(x => x.AccessoryId == accessoryIDFromArray);
-                        currentPi.ALaModes.Add(currentAccessory);
-                        currentPi.Price += currentAccessory.Price;
-                    }
+                    currentPi.ALaModes.Add(db.Accessories.Find(accessoriesArray[i]));
                 }
+                currentPi.Price += currentPi.ALaModes.Sum(x => x.Price);
+                currentPi.Price -= priceToBeDeducted;
             }
             else
             {
@@ -248,21 +257,28 @@ namespace BakedRaspberryPi.Controllers
                 currentAccessory = db.Accessories.Find(1);
                 currentPi.ALaModes.Add(currentAccessory);
             }
+            
 
-            if (value == null)
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            if (!accessoriesAreBeingEdited)
             {
-                currentPi.Crust = db.PiCases.Find(1);
-            }
-            else
-            {
-                currentPi.Crust = db.PiCases.Find(value);
-                currentPi.Price += currentPi.Crust.Price;
+                if (value == null)
+                {
+                    currentPi.Crust = db.PiCases.Find(1);
+                }
+                else
+                {
+                    currentPi.Crust = db.PiCases.Find(value);
+                    currentPi.Price += currentPi.Crust.Price;
+                }
             }
 
             db.SaveChanges();
-
-            accessoriesArray = null;
-
+            
             return RedirectToAction("Index", "Cart");
 
         }
