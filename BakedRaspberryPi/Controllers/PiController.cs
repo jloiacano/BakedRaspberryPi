@@ -134,6 +134,7 @@ namespace BakedRaspberryPi.Controllers
             if (currentPi == null)
             {
                 currentPi = new WholePi();
+                currentPi.Quantity = 1;
                 c.WholePis.Add(currentPi);
             }
 

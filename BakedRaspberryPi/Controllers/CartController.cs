@@ -40,17 +40,23 @@ namespace BakedRaspberryPi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(Cart model)
         {
-            var cart = db.Carts.Find(model.CartId);
-            for (int i = 0; i < model.WholePis.Count; i++)
-            {
-                //Change this to fit my model
-                decimal Total = cart.WholePis.Sum(x => x.Price);
-                //cart.CartProducts.ElementAt(i).Quantity = model.CartProducts.ElementAt(i).Quantity;
-            }
+            return View(model);
+        }
+        
+        public ActionResult Remove(int toBeRemoved, Guid theCartId)
+        {
+            Cart theCart = db.Carts.Find(theCartId);
+            theCart.WholePis.Remove(theCart.WholePis.FirstOrDefault(x => x.WholePiId == toBeRemoved));
             db.SaveChanges();
-            return View(cart);
+            return RedirectToAction("Index", "Cart");
         }
 
-        
+        public ActionResult UpdateQuantities(int howMany, int wholePiToBeUpdated, Guid theCartId)
+        {
+            var theCart = db.Carts.Find(theCartId);
+            theCart.WholePis.ElementAt(wholePiToBeUpdated).Quantity = howMany;
+            db.SaveChanges();
+            return RedirectToAction("Index", "Cart");
+        }
     }
 }
