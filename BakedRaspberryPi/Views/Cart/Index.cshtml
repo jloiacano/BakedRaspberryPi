@@ -8,6 +8,7 @@
     var subTotal = (double)theCart.Sum(x => x.Price * x.Quantity);
     var shippingAndHandling = (double)theCart.Sum(x => x.Quantity * 1.5);
     var tax = (double)(theCart.Sum(x => x.Price * x.Quantity) * 0.1025m);
+    int i = -1;
 
 }
 
@@ -32,7 +33,9 @@
         @Html.AntiForgeryToken()
         foreach (var wholePi in theCart)
         {
-            if (wholePi.Pi != null && wholePi.Pi.Name != "" && wholePi.Pi.Name != "NONE")
+            i += 1;
+            
+            if (wholePi.Pi != null && (!(Object.ReferenceEquals(null, wholePi.Pi.Name))) && wholePi.Pi.Name != "" && wholePi.Pi.Name != "NONE")
             {
                 <div>
                     <span>PI: </span>@wholePi.Pi.Name
@@ -45,7 +48,7 @@
                 </div>
             }
 
-            if (wholePi.Filling != null && wholePi.Filling.Name != "" && wholePi.Filling.Name != "NONE")
+            if (wholePi.Filling != null && (!(Object.ReferenceEquals(null, wholePi.Filling.Name))) && wholePi.Filling.Name != "" && wholePi.Filling.Name != "NONE")
             {
                 <div>
                     <span>FILLING: </span>@wholePi.Filling.Name
@@ -58,7 +61,7 @@
                 </div>
             }
 
-            if (wholePi.Crust != null && wholePi.Crust.Name != "" && wholePi.Crust.Name != "NONE")
+            if (wholePi.Crust != null && (!(Object.ReferenceEquals(null, wholePi.Crust.Name))) && wholePi.Crust.Name != "" && wholePi.Crust.Name != "NONE")
             {
                 <div>
                     <span>CRUST: </span>@wholePi.Crust.Name
@@ -87,12 +90,11 @@
                     @Html.ActionLink("Add A La Modes", "Index", "Accessory", null, new { @class = "btn btn-primary" })
                 </div>
             }
-            for (int i = 0; i < Model.WholePis.Count; i++)
-            {
+            
                 <input type="hidden" value="@wholePi.WholePiId" name="@("WholePis[" + i + "].WholePiId")" />
                 <input type="number" min="1" max="10" class="form-control" value="@wholePi.Quantity" name="@("WholePis[" + i + "].Quantity" )" />
                 <!--NOTE TO SELF: Keep in mind naming convention of "name=" so that the post will send the model correctly to the Post funtion.-->
-            }
+           
                             @Html.ActionLink("Update Quantities (seperate function)", "UpdateQuantities", "Cart",
                            routeValues: new { @wholePiToBeUpdated = wholePi.WholePiId, @theCartId = Model.CartId },
                            htmlAttributes: new { @class = "btn btn-danger" })
