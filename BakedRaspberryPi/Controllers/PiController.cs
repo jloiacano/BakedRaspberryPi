@@ -138,8 +138,12 @@ namespace BakedRaspberryPi.Controllers
             if (currentPi == null)
             {
                 currentPi = new WholePi();
-                currentPi.Quantity = 1;
                 c.WholePis.Add(currentPi);
+            }
+
+            if (currentPi.Quantity == 0)
+            {
+                currentPi.Quantity = 1;
             }
 
             if (thePiBoardId == null)

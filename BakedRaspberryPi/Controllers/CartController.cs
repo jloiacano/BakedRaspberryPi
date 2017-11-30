@@ -38,7 +38,7 @@ namespace BakedRaspberryPi.Controllers
         // POST: Cart
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(Models.Cart sentCart)
+        public ActionResult Index(Cart sentCart)
         {
 
             //var cart = db.Carts.Find(model.ID);
@@ -49,11 +49,6 @@ namespace BakedRaspberryPi.Controllers
             //db.SaveChanges();
 
             var theDBCart = db.Carts.Find(sentCart.CartId);
-
-            foreach (var aWholPi in sentCart.WholePis)
-            {
-                Console.WriteLine();
-            }
             
             for (int i = 0; i < sentCart.WholePis.Count; i++)
             {
@@ -72,10 +67,16 @@ namespace BakedRaspberryPi.Controllers
             return RedirectToAction("Index", "Cart");
         }
 
-        public ActionResult UpdateQuantities(int howMany, int wholePiToBeUpdated, Guid theCartId)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateQuantities(FormCollection collection, int wholePiToBeUpdated, Guid theCartId)
         {
             var theCart = db.Carts.Find(theCartId);
-            theCart.WholePis.ElementAt(wholePiToBeUpdated).Quantity = howMany;
+            WholePi wholePiToChangeQuantityOf = theCart.WholePis.First(x => x.WholePiId == wholePiToBeUpdated);
+            var theQuantityToUpdateTo = collection[""];
+                // ("wholePi[" + wholePiToBeUpdated.ToString() + "].Quantity")
+
+            wholePiToChangeQuantityOf.Quantity = 2;
             db.SaveChanges();
             return RedirectToAction("Index", "Cart");
         }
