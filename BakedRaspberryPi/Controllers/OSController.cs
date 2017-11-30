@@ -113,6 +113,7 @@ namespace BakedRaspberryPi.Controllers
                 Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
             }
 
+            // Set a list of wholePis or find which wholepi is being edited
             if (c.WholePis == null)
             {
                 c.WholePis = new List<WholePi>();
@@ -134,22 +135,29 @@ namespace BakedRaspberryPi.Controllers
             {
                 currentPi = c.WholePis.FirstOrDefault(x => x.WholePiId == WholePiToBeEdited);
             }
-            else
+            else if (c.CurrentPiId == 0)
             {
                 currentPi = c.WholePis.FirstOrDefault();
             }
+            else
+            {
+                currentPi = c.WholePis.First(x => x.WholePiId == c.CurrentPiId);
+            }
 
+            // Get the price to be deducted during the edit
             if (!(Object.ReferenceEquals(null, currentPi)) && currentPi.Filling != null && currentPi.Filling.Price != 0m)
             {
                 priceToBeDeducted = currentPi.Filling.Price;
             }
 
+            // Set currentPi to a blank WholePi
             if (currentPi == null)
             {
                 currentPi = new WholePi();
                 c.WholePis.Add(currentPi);
             }
 
+            // If no OS was chosen, set it to 1 (null), or find the chosen OS and set it
             if (value == null)
             {
                 currentPi.Filling = db.OSs.Find(1);

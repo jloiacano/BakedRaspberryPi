@@ -38,9 +38,30 @@ namespace BakedRaspberryPi.Controllers
         // POST: Cart
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(Cart model)
+        public ActionResult Index(Models.Cart sentCart)
         {
-            return View(model);
+
+            //var cart = db.Carts.Find(model.ID);
+            //for (int i = 0; i < model.CartProducts.Count; i++)
+            //{
+            //    cart.CartProducts.ElementAt(i).Quantity = model.CartProducts.ElementAt(i).Quantity;
+            //}
+            //db.SaveChanges();
+
+            var theDBCart = db.Carts.Find(sentCart.CartId);
+
+            foreach (var aWholPi in sentCart.WholePis)
+            {
+                Console.WriteLine();
+            }
+            
+            for (int i = 0; i < sentCart.WholePis.Count; i++)
+            {
+                var theCartsWholePi = sentCart.WholePis.ElementAt(i);
+                var theDBsWholePi = theDBCart.WholePis.Where(x => x.WholePiId == theCartsWholePi.WholePiId);
+            }
+            db.SaveChanges();
+            return View(sentCart);
         }
         
         public ActionResult Remove(int toBeRemoved, Guid theCartId)
@@ -57,6 +78,23 @@ namespace BakedRaspberryPi.Controllers
             theCart.WholePis.ElementAt(wholePiToBeUpdated).Quantity = howMany;
             db.SaveChanges();
             return RedirectToAction("Index", "Cart");
+        }
+
+        public ActionResult AddAnotherWholePi(Guid theCartId)
+        {
+            Cart theCart = db.Carts.Find(theCartId);
+            WholePi aNewWholePi = new WholePi();
+            theCart.WholePis.Add(aNewWholePi);
+            if (theCart.CurrentPiId == 0)
+            {
+                theCart.CurrentPiId = 2;
+            }
+            else
+            {
+                theCart.CurrentPiId += 1;
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index", "Pi");
         }
     }
 }

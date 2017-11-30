@@ -173,32 +173,29 @@ namespace BakedRaspberryPi.Controllers
             Guid cartId = Guid.Parse(Request.Cookies["cartId"].Value);
             Cart c = db.Carts.Find(cartId);
             int WholePiToBeEdited = 0;
-            decimal priceToBeDeducted = 0m;
+            decimal accessoriesPriceToBeDeducted = 0m;
+            decimal casesPriceToBeDeducted = 0m;
             bool accessoriesHaveBeenAdded = false;
             bool accessoriesAreBeingEdited = false;
             List<int> previousAccessories = new List<int>();
             bool casesAreBeingEdited = false;
             int[] accessoriesArray;
 
+            #region set the vars
+            // if there are accessories checked on the page, set them to accessoriesArray.
+            // Otherwise set accessories array to an empty array.
             if (collection["Accessories"] != null)
             {
 
                 accessoriesArray = collection["Accessories"].Split(',').Select(Int32.Parse).ToArray();
+                accessoriesHaveBeenAdded = true;
             }
             else
             {
                 List<int> temporaryList = new List<int>();
                 accessoriesArray = temporaryList.ToArray();
             }
-
-
-            // check if any accessories are currently being added on this submit
-            if (accessoriesArray.Any())
-            {
-                accessoriesHaveBeenAdded = true;
-            }
             
-            if (accessoriesArray.Any())
             // set a variable of which wholePi is to be edited
             foreach (var currentWholePi in c.WholePis)
             {
@@ -207,49 +204,68 @@ namespace BakedRaspberryPi.Controllers
                     WholePiToBeEdited = currentWholePi.WholePiId;
                     currentWholePi.IsEdit = false;
                 }
-            }
-            //WholePiToBeEdited = c.WholePis.First(x => x.EditPreviousId != 0).WholePiId;
+            }            
             
-            
-            // check if it is the accessories being edited (as opposed to the piCases)
-            // and add to the previousAccessoires List which accessories were already in this wholePi
-            // and total up the price of those previous accessories.
-            foreach (var currentAccessory in db.Accessories)
+            if (WholePiToBeEdited != 0)
             {
-                if (currentAccessory.IsEdit == true)
+                // check if it is the accessories being edited (as opposed to the piCases)
+                // and add to the previousAccessoires List which accessories were already in this wholePi
+                // and total up the price of those previous accessories and reset the IsEdit on it.
+                foreach (var currentAccessory in db.Accessories)
                 {
-                    accessoriesAreBeingEdited = true;
-                    previousAccessories.Add(currentAccessory.AccessoryId);
-                    priceToBeDeducted += currentAccessory.Price;
-                    currentAccessory.IsEdit = false;
+                    if (currentAccessory.IsEdit == true)
+                    {
+                        accessoriesAreBeingEdited = true;
+                        previousAccessories.Add(currentAccessory.AccessoryId);
+                        accessoriesPriceToBeDeducted += currentAccessory.Price;
+                        currentAccessory.IsEdit = false;
+                    }
+                }
+
+                // check if it is the piCases that are being edited, and if so, set the price to be deducted
+                // and reset the IsEdit on it.
+                foreach (var currentWholePi in db.WholePis)
+                {
+                    if (currentWholePi.Crust.IsEdit == true)
+                    {
+                        casesAreBeingEdited = true;
+                        casesPriceToBeDeducted += currentWholePi.Crust.Price;
+                        currentWholePi.Crust.IsEdit = false;
+                    }
                 }
             }
+            #endregion
 
+            #region get the WholePi
             // Pull up the correct currentPi
             WholePi currentPi;
             if (WholePiToBeEdited != 0)
             {
                 currentPi = c.WholePis.FirstOrDefault(x => x.WholePiId == WholePiToBeEdited);
             }
-            else
+            else if (c.CurrentPiId == 0)
             {
                 currentPi = c.WholePis.FirstOrDefault();
             }
-            
+            else
+            {
+                currentPi = c.WholePis.First(x => x.WholePiId == c.CurrentPiId);
+            }
+
             if (accessoriesAreBeingEdited)
             {
                 currentPi.ALaModes.Clear();
             }
-
-
-            if (accessoriesHaveBeenAdded)
+            #endregion
+            
+            if (accessoriesHaveBeenAdded && !casesAreBeingEdited)
             {
                 for (int i = 0; i < accessoriesArray.Length; i += 1)
                 {
                     currentPi.ALaModes.Add(db.Accessories.Find(accessoriesArray[i]));
                 }
                 currentPi.Price += currentPi.ALaModes.Sum(x => x.Price);
-                currentPi.Price -= priceToBeDeducted;
+                currentPi.Price -= accessoriesPriceToBeDeducted;
             }
             else
             {
@@ -274,6 +290,7 @@ namespace BakedRaspberryPi.Controllers
                 {
                     currentPi.Crust = db.PiCases.Find(value);
                     currentPi.Price += currentPi.Crust.Price;
+                    currentPi.Price -= casesPriceToBeDeducted;
                 }
             }
 

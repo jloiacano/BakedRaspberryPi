@@ -121,9 +121,13 @@ namespace BakedRaspberryPi.Controllers
             {
                 currentPi = c.WholePis.FirstOrDefault(x => x.WholePiId == WholePiToBeEdited);
             }
-            else
+            else if (c.CurrentPiId == 0)
             {
                 currentPi = c.WholePis.FirstOrDefault();
+            }
+            else
+            {
+                currentPi = c.WholePis.First(x => x.WholePiId == c.CurrentPiId);
             }
 
             if (!(Object.ReferenceEquals(null, currentPi)) && currentPi.Pi != null && currentPi.Pi.Price != 0m)
