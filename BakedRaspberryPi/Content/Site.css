@@ -19,6 +19,45 @@ body {
     color: rgba(51, 51, 51, 1.0);
 }
 
+.assembledPiPanel {
+    background-color: #d9534f;
+    border-radius: 1em;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.assembledPiPanelText {
+    font-weight: 700;
+}
+
+table {
+    width: 100%;
+    margin: 1em;
+    border-radius: 1em;
+}
+
+table tr {
+    margin-bottom: 1em;
+}
+
+address {
+    color: inherit;
+}
+
+    address a:link {
+        color: inherit;
+        text-decoration: inherit;
+    }
+
+    address a:hover {
+        cursor: help;
+    }
+
+    address a:visited {
+        color: inherit;
+        text-decoration: inherit;
+    }
+
 .textOnBackground {
     color: white;
 }
@@ -57,7 +96,7 @@ footer {
     }
 
     footer a:hover {
-        cursor: default;
+        cursor: url(../Images/raspberryPiSliceCursor.png) 26 20, auto;
     }
 
     footer a:visited {
