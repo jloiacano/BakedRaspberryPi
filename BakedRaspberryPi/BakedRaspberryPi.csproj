@@ -302,6 +302,7 @@
     <Content Include="Views\Shared\_navBar.cshtml" />
     <Content Include="Views\Shared\_currentPiWidget.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\SignIn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

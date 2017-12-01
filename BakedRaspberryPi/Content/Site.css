@@ -4,11 +4,24 @@
 }
 
 body {
+    background-image: url("../Images/raspberriesBackgroundDark.jpg");
     position: relative;
     min-height: 100%;
     padding-top: 50px;
 }
 
+.mainIndexImage {
+    margin: auto;
+}
+
+.jumbotron {
+    background-color: #d9534f;
+    color: rgba(51, 51, 51, 1.0);
+}
+
+.textOnBackground {
+    color: white;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -35,6 +48,7 @@ footer {
     width: 100%;
     height: 2em;
     padding-left: 1em;
+    color: dimgray;
 }
 
     footer a:link {

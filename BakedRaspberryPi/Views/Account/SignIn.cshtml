@@ -1,0 +1,29 @@
+﻿@{ 
+    ViewBag.Title = "Sign In";
+}
+
+@if (ViewBag.Error != null)
+{
+    foreach (string errorString in (IEnumerable<string>)ViewBag.Error)
+    {
+        <div class="alert alert-warning">Error: @errorString</div>
+    }
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">@TempData["Message"]</div>
+}
+
+@using (Html.BeginForm())
+{
+
+    <label for="piUserName">Username: </label><input type="text" name="piUserName" />
+    <label for="piPassword">Password: </label><input type="password" name="piPassword" />
+    <input type="submit" value="Sign In" />
+}
+
+<div>
+    @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("Forgot Password", "Forgot", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
+</div>

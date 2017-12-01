@@ -59,20 +59,6 @@ namespace BakedRaspberryPi.Controllers
             return RedirectToAction("Index", "Cart");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult UpdateQuantities(FormCollection collection, int wholePiToBeUpdated, Guid theCartId)
-        {
-            var theCart = db.Carts.Find(theCartId);
-            WholePi wholePiToChangeQuantityOf = theCart.WholePis.First(x => x.WholePiId == wholePiToBeUpdated);
-            var theQuantityToUpdateTo = collection[""];
-                // ("wholePi[" + wholePiToBeUpdated.ToString() + "].Quantity")
-
-            wholePiToChangeQuantityOf.Quantity = 2;
-            db.SaveChanges();
-            return RedirectToAction("Index", "Cart");
-        }
-
         public ActionResult AddAnotherWholePi(Guid theCartId)
         {
             Cart theCart = db.Carts.Find(theCartId);

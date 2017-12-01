@@ -21,7 +21,7 @@ namespace BakedRaspberryPi
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new Microsoft.Owin.PathString("/Account/LogOn")
+                LoginPath = new Microsoft.Owin.PathString("/Account/SignIn")
             });
 
             app.CreatePerOwinContext(() =>

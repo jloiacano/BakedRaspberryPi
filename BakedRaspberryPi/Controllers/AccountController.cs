@@ -84,13 +84,13 @@ namespace BakedRaspberryPi.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignIn(string userName, string password, bool? staySignedIn)
+        public ActionResult SignIn(string piUserName, string piPassword, bool? staySignedIn)
         {
             var userManager = HttpContext.GetOwinContext().GetUserManager<UserManager<IdentityUser>>();
-            var user = userManager.FindByName(userName);
+            var user = userManager.FindByName(piUserName);
             if (user != null)
             {
-                bool isPasswordValid = userManager.CheckPassword(user, password);
+                bool isPasswordValid = userManager.CheckPassword(user, piPassword);
                 if (isPasswordValid)
                 {
                     var claimsIdentity = userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);

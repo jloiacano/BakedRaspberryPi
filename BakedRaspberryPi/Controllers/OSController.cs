@@ -23,6 +23,7 @@ namespace BakedRaspberryPi.Controllers
         // GET: OSs
         public ActionResult Index()
         {
+            
             if (!db.Carts.Any())
             {
                 return RedirectToAction("Index", "Home");

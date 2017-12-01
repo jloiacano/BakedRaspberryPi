@@ -94,10 +94,6 @@
                 <input type="hidden" value="@wholePi.WholePiId" name="@("WholePis[" + i + "].WholePiId")" />
                 <input type="number" min="1" max="10" class="form-control" value="@wholePi.Quantity" name="@("WholePis[" + i + "].Quantity" )" />
                 <!--NOTE TO SELF: Keep in mind naming convention of "name=" so that the post will send the model correctly to the Post funtion.-->
-           
-                            @Html.ActionLink("Update Quantities (seperate function)", "UpdateQuantities", "Cart",
-                           routeValues: new { @wholePiToBeUpdated = wholePi.WholePiId, @theCartId = Model.CartId },
-                           htmlAttributes: new { @class = "btn btn-danger" })
 
                             @Html.ActionLink("EditPiTrial", "Edit", "Pi",
                     routeValues: new { @wholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiBoard = wholePi.Pi.PiId },

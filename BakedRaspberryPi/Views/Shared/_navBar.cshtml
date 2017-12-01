@@ -6,13 +6,44 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            @Html.ActionLink("Baked Raspberry Pi's", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <a href="@Url.Action("Index", "Home")">
+                <img src="~/Images/raspberry2.png" alt="Raspberry Pi" class="navbar-brand" />
+            </a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("Baked Raspberry Pis", "Index", "Home")</li>
                 <li>@Html.ActionLink("About", "About", "Home")</li>
                 <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        <a href="@Url.Action("Register", "Account")">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            <span>Log Out: @User.Identity.Name</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="@Url.Action("Register", "Account")">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span>Register</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("SignIn", "Account")">
+                            <span class="glyphicon glyphicon-log-in"></span>
+                            <span>Sign In</span>
+                        </a>
+                    </li>
+
+                }
+
             </ul>
         </div>
     </div>
