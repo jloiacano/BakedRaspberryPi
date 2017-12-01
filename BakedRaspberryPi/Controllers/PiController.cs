@@ -79,6 +79,25 @@ namespace BakedRaspberryPi.Controllers
             Cart c = null;
             int WholePiToBeEdited = 0;
             decimal priceToBeDeducted = 0m;
+            string[] piNames = new string[] {
+                "Very Raspberry Pi",
+                "Lemon-Raspberry Pi",
+                "Raspberry Custard Pi",
+                "Apple-Raspberry Pi",
+                "Nectarine-Raspberry Pi",
+                "Pear-Raspberry Pi",
+                "Low-Fat Raspberry Pi",
+                "Gluten Free Raspberry Pi",
+                "Organic Raspberry Pi",
+                "Sugar-Free Raspberry Pi",
+                "Figgy Raspberry Pi",
+                "Vegan Raspberry Pi",
+                "Amish Raspberry Custard Pi",
+                "Rhubarb-Raspberry Pi",
+                "Peach Raspberry Pi",
+                "Key-Lime and Raspberry Pi",
+                "Raspberry-Blueberry Pi"
+            };
 
             
 

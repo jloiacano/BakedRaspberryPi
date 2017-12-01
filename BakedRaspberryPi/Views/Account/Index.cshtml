@@ -1,0 +1,27 @@
+﻿
+@model Braintree.Customer
+@{
+    ViewBag.Title = "Index";
+}
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Message
+    </div>
+}
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+    </div>
+    @Html.HiddenFor(m => m.Id)
+    <input type="submit" value="Save Changes" class="btn btn-primary" />
+}
+@Html.ActionLink("Manage Saved Addresses", "Addresses", null, new { @class = "btn btn-default" })
+
+@Html.ActionLink("Manage Saved Credit Cards", "CreditCards", null, new { @class = "btn btn-default" })

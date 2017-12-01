@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace BakedRaspberryPi.Models
 {
@@ -34,7 +34,6 @@ namespace BakedRaspberryPi.Models
         [Required]
         [Display(Name = "Zip Code")]
         public string ShippingPostalCode { get; set; }
-        
 
     }
 }

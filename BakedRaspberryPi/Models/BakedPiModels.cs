@@ -101,6 +101,7 @@ namespace BakedRaspberryPi.Models
         public virtual OS Filling { get; set; }
         public virtual PiCase Crust { get; set; }
         public virtual ISet<Accessory> ALaModes { get; set; }
+        public string Name { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public bool IsEdit { get; set; }
@@ -115,8 +116,30 @@ namespace BakedRaspberryPi.Models
         public System.Guid CartId { get; set; }
 
         public virtual ICollection<WholePi> WholePis { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
 
         public int CurrentPiId { get; set; }
 
+    }
+
+    public class Order
+    {
+        [Key]
+        public System.Guid OrderId { get; set; }
+        public string TrackingNumber { get; set; }
+        public string Email { get; set; }
+        public string PurchaserName { get; set; }
+        public string ShippingAddress1 { get; set; }
+        public string ShippingCity { get; set; }
+        public string ShippingState { get; set; }
+        public string ShippingPostalCode { get; set; }
+        public decimal SubTotal { get; set; }
+        public decimal ShippingAndHandling { get; set; }
+        public decimal Tax { get; set; }
+        public System.DateTime DateCreated { get; set; }
+        public System.DateTime DateLastModified { get; set; }
+        public System.DateTime ShipDate { get; set; }
+
+        public virtual Cart Cart { get; set; }
     }
 }
