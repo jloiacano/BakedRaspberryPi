@@ -67,8 +67,64 @@ namespace BakedRaspberryPi.Controllers
                     Image = "/Images/Pi/pi3.jpg"
                 });
                 db.Pis.AddRange(pis);
-                db.SaveChanges();
             }
+
+            if (!db.OSs.Any())
+            {
+                List<OS> oss = new List<OS>();
+
+                oss.Add(new OS
+                {
+                    Name = "NONE",
+                    Description = "",
+                    Image = "",
+                    Price = 0m
+                });
+
+                oss.Add(new OS
+                {
+                    Name = "OSMC",
+                    Description = "The best Home Theater PC Option",
+                    Image = "/Images/OSs/osmc.png",
+                    Price = 5m
+                });
+
+                oss.Add(new OS
+                {
+                    Name = "Debian",
+                    Description = "The FreeBSD works on Pi too!",
+                    Image = "/Images/OSs/debian.jpg",
+                    Price = 5m
+                });
+
+                oss.Add(new OS
+                {
+                    Name = "Raspbian",
+                    Description = "Debian, but specifically ported to the Pi",
+                    Image = "/Images/OSs/raspbian.jpg",
+                    Price = 5m
+                });
+
+                oss.Add(new OS
+                {
+                    Name = "Arch Linux ARM",
+                    Description = "Linux, ported ARM systems",
+                    Image = "/Images/OSs/archlinux.png",
+                    Price = 5m
+                });
+
+                oss.Add(new OS
+                {
+                    Name = "Ubuntu",
+                    Description = "The most powerfull OS for the Pi (resource intensive)",
+                    Image = "/Images/OSs/ubuntu.svg",
+                    Price = 5m
+                });
+
+                db.OSs.AddRange(oss);
+            }
+
+            db.SaveChanges();
             return View(db.Pis.ToList());
         }
 
@@ -98,9 +154,7 @@ namespace BakedRaspberryPi.Controllers
                 "Key-Lime and Raspberry Pi",
                 "Raspberry-Blueberry Pi"
             };
-
             
-
             // if there's a cookie of the cartId, use the cart in the db with that cartId
             if (Request.Cookies.AllKeys.Contains("cartId"))
             {
@@ -190,19 +244,21 @@ namespace BakedRaspberryPi.Controllers
 
             if (thePiBoardId == null)
             {
+                currentPi.Filling = db.OSs.Find(1);
+                db.SaveChanges();
                 return RedirectToAction("Index", "Accessory");
             }
 
             return RedirectToAction("Index", "OS");
         }
 
-        public ActionResult Edit(WholePi WholePiPi, int wholePiToBeEditedId, int previousPiBoard)
+        public ActionResult Edit(WholePi WholePiPi, int wholePiToBeEditedId, int previous)
         {
             WholePi toEdit = db.WholePis.FirstOrDefault(x => x.WholePiId == wholePiToBeEditedId);
             toEdit.IsEdit = true;
             toEdit.EditPreviousId = wholePiToBeEditedId;
             toEdit.Pi.IsEdit = true;
-            toEdit.Pi.EditPreviousId = previousPiBoard;
+            toEdit.Pi.EditPreviousId = previous;
             db.SaveChanges();
             return RedirectToAction("Index", "Pi");
         }

@@ -7,14 +7,15 @@
     var subTotal = (double)theCart.Sum(x => x.Price * x.Quantity);
     var shippingAndHandling = (double)theCart.Sum(x => x.Quantity * 1.5);
     var tax = (double)(theCart.Sum(x => x.Price * x.Quantity) * 0.1025m);
+    var i = 1;
 }
 
 <div class="row">
     <div class="col-xs-12">
         <h2>Checkout</h2>
     </div>
-    <div class="col-xs-12 col-sm-6">
-        <table class="table table-striped">
+    <div class="col-xs-12 col-sm-6 assembledPiPanel">
+        <table class="table">
             <thead>
                 <tr>
                     <th>Item</th>
@@ -29,17 +30,18 @@
                 {
                     <tr>
                         <td>
-                            @wholePi.Name
+                            @("Baked Pi " + i + ":")
                         </td>
                         <td>
                             @wholePi.Quantity
 
                         </td>
                         <td>
-                            @wholePi.Price.ToString("C");
+                            @wholePi.Price.ToString("C")
                         </td>
                         <td>@((wholePi.Price * wholePi.Quantity).ToString("C"))</td>
                     </tr>
+                    i += 1;
                 }
             </tbody>
             <tfoot>
@@ -57,7 +59,7 @@
                 </tr>
                 <tr>
                     <th colspan="3">Total</th>
-                    <th>@(((subTotal * tax) + shippingAndHandling).ToString("C"))</th>
+                    <th>@((subTotal + tax + shippingAndHandling).ToString("C"))</th>
                 </tr>
             </tfoot>
         </table>

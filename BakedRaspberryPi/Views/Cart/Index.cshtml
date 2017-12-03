@@ -7,6 +7,7 @@
     var shippingAndHandling = (double)theCart.Sum(x => x.Quantity * 1.5);
     var tax = (double)(theCart.Sum(x => x.Price * x.Quantity) * 0.1025m);
     int i = -1;
+    WholePiAccessService makeStuff = new WholePiAccessService();
 }
 
         @if (theCart.Count == 0)
@@ -25,7 +26,7 @@
         <div class="row">
             <div class="col-md-8">
                 @using (Html.BeginForm())
-            {
+                {
                     @Html.HiddenFor(m => m.CartId)
                     @Html.AntiForgeryToken()
                     foreach (var wholePi in theCart)
@@ -38,9 +39,7 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.ActionLink("Edit Pi", "Edit", "Pi",
-                              routeValues: new { @wholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiBoard = wholePi.Pi.PiId },
-                              htmlAttributes: new { @class = "btn btn-danger" })
+                                            @Html.Raw(makeStuff.MakeACartEditButton("danger", "Pi", wholePi, wholePi.WholePiId, wholePi.Pi.PiId, "Edit Pi" ))
                                         </td>
                                         <td><span class="assembledPiPanelText assembledPiPiName">Pi: @wholePi.Pi.Name</span></td>
                                     </tr>
@@ -49,26 +48,39 @@
                                 {
                                     <tr>
                                         <td></td>
-                                        <td>@Html.ActionLink("Add a Pi", "Index", "Pi", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })</td>
+                                        <td>
+                                            @Html.Raw(makeStuff.MakeACartEditButton("primary", "Pi", wholePi, wholePi.WholePiId, null, "Add A Pi"))
+                                        </td>
                                     </tr>
                                 }
                                 <!-- OS -->
-                                @if (wholePi.Filling != null && (!(Object.ReferenceEquals(null, wholePi.Filling.Name))) && wholePi.Filling.Name != "NONE")
+                                @if (wholePi.Pi == null || (Object.ReferenceEquals(null, wholePi.Pi.Name)) || wholePi.Pi.Name == "NONE")
+                                {
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        @Html.Raw(makeStuff.MakeACartEditButton("primary\" disabled = \"disabled", "OS", wholePi, wholePi.WholePiId, null, "Add Some Filling"))
+                                    </td>
+                                </tr>
+                                }
+                                else if (wholePi.Filling != null && (!(Object.ReferenceEquals(null, wholePi.Filling.Name))) && wholePi.Filling.Name != "NONE")
                                 {
                                     <tr>
                                         <td>
-                                            @Html.ActionLink("Edit OS", "Edit", "OS",
-                              routeValues: new { @wholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousOs = wholePi.Filling.OSId },
-                              htmlAttributes: new { @class = "btn btn-danger" })
+                                            @Html.Raw(makeStuff.MakeACartEditButton("danger", "OS", wholePi, wholePi.WholePiId, wholePi.Filling.OSId, "Edit Filling"))
                                         </td>
-                                        <td><span class="assembledPiPanelText assembledOSPiName">Filling: @wholePi.Filling.Name</span></td>
+                                        <td>
+                                            <span class="assembledPiPanelText assembledOSPiName">Filling: @wholePi.Filling.Name</span>
+                                        </td>
                                     </tr>
                                 }
                                 else
                                 {
                                     <tr>
                                         <td></td>
-                                        <td>@Html.ActionLink("Add a Filling", "Index", "OS", null, new { @class = "btn btn-primary" })</td>
+                                        <td>
+                                            @Html.Raw(makeStuff.MakeACartEditButton("primary", "OS", wholePi, wholePi.WholePiId, null, "Add Some Filling"))
+                                        </td>
                                     </tr>
                                 }
                                 <!-- CASE -->
@@ -76,9 +88,7 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.ActionLink("Edit Case", "EditCases", "Accessory",
-                              routeValues: new { @WholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiCaseId = wholePi.Crust.PiCaseId },
-                              htmlAttributes: new { @class = "btn btn-danger" })
+                                            @Html.Raw(makeStuff.MakeACartEditButton("danger", "Accessory", wholePi, wholePi.WholePiId, wholePi.Crust.PiCaseId, "Edit Crust"))
                                         </td>
                                         <td><span class="assembledPiPanelText assembledCasePiName">Crust: @wholePi.Crust.Name</span></td>
                                     </tr>
@@ -88,9 +98,7 @@
                                     <tr>
                                         <td></td>
                                         <td>
-                                            @Html.ActionLink("Add A Crust", "EditCases", "Accessory",
-                              routeValues: new { @WholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousPiCaseId = wholePi.Crust.PiCaseId },
-                              htmlAttributes: new { @class = "btn btn-primary" })
+                                            @Html.Raw(makeStuff.MakeACartEditButton("primary", "Accessory", "Edit", wholePi, wholePi.WholePiId, null, "Add a Crust"))
                                         </td>
                                     </tr>
                                 }
@@ -104,9 +112,7 @@
                                         {
                                             <tr>
                                                 <td>
-                                                    @Html.ActionLink("Edit Accessories", "EditAccessories", "Accessory",
-                              routeValues: new { @wholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousAccessoriesIds = string.Join(",", wholePi.ALaModes.Select(x => x.AccessoryId)) },
-                              htmlAttributes: new { @class = "btn btn-danger" })
+                                                    @Html.Raw(makeStuff.MakeACartEditButton("danger", "Accessory", "EditAccessories", wholePi, wholePi.WholePiId, (string.Join(",", wholePi.ALaModes.Select(x => x.AccessoryId))), "Edit A La Modes"))                                                    
                                                 </td>
                                                 <td><span class="assembledPiPanelText assembledPiALaModeName">A La Mode @aLaModeNumber: @alamode.Name</span></td>
                                             </tr>
@@ -125,16 +131,29 @@
                                 {
                                     <tr>
                                         <td></td>
-                                        <td>@Html.ActionLink("Add A La Modes", "EditAccessories", "Accessory",
-                              routeValues: new { @wholePiPi = wholePi, @wholePiToBeEditedId = wholePi.WholePiId, @previousAccessoriesIds = string.Join(",", wholePi.ALaModes.Select(x => x.AccessoryId)) },
-                              htmlAttributes: new { @class = "btn btn-primary" })</td>
+                                        <td>
+                                            @Html.Raw(makeStuff.MakeACartEditButton("primary", "Accessory", "EditAccessories", wholePi, wholePi.WholePiId, null, "Add A La Modes"))
+                                        </td>
                                     </tr>
                                 }
+                                <!-- price display-->
+                                <tr>
+                                    <td>
+                                        <span>Assembled Price:</span>
+                                    </td>
+                                    <td>
+                                        @wholePi.Price
+                                    </td>
+                                </tr>
                                 <!-- quantity input -->
                                 <tr>
-                                    <td colspan="3">
+                                    <td>
+                                        <input type="submit" value="Quantity:" class="btn btn-danger" />
+                                    </td>
+                                    <td>
                                         <input type="hidden" value="@wholePi.WholePiId" name="@("WholePis[" + i + "].WholePiId")" />
-                                        <input type="number" min="1" max="10" class="form-control" value="@wholePi.Quantity" name="@("WholePis[" + i + "].Quantity")" />
+                                        <input type="number" min="1" max="10" class="form-control cartQuantitytableDisplay" value="@wholePi.Quantity" name="@("WholePis[" + i + "].Quantity")" />
+                                        <input type="submit" value="Update" class="btn btn-primary cartQuantitytableDisplay" />
                                     </td>
                                 </tr>
                                 <!-- REMOVE / TOTAL -->
@@ -144,20 +163,20 @@
                               routeValues: new { @toBeRemoved = wholePi.WholePiId, @theCartId = Model.CartId },
                               htmlAttributes: new { @class = "btn btn-primary" })
                                     </td>
-                                    <td><span class="assembledPiPanelText assembledPiPrice">Price: @wholePi.Price</span></td>
+                                    <td><span class="assembledPiPanelText assembledPiPrice">Price: @(wholePi.Price * wholePi.Quantity)</span></td>
                                 </tr>
                             </table>
                         </div>
                     }
-                }
-                <div>
-                    @Html.ActionLink("Add Another Baked Pi", "AddAnotherWholePi", "Cart",
+                    <div>
+                        @Html.ActionLink("Add Another Baked Pi", "AddAnotherWholePi", "Cart",
            routeValues: new { @theCartId = Model.CartId },
            htmlAttributes: new { @class = "btn btn-primary" })
 
 
-                    <input type="submit" value="Update Quantities" class="btn btn-danger" />
-                </div>
+                        <input type="submit" value="Update Quantities" class="btn btn-danger" />
+                    </div>
+                }
             </div>
     <div class="col-md-4 assembledPiPanel assembledPiPanelText">
                 <div>

@@ -141,5 +141,21 @@ namespace BakedRaspberryPi.Models
         public System.DateTime ShipDate { get; set; }
 
         public virtual Cart Cart { get; set; }
+        public virtual Customer Customer { get; set; }
+    }
+
+    public class Customer
+    {
+        [Key]
+        public System.Guid CustomerId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string AddressStreet { get; set; }
+        public string AddressCity { get; set; }
+        public string AddressState { get; set; }
+        public string AddressPostalCode { get; set; }
+
+        public virtual ICollection<Order> Order { get; set; }
     }
 }

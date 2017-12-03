@@ -4,6 +4,7 @@
     ViewBag.Title = "A La Mode your Pi";
     bool isAccessoryEdit = false;
     bool isCaseEdit = false;
+    
     foreach (var accessory in Model.Accessories)
     {
         if (accessory.IsEdit == true)
@@ -20,7 +21,7 @@
         }
     }
 
-}
+    }
 
 @using (Html.BeginForm())
 {

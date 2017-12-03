@@ -55,7 +55,7 @@ namespace BakedRaspberryPi.Controllers
         {
             var userManager = HttpContext.GetOwinContext().GetUserManager<UserManager<IdentityUser>>();
             IdentityUser user = new IdentityUser { Email = username, UserName = username };
-
+                        
             IdentityResult result = userManager.Create(user, password);
             if (result.Succeeded)
             {
@@ -87,6 +87,7 @@ namespace BakedRaspberryPi.Controllers
         public ActionResult SignIn(string piUserName, string piPassword, bool? staySignedIn)
         {
             var userManager = HttpContext.GetOwinContext().GetUserManager<UserManager<IdentityUser>>();
+
             var user = userManager.FindByName(piUserName);
             if (user != null)
             {
