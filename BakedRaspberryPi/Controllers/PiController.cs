@@ -154,7 +154,9 @@ namespace BakedRaspberryPi.Controllers
                 "Key-Lime and Raspberry Pi",
                 "Raspberry-Blueberry Pi"
             };
+
             
+
             // if there's a cookie of the cartId, use the cart in the db with that cartId
             if (Request.Cookies.AllKeys.Contains("cartId"))
             {

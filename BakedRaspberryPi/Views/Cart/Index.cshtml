@@ -7,7 +7,7 @@
     var shippingAndHandling = (double)theCart.Sum(x => x.Quantity * 1.5);
     var tax = (double)(theCart.Sum(x => x.Price * x.Quantity) * 0.1025m);
     int i = -1;
-    WholePiAccessService makeStuff = new WholePiAccessService();
+    EditButtonHelperService makeStuff = new EditButtonHelperService();
 }
 
         @if (theCart.Count == 0)

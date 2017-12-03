@@ -7,64 +7,12 @@ using System.Web.Mvc;
 
 namespace BakedRaspberryPi
 {
-    public class WholePiAccessService : Controller
+    public class EditButtonHelperService : Controller
     {
-        protected BakedPiModels db = new BakedPiModels();
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
         /// <summary>
-        /// This function finds a whole Pi in a database and returns that database.
+        /// This function returns an HTML string for either an Edit Button or an Add Button for components of a WholePi.
+        /// The button will automatically call the "Edit" Action of the specified Controller.
         /// </summary>
-        public WholePi FindWholePi()
-        {
-            WholePi WholePiToReturn = new WholePi();
-
-
-            Guid cartId;
-            Cart c = null;
-
-            // if there's a cookie of the cartId, use the cart in the db with that cartId
-            if (Request.Cookies.AllKeys.Contains("cartId"))
-            {
-                cartId = Guid.Parse(Request.Cookies["cartId"].Value);
-                c = db.Carts.Find(cartId);
-            }
-
-            // There must not be a cookie of the cart, make a new cart
-            if (c == null)
-            {
-                c = new Cart();
-                cartId = Guid.NewGuid();
-                c.CartId = cartId;
-                db.Carts.Add(c);
-                db.SaveChanges();
-                Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
-            }
-
-            if (c.WholePis == null)
-            {
-                c.WholePis = new List<WholePi>();
-            }
-            WholePi currentPi = c.WholePis.FirstOrDefault();
-            if (currentPi == null)
-            {
-                currentPi = new WholePi();
-                c.WholePis.Add(currentPi);
-            }
-
-
-
-
-            return WholePiToReturn;
-        }
-
         public string MakeACartEditButton(string buttonType, string controller, WholePi thePi, int theId, int? previous, string buttonText)
         {
             string stringToReturn;
@@ -96,7 +44,11 @@ namespace BakedRaspberryPi
 
             return stringToReturn;
         }
-
+        
+        /// <summary>
+        /// This function returns an HTML string for either an Edit Button or an Add Button for components of a WholePi.
+        /// It allows for the use of a specific Action within the Controller that is called.
+        /// </summary>
         public string MakeACartEditButton(string buttonType, string controller, string action, WholePi thePi, int theId, string previous, string buttonText)
         {
             string stringToReturn;
