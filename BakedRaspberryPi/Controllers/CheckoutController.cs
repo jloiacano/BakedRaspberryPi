@@ -33,6 +33,7 @@ namespace BakedRaspberryPi.Controllers
 
         // POST: Checkout
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(Models.CheckoutDetails model)
         {
             if (ModelState.IsValid)

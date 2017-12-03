@@ -69,6 +69,7 @@
         @using (Html.BeginForm())
         {
             <div class="alert alert-danger">
+                @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false)
             </div>
             <div class="form-group">

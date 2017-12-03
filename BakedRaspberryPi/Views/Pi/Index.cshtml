@@ -6,12 +6,7 @@
 
 @using (Html.BeginForm())
 {
-    <div class="stickyUnderNavBar">
-        <input type="submit" class="btn btn-primary" value="Add this to your baked Pi" />
-        <!--TODO make the button below add a null Pi to the current whole Pi-->
-
-        <input type="submit" class="btn btn-default" value="No thank you. I don't want any Pi." thePiBoardId="1" />
-    </div>
+        @Html.Partial("_currentPiWidget")
 
     <div class="row">
         @foreach (var pi in Model)

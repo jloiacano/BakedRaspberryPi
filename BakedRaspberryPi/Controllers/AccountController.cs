@@ -51,6 +51,7 @@ namespace BakedRaspberryPi.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Register(string username, string password)
         {
             var userManager = HttpContext.GetOwinContext().GetUserManager<UserManager<IdentityUser>>();
@@ -84,6 +85,7 @@ namespace BakedRaspberryPi.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SignIn(string piUserName, string piPassword, bool? staySignedIn)
         {
             var userManager = HttpContext.GetOwinContext().GetUserManager<UserManager<IdentityUser>>();
@@ -114,6 +116,7 @@ namespace BakedRaspberryPi.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(string email)
         {
             var userManager = HttpContext.GetOwinContext().GetUserManager<UserManager<IdentityUser>>();
@@ -140,6 +143,7 @@ namespace BakedRaspberryPi.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ResetPassword(string email, string token, string newPassword)
         {
 

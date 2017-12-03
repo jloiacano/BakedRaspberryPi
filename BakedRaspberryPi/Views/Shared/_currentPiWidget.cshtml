@@ -1,9 +1,9 @@
-﻿
-<!--TODO Stylize this stuff and do the displays listed below -->
+﻿@{ 
+    EditButtonHelperService buttonHelper = new EditButtonHelperService();
 
-
+}
 <div class="stickyUnderNavBar">
-    <input type="submit" class="btn btn-primary" value="Add this to your baked Pi" />
-    <!--TODO make the button below add a null OS to the current whole Pi-->
-    <input type="submit" class="btn btn-default" value="No filling in my Pi, thank you.'" />
+    <button type="submit" class="btn btn-primary form-control addBottomMargin addTopMargin"> Add this to your baked Pi </button>
 </div>
+
+<!-- TODO: try sticking this to the bottom of _navbar .....-->

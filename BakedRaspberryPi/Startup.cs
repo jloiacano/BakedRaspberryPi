@@ -26,7 +26,7 @@ namespace BakedRaspberryPi
 
             app.CreatePerOwinContext(() =>
             {
-                UserStore<IdentityUser> store = new UserStore<IdentityUser>();
+                UserStore<IdentityUser> store = new UserStore<IdentityUser>(new BakedPiModels());
                 UserManager<IdentityUser> manager = new UserManager<IdentityUser>(store)
                 {
                     UserTokenProvider = new EmailTokenProvider<IdentityUser>(),

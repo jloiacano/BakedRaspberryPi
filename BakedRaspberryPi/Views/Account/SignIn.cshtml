@@ -17,13 +17,46 @@
 
 @using (Html.BeginForm())
 {
-
-    <label for="piUserName">Username: </label><input type="text" name="piUserName" />
-    <label for="piPassword">Password: </label><input type="password" name="piPassword" />
-    <input type="submit" value="Sign In" />
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div class="col-sm-4 col-sm-offset-4 assembledPiPanel addTopMargin">
+            <form class="form-horizontal">
+                <div class="row">
+                    <div class="form-group form-horizontal addBottomMargin">
+                        <label class="control-label col-sm-3" for="email">Username:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="email" placeholder="Enter registered E-mail" name="piUserName">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group form-horizontal addBottomMargin">
+                        <label class="control-label col-sm-3" for="pwd">Password:</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="piPassword">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-info form-control">Sign In</button>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "form-control btn btn-danger signInButtons" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.ActionLink("Forgot Password", "Forgot", "Account", routeValues: null, htmlAttributes: new { @class = "form-control btn btn-danger signInButtons" })
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 }
 
-<div>
-    @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
-    @Html.ActionLink("Forgot Password", "Forgot", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
-</div>

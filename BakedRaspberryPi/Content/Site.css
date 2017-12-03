@@ -10,6 +10,10 @@ body {
     padding-top: 50px;
 }
 
+.centerIt {
+    margin: 0 auto;
+}
+
 .mainIndexImage {
     margin: auto;
 }
@@ -29,6 +33,44 @@ body {
 
 .assembledPiPanelText {
     font-weight: 700;
+}
+
+.userDropDownList {
+    background-color: dimgray;
+}
+
+.userDropDownListItem {
+    background-color: dimgray;
+    color: white;
+    padding: 1em;
+}
+
+text {
+    background-color: #ECA7A5;
+    color: black;
+}
+
+    text:empty {
+        background-color: #F5D2D1; /*#F5D2D1;*/
+        color: black;
+    }
+
+    text:focus {
+        background-color: #ECA7A5; /*#ECA7A5;*/
+        color: black;
+    }
+
+.addTopMargin {
+    margin-top: 1em;
+}
+
+.addBottomMargin {
+    margin-bottom: 4em;
+}
+
+.signInButtons {
+    border-color: #8B3532;
+    background-color: #AE423F;
 }
 
 table {
