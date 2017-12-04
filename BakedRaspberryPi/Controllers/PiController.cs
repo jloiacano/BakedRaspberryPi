@@ -235,7 +235,7 @@ namespace BakedRaspberryPi.Controllers
             currentPi.Price -= priceToBeDeducted;
             currentPi.Price += currentPi.Pi.Price;
             db.SaveChanges();
-            SendSimpleMessage();
+            //testSendSimpleMessage();
             
             if (currentPi.IsEdit == true)
             {               
@@ -268,7 +268,7 @@ namespace BakedRaspberryPi.Controllers
             return RedirectToAction("Index", "Pi");
         }
 
-        public static RestResponse SendSimpleMessage()
+        public static RestResponse testSendSimpleMessage()
         {
             string MailGunApiKey = System.Configuration.ConfigurationManager.AppSettings["Mailgun.ApiKey"];
             string MailGunPubKey = System.Configuration.ConfigurationManager.AppSettings["Mailgun.PubKey"];
