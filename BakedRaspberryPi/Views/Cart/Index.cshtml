@@ -139,10 +139,12 @@
                                 <!-- price display-->
                                 <tr>
                                     <td>
-                                        <span>Assembled Price:</span>
+                                        <button class="btn btn-danger">
+                                            <span class="assembledPiPanelText">Assembled Price:</span>
+                                        </button>
                                     </td>
                                     <td>
-                                        @wholePi.Price
+                                        <span class="assembledPiPanelText">@wholePi.Price.ToString("C")</span>
                                     </td>
                                 </tr>
                                 <!-- quantity input -->
@@ -163,7 +165,7 @@
                               routeValues: new { @toBeRemoved = wholePi.WholePiId, @theCartId = Model.CartId },
                               htmlAttributes: new { @class = "btn btn-primary" })
                                     </td>
-                                    <td><span class="assembledPiPanelText assembledPiPrice">Price: @(wholePi.Price * wholePi.Quantity)</span></td>
+                                    <td><span class="assembledPiPanelText assembledPiPrice">Price: @((wholePi.Price * wholePi.Quantity).ToString("C"))</span></td>
                                 </tr>
                             </table>
                         </div>

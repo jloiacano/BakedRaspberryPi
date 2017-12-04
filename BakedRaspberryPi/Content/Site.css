@@ -14,6 +14,20 @@ body {
     margin: 0 auto;
 }
 
+.padThat {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.marginizeThat {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.widenIt {
+    width: 100%;
+}
+
 .mainIndexImage {
     margin: auto;
 }
@@ -61,7 +75,7 @@ text {
     }
 
 .addTopMargin {
-    margin-top: 1em;
+    margin-top: 2em;
 }
 
 .addBottomMargin {

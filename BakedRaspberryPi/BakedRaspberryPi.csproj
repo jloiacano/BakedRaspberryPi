@@ -312,7 +312,6 @@
     <Content Include="Views\Accessory\Index.cshtml" />
     <Content Include="Views\OS\Index.cshtml" />
     <Content Include="Views\Pi\Index.cshtml" />
-    <Content Include="Views\PiCases\Index.cshtml" />
     <Content Include="Views\Shared\_piCases.cshtml" />
     <Content Include="Views\Shared\_accessories.cshtml" />
     <Content Include="Views\Shared\_currentWholePi.cshtml" />
