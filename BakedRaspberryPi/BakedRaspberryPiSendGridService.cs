@@ -2,10 +2,12 @@
 using Microsoft.AspNet.Identity;
 using System.Net.Mail;
 using System;
+using RestSharp;
+using RestSharp.Authenticators;
 
 namespace BakedRaspberryPi
 {
-    internal class BakedRaspberryPiEmailService : IIdentityMessageService
+    internal class BakedRaspberryPiSendGridService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
         {

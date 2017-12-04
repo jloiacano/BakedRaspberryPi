@@ -1,4 +1,6 @@
 ﻿using BakedRaspberryPi.Models;
+using RestSharp;
+using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -172,7 +174,7 @@ namespace BakedRaspberryPi.Controllers
                 c.CartId = cartId;
                 db.Carts.Add(c);
                 db.SaveChanges();
-                Response.Cookies.Add(new HttpCookie("cartId", cartId.ToString()));
+                Response.Cookies.Add(new System.Web.HttpCookie("cartId", cartId.ToString()));
             }
 
             if (c.WholePis == null)
@@ -233,6 +235,7 @@ namespace BakedRaspberryPi.Controllers
             currentPi.Price -= priceToBeDeducted;
             currentPi.Price += currentPi.Pi.Price;
             db.SaveChanges();
+            SendSimpleMessage();
             
             if (currentPi.IsEdit == true)
             {               
@@ -263,6 +266,30 @@ namespace BakedRaspberryPi.Controllers
             toEdit.Pi.EditPreviousId = previous;
             db.SaveChanges();
             return RedirectToAction("Index", "Pi");
+        }
+
+        public static RestResponse SendSimpleMessage()
+        {
+            string MailGunApiKey = System.Configuration.ConfigurationManager.AppSettings["Mailgun.ApiKey"];
+            string MailGunPubKey = System.Configuration.ConfigurationManager.AppSettings["Mailgun.PubKey"];
+            string MailGunSandBox = System.Configuration.ConfigurationManager.AppSettings["Mailgun.SandBox"];
+            string MailGunPostMan = System.Configuration.ConfigurationManager.AppSettings["Mailgun.PostMan"];
+            string MailGunTestRecipient = System.Configuration.ConfigurationManager.AppSettings["Mailgun.TestRecipient"];
+
+            RestClient client = new RestClient();
+            client.BaseUrl = new Uri("https://api.mailgun.net/v3");
+            client.Authenticator = new HttpBasicAuthenticator("api", MailGunApiKey);
+            RestRequest request = new RestRequest();
+            request.AddParameter("domain", MailGunSandBox, ParameterType.UrlSegment);
+            request.Resource = "{domain}/messages";
+            request.AddParameter("from", "Mailgun Sandbox <postmaster@" + MailGunSandBox + ">");
+            request.AddParameter("to", "RecipientName <" + MailGunTestRecipient + ">");
+            request.AddParameter("subject", "Testing MailGun");
+            request.AddParameter("text", "Testing MailGun");
+            request.Method = Method.POST;
+            RestResponse restResponse = (RestResponse)client.Execute(request);
+            return restResponse;
+            throw new NotImplementedException();
         }
     }
 }
