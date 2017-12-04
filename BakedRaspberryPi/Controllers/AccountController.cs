@@ -11,37 +11,14 @@ namespace BakedRaspberryPi.Controllers
 {
     public class AccountController : Controller
     {
+
+        BakedPiPaymentServices paymentServices = new BakedPiPaymentServices();
+
         // GET: Account
         [Authorize]
         public ActionResult Index()
         {
-            string merchantId = System.Configuration.ConfigurationManager.AppSettings["Braintree.MerchantId"];
-            string environment = System.Configuration.ConfigurationManager.AppSettings["Braintree.Environment"];
-            string publicKey = System.Configuration.ConfigurationManager.AppSettings["Braintree.PublicKey"];
-            string privateKey = System.Configuration.ConfigurationManager.AppSettings["Braintree.PrivateKey"];
-
-            Braintree.BraintreeGateway gateway = new Braintree.BraintreeGateway();
-
-            var customerGateway = gateway.Customer;
-
-            Braintree.CustomerSearchRequest query = new Braintree.CustomerSearchRequest();
-            query.Email.Is(User.Identity.Name);
-            var matchedCustomers = customerGateway.Search(query);
-            Braintree.Customer customer = null;
-
-
-            if (matchedCustomers.Ids.Count == 0)
-            {
-                Braintree.CustomerRequest newCustomer = new Braintree.CustomerRequest();
-                newCustomer.Email = User.Identity.Name;
-
-                var result = customerGateway.Create(newCustomer);
-                customer = result.Target;
-            }
-            else
-            {
-                customer = matchedCustomers.FirstItem;
-            }
+            var customer = paymentServices.GetCustomer(User.Identity.Name);
             return View(customer);
         }
 

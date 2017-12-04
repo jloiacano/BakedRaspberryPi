@@ -11,17 +11,50 @@
 }
 @using (Html.BeginForm())
 {
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div class="col-sm-4 col-sm-offset-4 assembledPiPanel addTopMargin">
+            <form class="form-horizontal">
+                <div class="row">
+                    <div class="form-group form-horizontal addBottomMargin">
+                        <div class="col-sm-3">
+                            @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
+                        </div>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group form-horizontal addBottomMargin">
+                        <div class="col-sm-3">
+                            @Html.LabelFor(m => m.LastName, new { @class = "control-label" })
+                        </div>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            @Html.HiddenFor(m => m.Id)
+                            <button type="submit" class="btn btn-info form-control">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            @Html.ActionLink("Saved Addresses", "Addresses", routeValues: null, htmlAttributes: new { @class = "form-control btn btn-danger signInButtons" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.ActionLink("Saved Cards", "CreditCards", routeValues: null, htmlAttributes: new { @class = "form-control btn btn-danger signInButtons" })
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-    </div>
-    @Html.HiddenFor(m => m.Id)
-    <input type="submit" value="Save Changes" class="btn btn-primary" />
 }
-@Html.ActionLink("Manage Saved Addresses", "Addresses", null, new { @class = "btn btn-default" })
-
-@Html.ActionLink("Manage Saved Credit Cards", "CreditCards", null, new { @class = "btn btn-default" })

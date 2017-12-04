@@ -29,7 +29,9 @@ body {
 }
 
 .mainIndexImage {
-    margin: auto;
+    border: none;
+    display: block;
+    margin: 0 auto;
 }
 
 .jumbotron {

@@ -202,6 +202,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BakedPiPaymentServices.cs" />
     <Compile Include="BakedRaspberryPiSendGridService.cs" />
     <Compile Include="BakedRaspberryPiMailGunService.cs" />
     <Compile Include="Controllers\AccessoryController.cs" />
