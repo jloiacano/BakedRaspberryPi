@@ -24,9 +24,9 @@ namespace BakedRaspberryPi
             request.AddParameter("domain", MailGunSandBox, ParameterType.UrlSegment);
             request.Resource = "{domain}/messages";
             request.AddParameter("from", "Mailgun Sandbox <postmaster@"+MailGunSandBox+">");
-            request.AddParameter("to", MailGunTestRecipient + " <" + MailGunTestRecipient + ">");
-            request.AddParameter("subject", "Hello " + MailGunTestRecipient);
-            request.AddParameter("text", "This has been sent to you from MailGun Mailing service");
+            request.AddParameter("to", message.Destination + " <" + message.Destination + ">");
+            request.AddParameter("subject", "Hello " + MailGunTestRecipient + "! " + message.Subject);
+            request.AddParameter("text", message.Body);
             request.Method = Method.POST;
             return (Task)client.Execute(request);
             throw new NotImplementedException();

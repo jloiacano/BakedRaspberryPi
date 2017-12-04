@@ -9,6 +9,8 @@ namespace BakedRaspberryPi.Models
     
     public class BakedPiModels : IdentityDbContext
     {
+
+        string databaseDrop = System.Configuration.ConfigurationManager.AppSettings["DatabaseDrop"];
         // Your context has been configured to use a 'BakedPiModels' connection string from your application's
         // configuration file (App.config or Web.config). By default, this connection string targets the
         // 'BakedRaspberryPi.Models.BakedPiModels' database on your LocalDb instance.
@@ -18,7 +20,14 @@ namespace BakedRaspberryPi.Models
         public BakedPiModels()
             : base("name=BakedPiModels")
         {
-            Database.SetInitializer<BakedPiModels>(new DropCreateDatabaseAlways<BakedPiModels>());
+            if (databaseDrop == "drop")
+            {
+                Database.SetInitializer<BakedPiModels>(new DropCreateDatabaseAlways<BakedPiModels>());
+            }
+            else
+            {
+                Database.SetInitializer<BakedPiModels>(new CreateDatabaseIfNotExists<BakedPiModels>());
+            }
         }
 
         // Add a DbSet for each entity type that you want to include in your model. For more information

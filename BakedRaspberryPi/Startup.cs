@@ -40,7 +40,7 @@ namespace BakedRaspberryPi
                         RequireNonLetterOrDigit = false
                     },
 
-                    EmailService = new BakedRaspberryPiSendGridService()
+                    EmailService = new BakedRaspberryPiMailGunService()
                 };
 
                 return manager;
