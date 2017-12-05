@@ -76,6 +76,21 @@ text {
         color: black;
     }
 
+.recieptDetails {
+    font-weight: 400;
+    font-size: 1.2em;
+}
+
+.recieptLabel {
+    font-weight: 200;
+    font-size: 1.2em;
+}
+
+.recieptDetails {
+    font-weight: 400;
+    font-size: 1.2em;
+}
+
 .addTopMargin {
     margin-top: 2em;
 }

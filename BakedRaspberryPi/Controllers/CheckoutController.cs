@@ -64,12 +64,10 @@ namespace BakedRaspberryPi.Controllers
                 db.Orders.Add(o);
 
                 db.SaveChanges();
-                return View(model);
+                return RedirectToAction("Index", "Receipt", new { id = trackingNumber });
             }
-            else
-            {
-                return View();
-            }
+
+            return View();                
         }
     }
 }

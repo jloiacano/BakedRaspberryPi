@@ -1,119 +1,109 @@
-﻿@model BakedRaspberryPi.Models.Cart
+﻿@model BakedRaspberryPi.Models.Order
 
 @{
     ViewBag.Title = "Details";
+    
+    var theOrder = Model;
+    var theOrderTrackingNumber = theOrder.TrackingNumber;
+    var theOrderEmail = theOrder.Email;
+    var theOrderPurchaserName = theOrder.PurchaserName;
+    var theOrderShippingAddress = theOrder.ShippingAddress1;
+    var theOrderShippingCity = theOrder.ShippingCity;
+    var theOrderShippingState = theOrder.ShippingState;
+    var theOrderShippingPostalCode = theOrder.ShippingPostalCode;
+    var theOrderSubtotal = (theOrder.SubTotal).ToString("C");
+    var theOrderTax = (theOrder.Tax).ToString("C");
+    var theOrderShippingAndHandling = (theOrder.ShippingAndHandling).ToString("C");
+    var theOrderTotalNumber = (theOrder.SubTotal + theOrder.Tax + theOrder.ShippingAndHandling);
+    var theOrderTotal = theOrderTotalNumber.ToString("C");
+    var theOrderDateCreated = theOrder.DateCreated;
+
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Order</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        @*<dt>
-            @Html.DisplayNameFor(model => model.TrackingNumber)
-        </dt>
+<div class="container addTopMargin">
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <div class="assembledPiPanel">
 
-        <dd>
-            @Html.DisplayFor(model => model.TrackingNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PurchaserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PurchaserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ShippingAddress1)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShippingAddress1)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ShippingCity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShippingCity)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ShippingState)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShippingState)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ShippingPostalCode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShippingPostalCode)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SubTotal)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SubTotal)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ShippingAndHandling)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShippingAndHandling)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Tax)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Tax)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateLastModified)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateLastModified)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShipDate)
-        </dd>*@
-        <dt>TODO</dt>
-        <dd>TODO</dd>
-    </dl>
+                <h2>Order #@theOrderTrackingNumber</h2>
+                <h4> Purchased: @theOrderDateCreated</h4>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-4 text-right">
+                        <span class="recieptLabels">Email:</span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span class="recieptDetails">@theOrderEmail</span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-4 text-right">
+                        <span class="recieptLabels">Shipping To:</span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span class="recieptDetails">@theOrderPurchaserName</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 text-right">
+                        <span class="recieptLabels"></span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span class="recieptDetails">@theOrderShippingAddress</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 text-right">
+                        <span class="recieptLabels"></span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span class="recieptDetails">@theOrderShippingCity, @theOrderShippingState @theOrderShippingPostalCode</span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-4 text-right">
+                        <span class="recieptLabels">Subtotal:</span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span>@theOrderSubtotal</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 text-right">
+                        <span class="recieptLabels">S&H:</span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span>@theOrderShippingAndHandling</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 text-right">
+                        <span class="recieptLabels">Tax:</span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span>@theOrderTax</span>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-sm-4 text-right">
+                        <span class="recieptLabels">TOTAL:</span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span class="recieptDetails">@theOrderTotal</span>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p>Please save this information for your records. A receipt will also be E-mailed to the address on record.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
