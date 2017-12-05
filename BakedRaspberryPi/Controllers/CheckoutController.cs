@@ -23,7 +23,7 @@ namespace BakedRaspberryPi.Controllers
         // GET: Checkout
         public ActionResult Index()
         {
-            Models.CheckoutDetails details = new Models.CheckoutDetails();
+            CheckoutDetails details = new CheckoutDetails();
             Guid cartId = Guid.Parse(Request.Cookies["cartId"].Value);
 
             details.CurrentCart = db.Carts.Find(cartId);
@@ -36,14 +36,40 @@ namespace BakedRaspberryPi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(Models.CheckoutDetails model)
         {
+
+            Guid cartID = Guid.Parse(Request.Cookies["cartID"].Value);
+
+            model.CurrentCart = db.Carts.Find(cartID);
+
             if (ModelState.IsValid)
             {
-                //TODO: Persist this order to the database
-                //TODO: send some confirmation emails to the person placing the order and the system admin
-                //TODO: Reset the cart
-                return RedirectToAction("Index", "Receipt");
+                string trackingNumber = Guid.NewGuid().ToString().Substring(0, 8);
+
+                Order o = new Order();
+
+                o.TrackingNumber = trackingNumber;
+                o.Email = model.ContactEmail;
+                o.PurchaserName = model.ContactName;
+                o.ShippingAddress1 = model.ShippingAddress;
+                o.ShippingCity = model.ShippingCity;
+                o.ShippingState = model.ShippingState;
+                o.ShippingPostalCode = model.ShippingPostalCode;
+                o.SubTotal = model.CurrentCart.WholePis.Sum(x => x.Price * x.Quantity);
+                o.ShippingAndHandling = (model.CurrentCart.WholePis.Sum(x => x.Quantity) * 1.5m);
+                o.Tax = model.CurrentCart.WholePis.Sum(x => x.Price * x.Quantity) * .1025m;
+                o.DateCreated = DateTime.UtcNow;
+                o.DateLastModified = DateTime.UtcNow;
+                
+
+                db.Orders.Add(o);
+
+                db.SaveChanges();
+                return View(model);
             }
-            return View(model);
+            else
+            {
+                return View();
+            }
         }
     }
 }

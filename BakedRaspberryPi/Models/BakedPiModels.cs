@@ -40,6 +40,7 @@ namespace BakedRaspberryPi.Models
         public virtual DbSet<PiCase> PiCases { get; set; }
         public virtual DbSet<WholePi> WholePis { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
     }
 
     //public class MyEntity
@@ -134,7 +135,7 @@ namespace BakedRaspberryPi.Models
     public class Order
     {
         [Key]
-        public System.Guid OrderId { get; set; }
+        public int OrderId { get; set; }
         public string TrackingNumber { get; set; }
         public string Email { get; set; }
         public string PurchaserName { get; set; }
@@ -150,21 +151,5 @@ namespace BakedRaspberryPi.Models
         public System.DateTime ShipDate { get; set; }
 
         public virtual Cart Cart { get; set; }
-        public virtual Customer Customer { get; set; }
-    }
-
-    public class Customer
-    {
-        [Key]
-        public System.Guid CustomerId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string AddressStreet { get; set; }
-        public string AddressCity { get; set; }
-        public string AddressState { get; set; }
-        public string AddressPostalCode { get; set; }
-
-        public virtual ICollection<Order> Order { get; set; }
     }
 }
