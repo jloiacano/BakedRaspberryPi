@@ -137,6 +137,8 @@ namespace BakedRaspberryPi.Models
         [Key]
         public int OrderId { get; set; }
         public string TrackingNumber { get; set; }
+        public string MaskedCC { get; set; }
+        public string CCType { get; set; }
         public string Email { get; set; }
         public string PurchaserName { get; set; }
         public string ShippingAddress1 { get; set; }

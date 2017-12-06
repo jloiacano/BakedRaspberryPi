@@ -235,7 +235,6 @@ namespace BakedRaspberryPi.Controllers
             currentPi.Price -= priceToBeDeducted;
             currentPi.Price += currentPi.Pi.Price;
             db.SaveChanges();
-            //testSendSimpleMessage();
             
             if (currentPi.IsEdit == true)
             {               
@@ -266,30 +265,6 @@ namespace BakedRaspberryPi.Controllers
             toEdit.Pi.EditPreviousId = previous;
             db.SaveChanges();
             return RedirectToAction("Index", "Pi");
-        }
-
-        public static RestResponse testSendSimpleMessage()
-        {
-            string MailGunApiKey = System.Configuration.ConfigurationManager.AppSettings["Mailgun.ApiKey"];
-            string MailGunPubKey = System.Configuration.ConfigurationManager.AppSettings["Mailgun.PubKey"];
-            string MailGunSandBox = System.Configuration.ConfigurationManager.AppSettings["Mailgun.SandBox"];
-            string MailGunPostMan = System.Configuration.ConfigurationManager.AppSettings["Mailgun.PostMan"];
-            string MailGunTestRecipient = System.Configuration.ConfigurationManager.AppSettings["Mailgun.TestRecipient"];
-
-            RestClient client = new RestClient();
-            client.BaseUrl = new Uri("https://api.mailgun.net/v3");
-            client.Authenticator = new HttpBasicAuthenticator("api", MailGunApiKey);
-            RestRequest request = new RestRequest();
-            request.AddParameter("domain", MailGunSandBox, ParameterType.UrlSegment);
-            request.Resource = "{domain}/messages";
-            request.AddParameter("from", "Mailgun Sandbox <postmaster@" + MailGunSandBox + ">");
-            request.AddParameter("to", "RecipientName <" + MailGunTestRecipient + ">");
-            request.AddParameter("subject", "Testing MailGun");
-            request.AddParameter("text", "Testing MailGun");
-            request.Method = Method.POST;
-            RestResponse restResponse = (RestResponse)client.Execute(request);
-            return restResponse;
-            throw new NotImplementedException();
         }
     }
 }

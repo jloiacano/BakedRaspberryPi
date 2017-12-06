@@ -4,19 +4,8 @@
     ViewBag.Title = "Details";
     
     var theOrder = Model;
-    var theOrderTrackingNumber = theOrder.TrackingNumber;
-    var theOrderEmail = theOrder.Email;
-    var theOrderPurchaserName = theOrder.PurchaserName;
-    var theOrderShippingAddress = theOrder.ShippingAddress1;
-    var theOrderShippingCity = theOrder.ShippingCity;
-    var theOrderShippingState = theOrder.ShippingState;
-    var theOrderShippingPostalCode = theOrder.ShippingPostalCode;
-    var theOrderSubtotal = (theOrder.SubTotal).ToString("C");
-    var theOrderTax = (theOrder.Tax).ToString("C");
-    var theOrderShippingAndHandling = (theOrder.ShippingAndHandling).ToString("C");
     var theOrderTotalNumber = (theOrder.SubTotal + theOrder.Tax + theOrder.ShippingAndHandling);
     var theOrderTotal = theOrderTotalNumber.ToString("C");
-    var theOrderDateCreated = theOrder.DateCreated;
 
 }
 
@@ -26,15 +15,15 @@
         <div class="col-sm-4 col-sm-offset-4">
             <div class="assembledPiPanel">
 
-                <h2>Order #@theOrderTrackingNumber</h2>
-                <h4> Purchased: @theOrderDateCreated</h4>
+                <h2>Order #@theOrder.TrackingNumber</h2>
+                <h4> Purchased: @theOrder.DateCreated</h4>
                 <hr />
                 <div class="row">
                     <div class="col-sm-4 text-right">
                         <span class="recieptLabels">Email:</span>
                     </div>
                     <div class="col-sm-8">
-                        <span class="recieptDetails">@theOrderEmail</span>
+                        <span class="recieptDetails">@theOrder.Email</span>
                     </div>
                 </div>
                 <br />
@@ -43,7 +32,7 @@
                         <span class="recieptLabels">Shipping To:</span>
                     </div>
                     <div class="col-sm-8">
-                        <span class="recieptDetails">@theOrderPurchaserName</span>
+                        <span class="recieptDetails">@theOrder.PurchaserName</span>
                     </div>
                 </div>
                 <div class="row">
@@ -51,7 +40,7 @@
                         <span class="recieptLabels"></span>
                     </div>
                     <div class="col-sm-8">
-                        <span class="recieptDetails">@theOrderShippingAddress</span>
+                        <span class="recieptDetails">@theOrder.ShippingAddress1</span>
                     </div>
                 </div>
                 <div class="row">
@@ -59,7 +48,7 @@
                         <span class="recieptLabels"></span>
                     </div>
                     <div class="col-sm-8">
-                        <span class="recieptDetails">@theOrderShippingCity, @theOrderShippingState @theOrderShippingPostalCode</span>
+                        <span class="recieptDetails">@theOrder.ShippingCity, @theOrder.ShippingState @theOrder.ShippingPostalCode</span>
                     </div>
                 </div>
                 <br />
@@ -68,7 +57,7 @@
                         <span class="recieptLabels">Subtotal:</span>
                     </div>
                     <div class="col-sm-8">
-                        <span>@theOrderSubtotal</span>
+                        <span>@theOrder.SubTotal.ToString("C")</span>
                     </div>
                 </div>
                 <div class="row">
@@ -76,7 +65,7 @@
                         <span class="recieptLabels">S&H:</span>
                     </div>
                     <div class="col-sm-8">
-                        <span>@theOrderShippingAndHandling</span>
+                        <span>@theOrder.ShippingAndHandling.ToString("C")</span>
                     </div>
                 </div>
                 <div class="row">
@@ -84,7 +73,7 @@
                         <span class="recieptLabels">Tax:</span>
                     </div>
                     <div class="col-sm-8">
-                        <span>@theOrderTax</span>
+                        <span>@theOrder.Tax.ToString("C")</span>
                     </div>
                 </div>
                 <br/>
@@ -94,6 +83,14 @@
                     </div>
                     <div class="col-sm-8">
                         <span class="recieptDetails">@theOrderTotal</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 text-right">
+                        <span class="recieptLabels">Paid with CC:</span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span>@theOrder.CCType: @theOrder.MaskedCC</span>
                     </div>
                 </div>
                 <hr />
