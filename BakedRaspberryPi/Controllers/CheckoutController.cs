@@ -94,10 +94,20 @@ namespace BakedRaspberryPi.Controllers
                 };
 
                 var orderTotal = order.SubTotal + order.ShippingAndHandling + order.Tax;
-                string receiptBody = "<html><head><style> .strong { font-weight: bold; }</style> <title></title></head><body><h2>The Pi is now being baked...</h2><br /><h4>Thank you for your Order</h4><br /><br />" + 
-                    "Order# "+ order.TrackingNumber + "<br /><h2>Shipping To:</h2> " + order.PurchaserName + "<br />" + order.ShippingAddress1 + 
-                    "<br />" + order.ShippingCity + ", " + order.ShippingState + " " + order.ShippingPostalCode + "<br /><br />Total: " + orderTotal.ToString("C") +
-                    "<br />Paid by: " + order.CCType + " " + order.MaskedCC + "</body></html>";
+
+                EmailMessageMaker receiptMailMessage = new EmailMessageMaker();
+                receiptMailMessage.Line.Add("<h2>The Pi is now being baked...</h2>");
+                receiptMailMessage.Line.Add("<h4>Thank you for your Order!</h4>");
+                receiptMailMessage.Line.Add("Order# " + order.TrackingNumber);
+                receiptMailMessage.Line.Add("<h2>Shipping To:</h2>");
+                receiptMailMessage.Line.Add(order.PurchaserName);
+                receiptMailMessage.Line.Add(order.ShippingAddress1);
+                receiptMailMessage.Line.Add(order.ShippingCity + ", " + order.ShippingState + " " + order.ShippingPostalCode);
+                receiptMailMessage.Line.Add("<br /><br />");
+                receiptMailMessage.Line.Add("Total: " + orderTotal.ToString("C"));
+                receiptMailMessage.Line.Add("<br />Paid by: " + order.CCType + " " + order.MaskedCC);
+                receiptMailMessage.Line.Add("<br />");
+                receiptMailMessage.Line.Add("Thanks again for shopping with us today! Enjoy your Pi!");
                 string receiptSubject = "Thank you for your order! (Order: " + order.TrackingNumber + ")";
                 string receiptRecipient = order.Email;
 
@@ -129,7 +139,7 @@ namespace BakedRaspberryPi.Controllers
                 var result = gateway.Transaction.Sale(transaction);
 
                 //Mail the Receipt
-                PiMailer receiptMail = new PiMailer(receiptRecipient,receiptSubject,receiptBody);
+                PiMailer receiptMail = new PiMailer(receiptRecipient, receiptSubject, receiptMailMessage);
                 receiptMail.SendMail();
 
                 //Reset the cart - Trash the cookie, so they'll get a new cart next time they need one

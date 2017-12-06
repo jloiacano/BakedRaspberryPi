@@ -203,6 +203,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BakedPiPaymentServices.cs" />
+    <Compile Include="EmailMessageMaker.cs" />
     <Compile Include="PiMailer.cs" />
     <Compile Include="BakedRaspberryPiSendGridService.cs" />
     <Compile Include="Controllers\AccessoryController.cs" />
@@ -266,6 +267,10 @@
     <Content Include="Images\Cases\piZeroClear.jpg" />
     <Content Include="Images\Cases\piZeroPinkWhite.jpg" />
     <Content Include="Images\Cases\piZeroPinkWhiteCamera.jpg" />
+    <Content Include="Images\Email\emailFooter.jpg" />
+    <Content Include="Images\Email\emailFooter.png" />
+    <Content Include="Images\Email\emailHeader.jpg" />
+    <Content Include="Images\Email\emailHeader.png" />
     <Content Include="Images\Pi\pi2.jpg" />
     <Content Include="Images\Pi\pi3.jpg" />
     <Content Include="Images\Pi\piZero.jpg" />
@@ -294,6 +299,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="test.jpeg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

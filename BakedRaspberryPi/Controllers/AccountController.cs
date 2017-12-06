@@ -102,8 +102,15 @@ namespace BakedRaspberryPi.Controllers
             {
                 string resetToken = userManager.GeneratePasswordResetToken(user.Id);
                 string resetUrl = Request.Url.GetLeftPart(UriPartial.Authority) + "/Account/ResetPassword?email=" + email + "&token=" + resetToken;
-                string message = string.Format("<a href=\"{0}\">Reset your password</a>", resetUrl);
-                userManager.SendEmail(user.Id, "your password reset token", message);
+                string link = string.Format("<a href=\"{0}\">Reset your password</a>", resetUrl);
+                //userManager.SendEmail(user.Id, "your password reset token", message);
+                EmailMessageMaker forgotPasswordEmail = new EmailMessageMaker();
+                forgotPasswordEmail.Line.Add("<h2>Thank you for contacting us!</h2>");
+                forgotPasswordEmail.Line.Add("<p>To reset your password, please click on the link below.</p>");
+                forgotPasswordEmail.Line.Add(link);
+                forgotPasswordEmail.Line.Add("<p>Have a great day!</p>");
+                PiMailer passwordReset = new PiMailer(user.Email, "Instructions to reset your BakedRaspberryPi password", forgotPasswordEmail);
+                passwordReset.SendMail();
             }
 
             return RedirectToAction("ForgotPasswordSent");

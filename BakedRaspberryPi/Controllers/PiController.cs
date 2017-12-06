@@ -248,6 +248,13 @@ namespace BakedRaspberryPi.Controllers
 
             if (thePiBoardId == null)
             {
+                //EmailMessageMaker testEmail = new EmailMessageMaker();
+                //testEmail.HeadingText = "this is the example heading text";
+                //testEmail.BodyText = "this is the example Body Text";
+                
+                //PiMailer testMailer = new PiMailer("j.loiacano55@gmail.com", "Test with images", testEmail.GetTheString());
+                //testMailer.SendMail();
+
                 currentPi.Filling = db.OSs.Find(1);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Accessory");
