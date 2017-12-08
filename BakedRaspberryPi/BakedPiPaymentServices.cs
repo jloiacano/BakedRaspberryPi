@@ -78,7 +78,7 @@ namespace BakedRaspberryPi
             gateway.Address.Create(c.Id, newAddress);
         }
 
-        public string AuthorizeCard(string email, decimal total, decimal tax, string trackingNumber, string addressId, string cardholderName, string cvv, string cardNumber, string expirationMonth, string expirationYear)
+        public Result<Transaction> AuthorizeCard(string email, decimal total, decimal tax, string trackingNumber, string addressId, string cardholderName, string cvv, string cardNumber, string expirationMonth, string expirationYear)
         {
             var customer = GetCustomer(email);
             TransactionRequest transaction = new TransactionRequest();
@@ -92,13 +92,13 @@ namespace BakedRaspberryPi
                 CardholderName = cardholderName,
                 CVV = cvv,
                 Number = cardNumber,
-                ExpirationYear = expirationMonth,
-                ExpirationMonth = expirationYear
+                ExpirationYear = expirationYear,
+                ExpirationMonth = expirationMonth
             };
 
             var result = gateway.Transaction.Sale(transaction);
 
-            return result.Message;
+            return result;
         }
 
     }

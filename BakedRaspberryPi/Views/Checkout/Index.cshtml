@@ -9,7 +9,7 @@
     var tax = (double)(theCart.Sum(x => x.Price * x.Quantity) * 0.1025m);
 
     int i = 1;
-    
+
     var months = (new string[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" })
         .Select(x => new SelectListItem { Text = x, Value = x });
 
@@ -21,6 +21,11 @@
             Text = (DateTime.Now.Year + j).ToString(),
             Value = (DateTime.Now.Year + j).ToString()
         });
+    }
+
+    if (User.Identity.IsAuthenticated)
+    {
+        Model.ContactEmail = User.Identity.Name;
     }
 }
 
@@ -85,61 +90,61 @@
             @Html.AntiForgeryToken()
 
             <div class="form-group">
-                @Html.LabelFor(m => m.ContactName, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control", placeholder = "Your Name" })
+                @Html.LabelFor(m => m.ContactName, new { @class = "control-label textOnBackground" })
+                @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control", placeholder = "YOUR NAME" })
                 @Html.ValidationMessageFor(m => m.ContactName)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.ContactEmail, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.ContactEmail, new { @class = "form-control", placeholder = "Your Email Address" })
+                @Html.LabelFor(m => m.ContactEmail, new { @class = "control-label textOnBackground" })
+                @Html.TextBoxFor(m => m.ContactEmail, new { @class = "form-control", placeholder = "YOUR EMAIL ADDRESS" })
                 @Html.ValidationMessageFor(m => m.ContactEmail)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.ShippingAddress, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.ShippingAddress, new { @class = "form-control", placeholder = "Address" })
+                @Html.LabelFor(m => m.ShippingAddress, new { @class = "control-label textOnBackground" })
+                @Html.TextBoxFor(m => m.ShippingAddress, new { @class = "form-control", placeholder = "ADDRESS" })
                 @Html.ValidationMessageFor(m => m.ShippingAddress)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.ShippingCity, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.ShippingCity, new { @class = "form-control", placeholder = "City" })
+                @Html.LabelFor(m => m.ShippingCity, new { @class = "control-label textOnBackground" })
+                @Html.TextBoxFor(m => m.ShippingCity, new { @class = "form-control", placeholder = "CITY" })
                 @Html.ValidationMessageFor(m => m.ShippingCity)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.ShippingState, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.ShippingState, new { @class = "form-control", placeholder = "State" })
+                @Html.LabelFor(m => m.ShippingState, new { @class = "control-label textOnBackground" })
+                @Html.TextBoxFor(m => m.ShippingState, new { @class = "form-control", placeholder = "STATE" })
                 @Html.ValidationMessageFor(m => m.ShippingState)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.ShippingPostalCode, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.ShippingPostalCode, new { @class = "form-control", placeholder = "Zip Code" })
+                @Html.LabelFor(m => m.ShippingPostalCode, new { @class = "control-label textOnBackground" })
+                @Html.TextBoxFor(m => m.ShippingPostalCode, new { @class = "form-control", placeholder = "ZIP" })
                 @Html.ValidationMessageFor(m => m.ShippingPostalCode)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.CreditCardNumber, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.CreditCardNumber, new { @class = "form-control", placeholder = "4111111111111111" })
+                @Html.LabelFor(m => m.CreditCardNumber, new { @class = "control-label textOnBackground" })
+                @Html.TextBoxFor(m => m.CreditCardNumber, new { @class = "form-control", placeholder = "####-####-####-####" })
                 @Html.ValidationMessageFor(m => m.CreditCardNumber)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.CardholderName, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.CardholderName, new { @class = "form-control", placeholder = "Joe Cardholder" })
+                @Html.LabelFor(m => m.CardholderName, new { @class = "control-label textOnBackground" })
+                @Html.TextBoxFor(m => m.CardholderName, new { @class = "form-control", placeholder = "NAME AS IT APPEARS ON CARD" })
                 @Html.ValidationMessageFor(m => m.CardholderName)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.CVV, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.CVV, new { @class = "form-control", placeholder = "123" })
+                @Html.LabelFor(m => m.CVV, new { @class = "control-label textOnBackground" })
+                @Html.TextBoxFor(m => m.CVV, new { @class = "form-control", placeholder = "3-DIGIT NUMBER ON BACK OF CARD" })
                 @Html.ValidationMessageFor(m => m.CVV)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.ExpirationMonth, new { @class = "control-label" })
+                @Html.LabelFor(m => m.ExpirationMonth, new { @class = "control-label textOnBackground" })
                 <div class="form-inline">
                     @Html.DropDownListFor(m => m.ExpirationMonth, months, new { @class = "form-control" })
                     @Html.DropDownListFor(m => m.ExpirationYear, years, new { @class = "form-control" })

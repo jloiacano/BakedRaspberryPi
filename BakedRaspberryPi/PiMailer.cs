@@ -18,8 +18,17 @@ namespace BakedRaspberryPi
         public string Subject { get; set; }
         public EmailMessageMaker MessageMaker { get; set; }
 
+        /// <summary>
+        /// This is the base constructor for the PiMailer Object.
+        /// </summary>
         public PiMailer() { }
 
+        /// <summary>
+        /// This function sends mail.
+        /// The first input is an email address (name@domain.com)
+        /// The second input is the emails subject line.
+        /// The third input is an <see cref="EmailMessageMaker"/> object for the mail body.
+        /// </summary>
         public PiMailer(string recipient, string subject, EmailMessageMaker message)
         {
             Recipient = recipient;
@@ -28,7 +37,7 @@ namespace BakedRaspberryPi
         }
         
         /// <summary>
-        /// This function sends mail. The imputs are pretty self explanatory.
+        /// This function actually sends the mail via the MailGun API.
         /// </summary>
         public RestResponse SendMail()
         {
