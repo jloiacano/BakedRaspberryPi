@@ -40,7 +40,8 @@ namespace BakedRaspberryPi
                         RequireNonLetterOrDigit = false
                     },
 
-                    //EmailService = new PiMailer()
+                    //TODO get this to work asyncronously
+                    //EmailService = new BakedPiEmailService() 
                 };
 
                 return manager;

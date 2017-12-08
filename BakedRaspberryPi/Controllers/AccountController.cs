@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Braintree;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using RestSharp;
+using RestSharp.Authenticators;
 
 namespace BakedRaspberryPi.Controllers
 {
     public class AccountController : Controller
     {
 
-        BakedPiPaymentServices paymentServices = new BakedPiPaymentServices();
+        BakedPiPaymentServices paymentServices = new BakedPiPaymentServices();        
 
         // GET: Account
         [Authorize]
@@ -20,6 +21,95 @@ namespace BakedRaspberryPi.Controllers
         {
             var customer = paymentServices.GetCustomer(User.Identity.Name);
             return View(customer);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Index(string firstName, string lastName, string id)
+        {
+            Braintree.Customer customer = paymentServices.UpdateCustomer(firstName, lastName, id);
+
+            ViewBag.Message = "Updated Successfully";
+            return View(customer);
+        }
+
+        [Authorize]
+        public ActionResult Addresses()
+        {
+            var customer = paymentServices.GetCustomer(User.Identity.Name);
+            return View(customer.Addresses);
+        }
+
+        [Authorize]
+        public ActionResult DeleteAddress(string id)
+        {
+            paymentServices.DeleteAddress(User.Identity.Name, id);
+            TempData["SuccessMessage"] = "Address deleted successfully";
+            return RedirectToAction("Addresses");
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult AddAddress(string firstName, string lastName, string company, string streetAddress, string extendedAddress, string locality, string region, string postalCode, string countryName)
+        {
+
+            paymentServices.AddAddress(User.Identity.Name, firstName, lastName, company, streetAddress, extendedAddress, locality, region, postalCode, countryName);
+
+            TempData["SuccessMessage"] = "Address added successfully";
+            return RedirectToAction("Addresses");
+        }
+
+        [Authorize]
+        public ActionResult CreditCards()
+        {
+            var customer = paymentServices.GetCustomer(User.Identity.Name);
+            return View(customer.CreditCards);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult AddCreditCard(string nameOnCard, string creditCardNumber, string expMo, string expYr, string cvv)
+        {
+            string merchantId = System.Configuration.ConfigurationManager.AppSettings["Braintree.MerchantId"];
+            string environment = System.Configuration.ConfigurationManager.AppSettings["Braintree.Environment"];
+            string publicKey = System.Configuration.ConfigurationManager.AppSettings["Braintree.PublicKey"];
+            string privateKey = System.Configuration.ConfigurationManager.AppSettings["Braintree.PrivateKey"];
+            var gateway = new BraintreeGateway(environment, merchantId, publicKey, privateKey);
+
+            var customer = paymentServices.GetCustomer(User.Identity.Name);
+            var updater = paymentServices.UpdateCustomer(customer.FirstName, customer.LastName, customer.Id);
+            string expirationDate = expMo + "/" + expYr.Substring(2,2);
+            var creditCardRequest = new CreditCardRequest
+            {
+                CustomerId = customer.Id,
+                Number = creditCardNumber,
+                CardholderName = nameOnCard,
+                ExpirationDate = expirationDate,
+                CVV = cvv
+            };
+
+            CreditCard creditCard = gateway.CreditCard.Create(creditCardRequest).Target;
+
+            TempData["CreditCardMessage"] = "Credit Card added successfully";
+
+            return RedirectToAction("CreditCards");
+        }
+
+        [Authorize]
+        public ActionResult DeleteCreditCard(string token)
+        {
+            var customer = paymentServices.GetCustomer(User.Identity.Name);
+            string merchantId = System.Configuration.ConfigurationManager.AppSettings["Braintree.MerchantId"];
+            string environment = System.Configuration.ConfigurationManager.AppSettings["Braintree.Environment"];
+            string publicKey = System.Configuration.ConfigurationManager.AppSettings["Braintree.PublicKey"];
+            string privateKey = System.Configuration.ConfigurationManager.AppSettings["Braintree.PrivateKey"];
+            var gateway = new BraintreeGateway(environment, merchantId, publicKey, privateKey);
+            gateway.CreditCard.Delete(token);
+            
+            TempData["CreditCardMessage"] = "Credit Card deleted successfully";
+
+            return RedirectToAction("CreditCards");
         }
 
         public ActionResult Register()

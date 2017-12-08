@@ -2,38 +2,9 @@
 @{
     ViewBag.Title = "Addresses";
 }
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
-}
-<h2>Saved Addresses</h2>
 <div class="row">
-    <div class="col-xs-12">
-        <table class="table">
-            <tbody>
-                @foreach (var address in Model)
-                {
-                    <tr>
-                        <td>@address.FirstName</td>
-                        <td>@address.LastName</td>
-                        <td>@address.Company</td>
-                        <td>@address.StreetAddress</td>
-                        <td>@address.ExtendedAddress</td>
-                        <td>@address.Locality</td>
-                        <td>@address.Region</td>
-                        <td>@address.PostalCode</td>
-                        <td>@address.CountryName</td>
-                        <td>@Html.ActionLink("Delete Address", "DeleteAddress", new { id = address.Id }, new { @class = "btn btn-danger" })</td>
-                    </tr>
-
-                }
-
-            </tbody>
-        </table>
-    </div>
-    <div class="col-xs-12">
+    <div class="col-xs-5 col-xs-offset-1 assembledPiPanel">
+        <h2>Add An Address</h2>
         @using (Html.BeginForm("AddAddress", "Account"))
         {
             <div class="form-group">
@@ -76,6 +47,50 @@
             <input type="submit" value="Add Address" class="btn btn-primary" />
         }
     </div>
+
+
+    @if (Model.Any())
+    {
+
+    <div class="col-xs-5 col-xs-offset-1 assembledPiPanel">
+        @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+}
+        <h2>Saved Addresses</h2>
+        @foreach (var address in Model)
+    {
+        <hr />
+        <span>@address.FirstName @address.LastName</span>
+        <br />
+        <span>@address.Company</span>
+        <br />
+        <span>@address.StreetAddress @address.ExtendedAddress</span>
+        <br />
+        <span>@address.Locality, @address.Region @address.PostalCode</span>
+        <br />
+        <span>@address.CountryName</span>
+        <br />
+        @Html.ActionLink("Delete Address", "DeleteAddress", new { id = address.Id }, new { @class = "btn btn-danger" })
+
+}
+    </div>
+
+    }
+    else
+    {
+    <div class="col-xs-5 col-xs-offset-1 assembledPiPanel">
+        @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+}
+        <h2>You Have No Saved Addresses</h2>
+    </div>
+    }
 </div>
 
 

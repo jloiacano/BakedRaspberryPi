@@ -81,8 +81,6 @@ namespace BakedRaspberryPi.Controllers
             Guid cartID = Guid.Parse(Request.Cookies["cartID"].Value);
 
             model.CurrentCart = db.Carts.Find(cartID);
-            string orderCreditCardType = "";
-            string maskedCC = "";
 
             string formattedCCNumber = Regex.Replace(model.CreditCardNumber, @"[^0-9]", "");
 

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Braintree.CreditCard>
+@{
+    ViewBag.Title = "Credit Cards";
+}
+
+<div class="row">
+
+    <div class="col-sm-5 col-sm-offset-1 assembledPiPanel">
+        @using (Html.BeginForm("AddCreditCard", "Account"))
+        {
+            <div class="form-group">
+                <label class="control-label textOnBackground" for="nameOnCard">Name On Card</label>
+                <input class="form-control" type="text" name="nameOnCard" id="nameOnCard" />
+            </div>
+            <div class="form-group">
+                <label class="control-label textOnBackground" for="creditCardNumber">Credit Card Number</label>
+                <input class="form-control" type="text" name="creditCardNumber" id="creditCardNumber" />
+            </div>
+            <div class="form-group">
+                <label class="control-label textOnBackground" for="expMo">Expiration Date</label>
+                <div class="form-inline">
+                    <select class="form-control" name="expMo" id="expMo">
+                        <option value="01">01 - Jan</option>
+                        <option value="02">02 - Feb</option>
+                        <option value="03">03 - Mar</option>
+                        <option value="04">04 - Apr</option>
+                        <option value="05">05 - May</option>
+                        <option value="06">06 - Jun</option>
+                        <option value="07">07 - Jul</option>
+                        <option value="08">08 - Aug</option>
+                        <option value="09">09 - Sep</option>
+                        <option value="10">10 - Oct</option>
+                        <option value="11">11 - Nov</option>
+                        <option value="12">12 - Dec</option>
+                    </select>
+                    <select class="form-control" name="expYr" id="expYr">
+                        @{ int year = DateTime.Now.Year;}
+                        <option value=@year>@year</option>
+                        <option value=@(year + 1)>@(year + 1)</option>
+                        <option value=@(year + 2)>@(year + 2)</option>
+                        <option value=@(year + 3)>@(year + 3)</option>
+                        <option value=@(year + 4)>@(year + 4)</option>
+                        <option value=@(year + 5)>@(year + 5)</option>
+                        <option value=@(year + 6)>@(year + 6)</option>
+                        <option value=@(year + 7)>@(year + 7)</option>
+                        <option value=@(year + 8)>@(year + 8)</option>
+                        <option value=@(year + 9)>@(year + 9)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label textOnBackground" for="cvv">CVV</label>
+                    <input class="form-control" type="text" name="cvv" id="cvv" />
+                </div>
+            </div>
+
+            <input type="submit" value="Add Card" class="btn btn-primary" />
+        }
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="col-sm-5 col-sm-offset-1 assembledPiPanel">
+            <h2>Saved Credit Cards</h2>
+            @foreach (var creditcard in Model)
+            {
+                <hr />
+                <span>@creditcard.CardholderName</span><br />
+                <span>@creditcard.MaskedNumber</span><br />
+                <span>@creditcard.ExpirationDate</span><br />
+                @Html.ActionLink("Delete CreditCard", "DeleteCreditCard", new { @token = creditcard.Token }, new { @class = "btn btn-danger" })
+
+            }
+
+        </div>
+        if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["CreditCardMessage"]
+            </div>
+        }
+    }
+</div>
+
